@@ -9,6 +9,8 @@ const cors = require('cors');
 const index = require('./routes/index');
 
 const app = express();
+require('./config/passport')(passport);
+
 //
 app.use(logger('dev'));
 //
@@ -20,6 +22,13 @@ app.use(cors());
 
 //
 app.use(cookieParser());
+
+//
+app.use(session({
+  secret: 'uajwlekfjaslfjlsajlj23r23er',
+  resave: true,
+  saveUninitialized: false,
+}));
 
 // specify the folder where user can access static files
 app.use(express.static(path.join(__dirname, 'client/dist')));
@@ -34,6 +43,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+
 
 
 module.exports = app;
