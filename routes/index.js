@@ -10,7 +10,7 @@ router.route('/')
 
 router.post('/signup',
   passport.authenticate('admin-signup', {
-  successRedirect : '/', // redirect to the secure profile section
+  successRedirect : '/api/', // redirect to the secure profile section
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
   })
 );

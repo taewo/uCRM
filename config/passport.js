@@ -14,9 +14,14 @@ module.exports = function(passport) {
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
+    console.log('id', id)
+    Admin
+    .where({id: id})
+    .fetch()
+    .then((user) => {
+      delete user.attributes.password;
+      done(null, user.attributes);
+    })
   });
 
   passport.use('admin-signup', new LocalStrategy({
@@ -67,7 +72,8 @@ module.exports = function(passport) {
              console.log('accountDetail', accountDetail);
              new Admin(accountDetail).save()
              .then((model) => {
-               done(null, req.body.userid);
+               delete model.attributes.password;
+               done(null, model.attributes);
              })
            })
          }
