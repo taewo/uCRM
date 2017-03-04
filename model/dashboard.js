@@ -5,9 +5,15 @@ const Activity = require('../db/activity');
 
 module.exports = {
   get: (req) => {
+    const currentUser = req.session.passport.user;
+
+    const type = currentUser.type;
+
+    const spaceid = currentUser.space_id;
+    console.log('check', req.session.passport)
     return new Promise((resolve, reject) => {
       const memberList = new Promise((resolve, reject) => {
-        Space.where({id: 1})
+        Space.where({id: spaceid})
         .fetch({withRelated: ['member']})
         .then(function(result) {
           return resolve(result.related('member').toJSON());
@@ -18,7 +24,7 @@ module.exports = {
       });
 
       const reservedList = new Promise((resolve, reject) => {
-        Room.where({space_id: 1})
+        Room.where({space_id: spaceid})
         .fetch({withRelated: ['reservation']})
         .then((result) => {
           return resolve(result.related('reservation').toJSON());
@@ -29,7 +35,7 @@ module.exports = {
       });
 
       const unpaidSum = new Promise((resolve, reject) => {
-        Member.where({space_id: 1})
+        Member.where({space_id: spaceid})
         .fetch({withRelated: ['payment']})
         .then((result) => {
           return resolve(result.related('payment').toJSON());
@@ -37,7 +43,7 @@ module.exports = {
       });
 
       const latestActivity = new Promise((resolve, reject) => {
-        Activity.where({space_id: 1})
+        Activity.where({space_id: spaceid})
         .query((query) => {
           query.whereBetween('date', ['2017-02-01', '2017-03-02'])
         })
