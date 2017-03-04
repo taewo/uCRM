@@ -24,7 +24,6 @@ module.exports = function(passport) {
     .then((admin) => {
       if (admin) {
         delete admin.attributes.password;
-        admin.attributes.type = 'comp';
         done(null, admin.attributes);
       }
       else {
@@ -34,7 +33,6 @@ module.exports = function(passport) {
         .then((user) => {
           if (user) {
             delete user.attributes.password;
-            user.attributes.type = 'staff';
             done(null, user.attributes);
           }
         })
@@ -92,6 +90,7 @@ module.exports = function(passport) {
              new Admin(accountDetail).save()
              .then((model) => {
                delete model.attributes.password;
+               model.attributes.type = 'comp';
                done(null, model.attributes);
              })
            })
@@ -122,9 +121,29 @@ module.exports = function(passport) {
          return Promise.reject('space does not exist');
        }
        else {
-         return;
+         const isValidSpace = result.related('space').toJSON().some((space) => {
+           space.id === spaceid;
+         });
+
+         if (!isValidSpace) {
+           return Promise.reject('company and space do not match');
+         }
+        return;
        }
      })
+     .then(() => {
+       Admin
+       .where({userid: userid})
+       .fetch()
+       .then((result) => {
+         if (result) {
+           return done(null, false);
+         }
+         else {
+          return;
+        }
+        })
+      })
      .then(() => {
        Staff
        .where({userid: userid})
@@ -153,11 +172,15 @@ module.exports = function(passport) {
              .then((model) => {
                console.log('model', model);
                delete model.attributes.password;
+               model.attributes.type = 'staff';
                done(null, model.attributes);
              })
            })
          }
        })
+     })
+     .catch((err) => {
+       return done(null, false);
      })
    }));
 
@@ -176,37 +199,53 @@ module.exports = function(passport) {
      .then((result) => {
        if (result) {
          const hash = result.attributes.password;
+         console.log(req.body.password, hash);
          bcrypt.compare(req.body.password, hash, function(err, res) {
-           if (res) {
-             delete result.attributes.password;
-             return done(err, result.attributes);
+           if (err) {
+             console.log(err)
            }
+           if (res) {
+             console.log('res', res)
+             delete result.attributes.password;
+             result.attributes.type = 'comp';
+             result.attributes.spaceList = [];
+             Space
+             .where({company_id: result.attributes.company_id})
+             .fetchAll()
+             .then((spaceModels) => {
+               if (spaceModels) {
+                 const spaceList = spaceModels.models.map((space) => {
+                   return space.attributes.id;
+                 })
+                 result.attributes.spaceList = spaceList;
+               }
+               return done(err, result.attributes);
+             })
+          }
          });
        }
        else {
-        return;
+         Staff
+         .where({userid: req.body.userid})
+         .fetch()
+         .then((result) => {
+           console.log('result', result)
+           if (result) {
+             const hash = result.attributes.password;
+             bcrypt.compare(req.body.password, hash, function(err, res) {
+               if (res) {
+                 delete result.attributes.password;
+                 result.attributes.type = 'staff';
+                 return done(err, result.attributes);
+               }
+             });
+           }
+           else {
+             return done(null, false);
+           }
+         })
        }
      })
-     .then(() => {
-       Staff
-       .where({userid: req.body.userid})
-       .fetch()
-       .then((result) => {
-         console.log('result', result)
-         if (result) {
-           const hash = result.attributes.password;
-           bcrypt.compare(req.body.password, hash, function(err, res) {
-             if (res) {
-               delete result.attributes.password;
-               return done(err, result.attributes);
-             }
-           });
-         }
-         else {
-           return done(null, false);
-         }
-        })
-      })
     })
   );
 }
