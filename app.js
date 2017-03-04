@@ -36,6 +36,36 @@ app.use(express.static(path.join(__dirname, 'client/dist')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.post('/signup/admin/',
+  passport.authenticate('admin', {
+    successRedirect : '/api/', // redirect to the secure profile section
+    failureRedirect : '/signup/admin', // redirect back to the signup page if there is an error
+  })
+);
+
+app.post('/signup/staff/',
+  passport.authenticate('staff', {
+  successRedirect : '/api/', // redirect to the secure profile section
+  failureRedirect : '/signup/staff', // redirect back to the signup page if there is an error
+  })
+);
+
+app.post('/login/',
+  passport.authenticate('login', {
+  successRedirect : '/api/', // redirect to the secure profile section
+  failureRedirect : '/login', // redirect back to the signup page if there is an error
+  })
+);
+
+app.get('/logout', (req, res) => {
+  console.log('logoutttttttttttttttt')
+  req.session.destroy((err) => {
+    if (err) throw err;
+    res.redirect('/');
+  });
+});
+
+// ask Namse api 가 아닌데도 다 낚아 채버림.....위에 코드들 다 실행 안됌
 app.use('/api', index);
 
 app.use((req, res, next) => {
@@ -43,6 +73,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+
 
 
 
