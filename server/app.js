@@ -15,8 +15,10 @@ require('./config/passport')(passport);
 app.use(logger('dev'));
 //
 app.use(bodyParser.json());
-// Returns middleware that only parses urlencoded bodies. This parser accepts only UTF-8 encoding of the body
-app.use(bodyParser.urlencoded({ extended: false}));
+
+// Returns middleware that only parses urlencoded bodies.
+// This parser accepts only UTF-8 encoding of the body
+app.use(bodyParser.urlencoded({ extended: false }));
 //
 app.use(cors());
 
@@ -36,33 +38,32 @@ app.use(express.static(path.join(__dirname, 'client/dist')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/signup/admin/',
+app.post('/api/signup/admin/',
   passport.authenticate('admin', {
-    successRedirect : '/api/', // redirect to the secure profile section
-    failureRedirect : '/signup/admin', // redirect back to the signup page if there is an error
+    successRedirect: '/api/dashboard', // redirect to the secure profile section
+    failureRedirect: '/api/signup/admin', // redirect back to the signup page if there is an error
   })
 );
 
-app.post('/signup/staff/',
+app.post('/api/signup/staff/',
   passport.authenticate('staff', {
-  successRedirect : '/api/', // redirect to the secure profile section
-  failureRedirect : '/signup/staff', // redirect back to the signup page if there is an error
+    successRedirect: '/api/dashboard', // redirect to the secure profile section
+    failureRedirect: '/api/signup/staff', // redirect back to the signup page if there is an error
   })
 );
 
-app.post('/login/',
+app.post('/api/login/',
   passport.authenticate('login', {
-  successRedirect : '/api/', // redirect to the secure profile section
-  failureRedirect : '/login', // redirect back to the signup page if there is an error
+    successRedirect: '/api/dashboard', // redirect to the secure profile section
+    failureRedirect: '/api/login', // redirect back to the signup page if there is an error
   })
 );
 
-app.get('/logout', (req, res) => {
-  console.log('logoutttttttttttttttt')
+app.get('/api/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
     res.redirect('/');
-  });
+  })
 });
 
 // ask Namse api 가 아닌데도 다 낚아 채버림.....위에 코드들 다 실행 안됌
@@ -73,8 +74,5 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
-
-
-
 
 module.exports = app;

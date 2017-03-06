@@ -3,6 +3,7 @@ const Bookshelf = require('./bookshelf');
 require('./admin');
 require('./space');
 require('./billingplan');
+
 const Company = Bookshelf.Model.extend({
   tableName: 'company',
 

@@ -2,6 +2,7 @@ const Bookshelf = require('./bookshelf');
 
 require('./space');
 require('./salary');
+
 const Staff = Bookshelf.Model.extend({
   tableName: 'staff',
 

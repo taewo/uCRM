@@ -5,11 +5,7 @@ const router = express.Router();
 const controller = require('../controller/index');
 require('../config/passport')(passport);
 
-router.route('/')
+router.route('/dashboard')
 .get(controller.dashboard.get);
-
-
-
-
 
 module.exports = router;

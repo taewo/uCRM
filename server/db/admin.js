@@ -1,6 +1,7 @@
 const Bookshelf = require('./bookshelf');
 
 require('./company');
+
 const Admin = Bookshelf.Model.extend({
   tableName: 'admin',
 

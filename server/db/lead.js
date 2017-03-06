@@ -1,6 +1,7 @@
 const Bookshelf = require('./bookshelf');
 
 require('./space');
+
 const Lead = Bookshelf.Model.extend({
   tableName: 'lead',
 
