@@ -21,6 +21,7 @@ module.exports = {
       .where({ userid: userid })
       .fetch()
       .then((result) => {
+        console.log('checkEx result', result)
         return resolve(result);
       })
     })

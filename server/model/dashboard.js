@@ -5,6 +5,7 @@ module.exports = {
   get: (req) => {
     const currentUser = req.session.passport.user;
     // let dashboardList = [];
+    console.log('sur',currentUser);
 
     if (currentUser.type === 'staff') {
       const spaceid = currentUser.space_id;
@@ -16,6 +17,7 @@ module.exports = {
           currentUser.spaceList.forEach((space) => {
             container.push(Dashboard(space));
           });
+          console.log(container);
         }
         Promise.all(container)
         .then((res) => {

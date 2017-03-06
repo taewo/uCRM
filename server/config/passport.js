@@ -2,9 +2,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
-const admin = require('../functions/admin');
-const staff = require('../functions/staff');
-const company = require('../functions/company');
+const Admin = require('../functions/admin');
+const Staff = require('../functions/staff');
+const Space = require('../functions/space');
+const Company = require('../functions/company');
 
 module.exports = function(passport) {
   // used to serialize the user for the session
@@ -14,16 +15,18 @@ module.exports = function(passport) {
 
   // used to deserialize the user
   passport.deserializeUser((user, done) => {
-    admin.checkSession(user.id)
+    Admin.checkSession(user.id)
     .then((isAdmin) => {
       if (isAdmin) {
         delete isAdmin.attributes.password;
+        console.log('isAdmin, user', user)
         done(null, isAdmin.attributes);
       } else {
-        staff.checkSession(user.id)
+        Staff.checkSession(user.id)
         .then((user) => {
           if (user) {
             delete user.attributes.password;
+            console.log('isStaff, user', user.attributes)
             done(null, user.attributes);
           }
         });
@@ -38,24 +41,24 @@ module.exports = function(passport) {
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
    (req, userid, password, done) => {
-     company.checkExistence(req.body.companyname)
+     Company.checkExistence(req.body.companyname)
      .then((result) => {
        if (result) {
          return Promise.reject('company already exist');
        } else {
-         return company.addNewCompany(req.body.companyname)
+         return Company.addNewCompany(req.body.companyname)
          .then((model) => {
            return model.attributes.id;
          });
        }
      })
      .then((companyid) => {
-       admin.checkExistence(userid)
+       Admin.checkExistence(userid)
        .then((result) => {
          if (result) {
            return done(null, false);
          } else {
-           return admin.addNewAdmin(req.body, companyid)
+           return Admin.addNewAdmin(req.body, companyid)
            .then((model) => {
              delete model.attributes.password;
              model.attributes.type = 'comp';
@@ -80,7 +83,7 @@ module.exports = function(passport) {
      const companyid = parseInt(req.query.companyid);
      const spaceid = parseInt(req.query.spaceid);
 
-     company.checkCompanySpace(companyid)
+     Company.checkCompanySpace(companyid)
      .then((result) => {
        if (!result) {
          return Promise.reject('company does not exist');
@@ -97,7 +100,7 @@ module.exports = function(passport) {
        }
      })
      .then(() => {
-       admin.checkExistence(userid)
+       Admin.checkExistence(userid)
        .then((result) => {
          if (result) {
            return done(null, false);
@@ -107,12 +110,12 @@ module.exports = function(passport) {
        });
      })
      .then(() => {
-       staff.checkExistence(userid)
+       Staff.checkExistence(userid)
        .then((result) => {
          if (result) {
            return done(null, false);
          } else {
-           return staff.addNewStaff(req.body, spaceid)
+           return Staff.addNewStaff(req.body, spaceid)
            .then((model) => {
              delete model.attributes.password;
              model.attributes.type = 'staff';
@@ -134,7 +137,7 @@ module.exports = function(passport) {
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
    (req, userid, password, done) => {
-     admin.checkExistence(userid)
+     Admin.checkExistence(userid)
      .then((result) => {
        if (result) {
          const hash = result.attributes.password;
@@ -144,10 +147,9 @@ module.exports = function(passport) {
            }
            if (res) {
              delete result.attributes.password;
-             result.attributes.type = 'comp';
              result.attributes.spaceList = [];
 
-             space.getAllSpaces(result.attributes.company_id)
+             Space.getAllSpaces(result.attributes.company_id)
              .then((spaceModels) => {
                if (spaceModels) {
                  const spaceList = spaceModels.models.map((space) => {
@@ -155,6 +157,7 @@ module.exports = function(passport) {
                  });
                  result.attributes.spaceList = spaceList;
                }
+               result.attributes.type = 'comp';
                return done(err, result.attributes);
              });
            } else {
@@ -162,7 +165,7 @@ module.exports = function(passport) {
            }
          });
        } else {
-         staff.checkExistence(req.body.userid)
+         Staff.checkExistence(req.body.userid)
          .then((result) => {
            if (result) {
              const hash = result.attributes.password;

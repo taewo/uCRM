@@ -3,6 +3,8 @@ const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
+const Company = require('../functions/company');
+
 module.exports = {
   getMemberList: (spaceid) => {
     return new Promise((resolve, reject) => {
@@ -87,5 +89,36 @@ module.exports = {
         return resolve(result);
       });
     });
+  },
+
+  addNewSpace: (body, user) => {
+    return new Promise((resolve, reject) => {
+      return new Space({
+        company_id: user.company_id,
+        name: body.name,
+        address: body.address,
+        max_desks: body.max_desks,
+      })
+      .save()
+      .then((result) => {
+        return resolve(result);
+      })
+    });
+  },
+
+  checkDuplicateSpace: (body, companyid) => {
+    return new Promise((resolve, reject) => {
+      Company.checkCompanySpace(companyid)
+      .then((result) => {
+        const existingSpace = result.related('space').toJSON();
+        const flag = existingSpace.some((space) => {
+          console.log('space', space)
+          console.log('body', body)
+          return space.name === body.name;
+        });
+        return resolve(flag);
+      });
+    });
   }
+
 };
