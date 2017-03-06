@@ -1,6 +1,7 @@
 const Bookshelf = require('./bookshelf');
 
 require('./room');
+
 const Reservation = Bookshelf.Model.extend({
   tableName: 'reservation',
 

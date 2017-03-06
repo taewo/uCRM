@@ -12,6 +12,7 @@ module.exports = {
       res.json(body);
     })
     .catch((err) => {
+      console.log(err.stack);
       res.sendStatus(400);
     }),
   },

@@ -2,6 +2,7 @@ const Bookshelf = require('./bookshelf');
 
 require('./billingplan');
 require('./member');
+
 const Payment = Bookshelf.Model.extend({
   tableName: 'payment',
 

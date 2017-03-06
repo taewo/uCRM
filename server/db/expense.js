@@ -1,6 +1,7 @@
 const Bookshelf = require('./bookshelf');
 
 require('./space');
+
 const Expense = Bookshelf.Model.extend({
   tableName: 'expense',
 
