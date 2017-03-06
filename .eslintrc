@@ -1,0 +1,13 @@
+{
+  "extends" : "eslint-config-airbnb",
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-console":0,
+    "prefer-stateless-function": [0, { "ignorePureComponents": true }],
+  },
+  "globals" : {
+    "FormData": false,
+    "FileReader": false,
+    "window": false,
+  },
+}
