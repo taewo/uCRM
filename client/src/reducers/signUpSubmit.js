@@ -1,14 +1,16 @@
+// Tetst***********
+
 import * as types from '../actions/types';
 
 const initialState = {
-  email: null,
+  data: null,
 };
 
-const signUpReducer = (state = initialState, action) => {
+export const signUpSubmit = (state = initialState, action) => {
   switch (action.type) {
-    case types.SIGN_UP_EMAIL: {
+    case types.SIGN_UP_SUBMIT: {
       return Object.assign({}, state, {
-        email: action.email,
+        data: action.data,
       });
     }
     default:
@@ -16,4 +18,4 @@ const signUpReducer = (state = initialState, action) => {
   }
 };
 
-export default signUpReducer;
+export default signUpSubmit;

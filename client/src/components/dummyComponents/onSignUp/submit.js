@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
-const propTypes = {
-};
+// const propTypes = {
+//     submitEmail: PropsTypes.func,
+// };
 
-const defaultProps = {
-};
+// const defaultProps = {
+// };
 
 class Submit extends Component {
   constructor(props) {
@@ -12,11 +13,11 @@ class Submit extends Component {
   }
   render() {
     return (
-      <button>Button</button>
+      <button onClick={() => this.props.submitEmail}>Button</button>
     );
   }
 }
-Submit.propTypes = propTypes;
-Submit.defaultProps = defaultProps;
+// Submit.propTypes = propTypes;
+// Submit.defaultProps = defaultProps;
 
 export default Submit;

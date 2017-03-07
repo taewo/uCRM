@@ -16,10 +16,10 @@ const store = createStore(
   reducers,
   composeEnhancers(
     applyMiddleware(thunk),
-));
+  ),
+);
 
 const history = syncHistoryWithStore(browserHistory, store);
-
 
 ReactDOM.render(
   <Provider store={store}>
