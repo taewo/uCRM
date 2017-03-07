@@ -119,6 +119,5 @@ module.exports = {
         return resolve(flag);
       });
     });
-  }
-
+  },
 };
