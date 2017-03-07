@@ -38,26 +38,29 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/api/signup/admin/',
-  passport.authenticate('admin', {
-    successRedirect: '/api/dashboard', // redirect to the secure profile section
-    failureRedirect: '/api/signup/admin', // redirect back to the signup page if there is an error
-  })
-);
+app.post('/api/signup/admin/',(req, res, next) => {
+  passport.authenticate('admin', (err, account) => {
+    req.logIn(account, () => {
+      res.status(err ? 400 : 200).send(err ? err : account);
+    });
+  })(req, res, next);
+});
 
-app.post('/api/signup/staff/',
-  passport.authenticate('staff', {
-    successRedirect: '/api/dashboard', // redirect to the secure profile section
-    failureRedirect: '/api/signup/staff', // redirect back to the signup page if there is an error
-  })
-);
+app.post('/api/signup/staff/',(req, res, next) => {
+  passport.authenticate('staff', (err, account) => {
+    req.logIn(account, () => {
+      res.status(err ? 400 : 200).send(err ? err : account);
+    });
+  })(req, res, next);
+});
 
-app.post('/api/login/',
-  passport.authenticate('login', {
-    successRedirect: '/api/dashboard', // redirect to the secure profile section
-    failureRedirect: '/api/login', // redirect back to the signup page if there is an error
-  })
-);
+app.post('/api/login/', (req, res, next) => {
+  passport.authenticate('login', (err, account) => {
+    req.logIn(account, () => {
+      res.status(err ? 400 : 200).send(err ? err : account);
+    });
+  })(req, res, next);
+})
 
 app.get('/api/logout', (req, res) => {
   req.session.destroy((err) => {

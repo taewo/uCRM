@@ -53,23 +53,40 @@ module.exports = function(passport) {
        }
      })
      .then((companyid) => {
-       Admin.checkExistence(userid)
-       .then((result) => {
-         if (result) {
-           return done(null, false);
-         } else {
-           return Admin.addNewAdmin(req.body, companyid)
-           .then((model) => {
-             delete model.attributes.password;
-             model.attributes.type = 'comp';
-             done(null, model.attributes);
-           });
-         }
+       return new Promise((resolve, reject) => {
+         Admin.checkExistence(userid)
+         .then((result) => {
+           if (result) {
+             return reject('id already taken');
+           }
+           return resolve();
+         })
+       })
+     })
+     .then(() => {
+       return new Promise((resolve, reject) => {
+         Staff.checkExistence(userid)
+         .then((result) => {
+           if (result) {
+             return reject('id already taken');
+           }
+           return resolve();
+         })
+       });
+     })
+     .then(() => {
+       return new Promise((resolve, reject) => {
+         Admin.addNewAdmin(req.body, companyid)
+         .then((model) => {
+           delete model.attributes.password;
+           model.attributes.type = 'comp';
+           return resolve(done(null, model.attributes));
+         });
        });
      })
      .catch((err) => {
        console.log(err.stack);
-       return done(null, false);
+       return done(err, false);
      });
    }));
 
@@ -79,56 +96,60 @@ module.exports = function(passport) {
     passwordField: 'password',
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
-   (req, userid, password, done) => {
-     const companyid = parseInt(req.query.companyid);
-     const spaceid = parseInt(req.query.spaceid);
+  (req, userid, password, done) => {
+    const companyid = parseInt(req.query.companyid);
+    const spaceid = parseInt(req.query.spaceid);
 
-     Company.checkCompanySpace(companyid)
-     .then((result) => {
-       if (!result) {
-         return Promise.reject('company does not exist');
-       }
-       if (!result.related('space').toJSON()) {
-         return Promise.reject('space does not exist');
-       } else {
-         const isValidSpace = result.related('space').toJSON().some((space) => {
-           return space.id === spaceid;
-         });
-         if (!isValidSpace) {
-           return Promise.reject('company and space do not match');
-         }
-       }
-     })
-     .then(() => {
-       Admin.checkExistence(userid)
-       .then((result) => {
-         if (result) {
-           return done(null, false);
-         } else {
-          return;
-         }
-       });
-     })
-     .then(() => {
-       Staff.checkExistence(userid)
-       .then((result) => {
-         if (result) {
-           return done(null, false);
-         } else {
-           return Staff.addNewStaff(req.body, spaceid)
-           .then((model) => {
-             delete model.attributes.password;
-             model.attributes.type = 'staff';
-             done(null, model.attributes);
-           });
-         }
-       });
-     })
-     .catch((err) => {
-       console.log(err.stack);
-       return done(null, false);
-     });
-   }));
+    Company.checkCompanySpace(companyid)
+    .then((result) => {
+      if (!result) {
+        return Promise.reject('company does not exist');
+      }
+      if (!result.related('space').toJSON()) {
+        return Promise.reject('space does not exist');
+      } else {
+        const isValidSpace = result.related('space').toJSON().some((space) => {
+          return space.id === spaceid;
+        });
+        if (!isValidSpace) {
+          return Promise.reject('company and space do not match');
+        }
+      }
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        Admin.checkExistence(userid)
+        .then((result) => {
+          if (result) {
+            return reject('id already taken');
+          } else {
+            return resolve();
+          }
+        });
+      });
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        Staff.checkExistence(userid)
+        .then((result) => {
+          if (result) {
+            return reject('id already taken');
+          } else {
+            Staff.addNewStaff(req.body, spaceid)
+            .then((model) => {
+              delete model.attributes.password;
+              model.attributes.type = 'staff';
+              return resolve(done(null, model.attributes));
+            });
+          }
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return done(err, false);
+    });
+  }));
 
   // for login
   passport.use('login', new LocalStrategy({
@@ -139,54 +160,56 @@ module.exports = function(passport) {
    (req, userid, password, done) => {
      Admin.checkExistence(userid)
      .then((result) => {
-       if (result) {
-         const hash = result.attributes.password;
-         bcrypt.compare(req.body.password, hash, (err, res) => {
-           if (err) {
-             console.log(err);
-           }
-           if (res) {
-             delete result.attributes.password;
-             result.attributes.spaceList = [];
+       return new Promise((resolve, reject) => {
+         if (result) {
+           const hash = result.attributes.password;
+           bcrypt.compare(req.body.password, hash, (err, res) => {
+             if (err) {
+               return err;
+             }
+             if (res) {
+               delete result.attributes.password;
+               result.attributes.spaceList = [];
 
-             Space.getAllSpaces(result.attributes.company_id)
-             .then((spaceModels) => {
-               if (spaceModels) {
-                 const spaceList = spaceModels.models.map((space) => {
-                   return space.attributes.id;
-                 });
-                 result.attributes.spaceList = spaceList;
-               }
-               result.attributes.type = 'comp';
-               return done(err, result.attributes);
-             });
-           } else {
-             return Promise.reject('password mismatch!');
-           }
-         });
-       } else {
-         Staff.checkExistence(req.body.userid)
-         .then((result) => {
-           if (result) {
-             const hash = result.attributes.password;
-             bcrypt.compare(req.body.password, hash, (err, res) => {
-               if (res) {
-                 delete result.attributes.password;
-                 result.attributes.type = 'staff';
-                 return done(err, result.attributes);
-               } else {
-                 return Promise.reject('password mismatch!');
-               }
-             });
-           } else {
-             return done(null, false);
-           }
-         });
-       }
+               Space.getAllSpaces(result.attributes.company_id)
+               .then((spaceModels) => {
+                 if (spaceModels) {
+                   const spaceList = spaceModels.models.map((space) => {
+                     return space.attributes.id;
+                   });
+                   result.attributes.spaceList = spaceList;
+                 }
+                 result.attributes.type = 'comp';
+                 return resolve(done(err, result.attributes));
+               });
+             } else {
+               return reject('password mismatch!');
+             }
+           });
+         } else {
+           Staff.checkExistence(req.body.userid)
+           .then((result) => {
+             if (result) {
+               const hash = result.attributes.password;
+               bcrypt.compare(req.body.password, hash, (err, res) => {
+                 if (res) {
+                   delete result.attributes.password;
+                   result.attributes.type = 'staff';
+                   return resolve(done(err, result.attributes));
+                 } else {
+                   return reject('password mismatch!');
+                 }
+               });
+             } else {
+               return resolve(done(null, false));
+             }
+           });
+         }
+       });
      })
      .catch((err) => {
-       console.log(err.stack);
-       return done(null, false);
+       console.log(err);
+       return done(err, false);
      });
    })
   );
