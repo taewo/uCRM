@@ -42,6 +42,6 @@ module.exports = {
       });
     } else {
       return Promise.reject('unauthorized');
-      }
+    }
   },
 }
