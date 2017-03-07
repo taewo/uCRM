@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
-
 import Sign from './components/smartComponents/sign';
 import reducers from './reducers';
 import SignUp from './components/smartComponents/sign/signUp';
@@ -16,8 +15,7 @@ const store = createStore(
   reducers,
   composeEnhancers(
     applyMiddleware(thunk),
-  ),
-);
+));
 
 const history = syncHistoryWithStore(browserHistory, store);
 
