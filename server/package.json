@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/johnnykoo84/uCRM#readme",
   "devDependencies": {
-    "eslint": "^3.16.1",
+    "eslint": "^3.17.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
