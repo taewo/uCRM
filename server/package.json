@@ -1,0 +1,46 @@
+{
+  "name": "kooslab",
+  "version": "1.0.0",
+  "description": "uCRM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnykoo84/uCRM.git"
+  },
+  "keywords": [
+    "CRM"
+  ],
+  "author": "kooslab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnnykoo84/uCRM/issues"
+  },
+  "homepage": "https://github.com/johnnykoo84/uCRM#readme",
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.17.0",
+    "bookshelf": "^0.10.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "express": "^4.14.1",
+    "express-session": "^1.15.1",
+    "knex": "^0.12.7",
+    "moment": "^2.17.1",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7"
+  }
+}
