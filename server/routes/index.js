@@ -11,6 +11,9 @@ router.route('/dashboard')
 router.route('/space')
 .post(controller.space.post);
 
+router.route('/lead')
+.post(controller.lead.post);
+
 router.route('/staff_auth')
 .put(controller.staff_auth.put);
 

@@ -1,6 +1,7 @@
 const dashboard = require('../model/dashboard');
 const space = require('../model/space');
-const staff_auth = require('../model/staff_auth');
+const staffAuth = require('../model/staff_auth');
+const lead = require('../model/lead');
 
 module.exports = {
 
@@ -35,7 +36,7 @@ module.exports = {
 
   staff_auth: {
     put:
-    (req, res) => (staff_auth.put(req))
+    (req, res) => (staffAuth.put(req))
     .then((result) => {
       const body = JSON.stringify(result);
       res.json(body);
@@ -45,6 +46,19 @@ module.exports = {
       if (err === 'unauthorized') {
         res.sendStatus(401);
       }
+      res.sendStatus(400);
+    }),
+  },
+
+  lead: {
+    post:
+    (req, res) => (lead.post(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
       res.sendStatus(400);
     }),
   },
