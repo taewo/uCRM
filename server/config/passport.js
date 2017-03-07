@@ -59,22 +59,22 @@ module.exports = function(passport) {
            if (result) {
              return reject('id already taken');
            }
-           return resolve();
+           return resolve(companyid);
          })
        })
      })
-     .then(() => {
+     .then((companyid) => {
        return new Promise((resolve, reject) => {
          Staff.checkExistence(userid)
          .then((result) => {
            if (result) {
              return reject('id already taken');
            }
-           return resolve();
+           return resolve(companyid);
          })
        });
      })
-     .then(() => {
+     .then((companyid) => {
        return new Promise((resolve, reject) => {
          Admin.addNewAdmin(req.body, companyid)
          .then((model) => {
