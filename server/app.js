@@ -33,7 +33,7 @@ app.use(session({
 }));
 
 // specify the folder where user can access static files
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.use(passport.initialize());
 app.use(passport.session());

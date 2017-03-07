@@ -8,7 +8,7 @@ module.exports = {
   checkSession: (id) => {
     return new Promise((resolve, reject) => {
       Staff
-      .where({ id: id })
+      .where({ id })
       .fetch()
       .then((result) => {
         return resolve(result);
@@ -19,7 +19,7 @@ module.exports = {
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
       Staff
-      .where({ userid: userid })
+      .where({ userid })
       .fetch()
       .then((result) => {
         return resolve(result);
@@ -37,6 +37,7 @@ module.exports = {
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
         accountDetail.space_id = spaceid;
+        accountDetail.is_approved = false;
         accountDetail.joined_date = moment().format('YYYY-MM-DD');
 
         new Staff(accountDetail)
@@ -44,6 +45,20 @@ module.exports = {
         .then((result) => {
           return resolve(result);
         });
+      });
+    });
+  },
+
+  approveNewStaff: (body) => {
+    return new Promise((resolve, reject) => {
+      new Staff({
+        id: body.id,
+        username: body.username,
+      })
+      .save({ is_approved: true }, { patch: true })
+      .then((result) => {
+        delete result.attributes.password;
+        return resolve(result.attributes);
       });
     });
   },
