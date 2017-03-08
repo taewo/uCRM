@@ -16,6 +16,10 @@ router.route('/lead')
 .get(controller.lead.get)
 .post(controller.lead.post);
 
+router.route('/room')
+.get(controller.room.get)
+.post(controller.room.post);
+
 router.route('/staff_auth')
 .put(controller.staff_auth.put);
 

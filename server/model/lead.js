@@ -10,12 +10,14 @@ module.exports = {
         const container = []
         if (currentUser.spaceList) {
           currentUser.spaceList.forEach((space) => {
+            console.log(space)
             container.push(Lead.getLead(space));
           });
           console.log(container);
         }
         Promise.all(container)
         .then((res) => {
+          console.log('cont',res)
           return resolve(res);
         });
       } else {

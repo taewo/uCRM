@@ -28,12 +28,10 @@ module.exports = {
     const currentUser = req.session.passport.user;
     console.log('currentUser', currentUser);
     if (currentUser.type === 'comp') {
-      console.log('current user type is comp');
       return new Promise((resolve, reject) => {
         return resolve(Admin.checkExistence(currentUser.userid))
       })
       .then((result) => {
-        console.log('here after Admin check exist result', result);
         return new Promise((resolve, reject) => {
           if (!result) {
             return reject('admin does not exist');

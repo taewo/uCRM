@@ -4,7 +4,7 @@ module.exports = {
   getRoom: (spaceid) => {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
-      .fetch()
+      .fetchAll()
       .then((result) => {
         return resolve(result);
       });

@@ -157,7 +157,7 @@ module.exports = function(passport) {
     passwordField: 'password',
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
-   (req, userid, password, done) => {     
+   (req, userid, password, done) => {
      Admin.checkExistence(userid)
      .then((result) => {
        return new Promise((resolve, reject) => {
