@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import signUpReducer from './signUpReducer';
-// Test***********
-import signUpSubmit from './signUpSubmit';
+import logInReducer from './logInReducer';
+
 
 const reducers = combineReducers({
-  signUpSubmit,
   signUpReducer,
+  logInReducer,
   routing: routerReducer,
 });
 

@@ -1,24 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 
-import SignUp from './sign/signUp';
-
 const propTypes = {
 };
 
 const defaultProps = {
 };
 
-class Sign extends Component {
+class ButtonLogIn extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <SignUp />
+      <div></div>
     );
   }
 }
-Sign.propTypes = propTypes;
-Sign.defaultProps = defaultProps;
+ButtonLogIn.propTypes = propTypes;
+ButtonLogIn.defaultProps = defaultProps;
 
-export default Sign;
+export default ButtonLogIn;
