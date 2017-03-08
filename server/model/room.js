@@ -1,16 +1,16 @@
-const Lead = require('../functions/lead');
+const Room = require('../functions/room');
 
 module.exports = {
   get: (req) => {
     const currentUser = req.session.passport.user;
     return new Promise((resolve, reject) => {
       if (currentUser.type === 'staff') {
-        return resolve(Lead.getLead(currentUser.space_id));
+        return resolve(Room.getRoom(currentUser.space_id));
       } else if (currentUser.type === 'comp') {
         const container = []
         if (currentUser.spaceList) {
           currentUser.spaceList.forEach((space) => {
-            container.push(Lead.getLead(space));
+            container.push(Room.getRoom(space));
           });
           console.log(container);
         }
@@ -45,7 +45,7 @@ module.exports = {
         return reject('unauthorized');
       }
       console.log('here!!!!!')
-      Lead.addNewLead(req.body, spaceid)
+      Room.addNewRoom(req.body, spaceid)
       .then((result) => {
         console.log('new lead!', result)
         return resolve(result);

@@ -9,9 +9,11 @@ router.route('/dashboard')
 .get(controller.dashboard.get);
 
 router.route('/space')
+.get(controller.space.get)
 .post(controller.space.post);
 
 router.route('/lead')
+.get(controller.lead.get)
 .post(controller.lead.post);
 
 router.route('/staff_auth')

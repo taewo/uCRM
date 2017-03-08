@@ -19,6 +19,19 @@ module.exports = {
   },
 
   space: {
+    get:
+    (req, res) => (space.post(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      if (err === 'unauthorized') {
+        res.sendStatus(401);
+      }
+      res.sendStatus(400);
+    }),
     post:
     (req, res) => (space.post(req))
     .then((result) => {
@@ -51,6 +64,19 @@ module.exports = {
   },
 
   lead: {
+    get:
+    (req, res) => (space.post(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      if (err === 'unauthorized') {
+        res.sendStatus(401);
+      }
+      res.sendStatus(400);
+    }),
     post:
     (req, res) => (lead.post(req))
     .then((result) => {
