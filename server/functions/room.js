@@ -1,19 +1,19 @@
-const Lead = require('../db/lead');
+const Room = require('../db/room');
 
 module.exports = {
-  getLead: (spaceid) => {
+  getRoom: (spaceid) => {
     return new Promise((resolve, reject) => {
-      Lead.where({ space_id: spaceid })
+      Room.where({ space_id: spaceid })
       .fetch()
       .then((result) => {
         return resolve(result);
-      })
+      });
     });
   },
-  addNewLead: (body, spaceid) => {
+  addNewRoom: (body, spaceid) => {
     return new Promise((resolve, reject) => {
       body.space_id = spaceid;
-      new Lead(body)
+      new Room(body)
       .save()
       .then((result) => {
         return resolve(result);

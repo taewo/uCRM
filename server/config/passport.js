@@ -201,7 +201,7 @@ module.exports = function(passport) {
                  }
                });
              } else {
-               return resolve(done(null, false));
+               return reject('userid is not registered!');
              }
            });
          }
