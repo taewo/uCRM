@@ -157,7 +157,7 @@ module.exports = function(passport) {
     passwordField: 'password',
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
-   (req, userid, password, done) => {
+   (req, userid, password, done) => {     
      Admin.checkExistence(userid)
      .then((result) => {
        return new Promise((resolve, reject) => {
@@ -190,6 +190,7 @@ module.exports = function(passport) {
            Staff.checkExistence(req.body.userid)
            .then((result) => {
              if (result) {
+               console.log('is in?')
                const hash = result.attributes.password;
                bcrypt.compare(req.body.password, hash, (err, res) => {
                  if (res) {
