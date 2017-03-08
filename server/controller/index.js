@@ -3,6 +3,7 @@ const space = require('../model/space');
 const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
 const room = require('../model/room');
+const staffSignup = require('../model/staff_signup');
 
 module.exports = {
 
@@ -15,7 +16,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err.stack);
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
   },
 
@@ -29,9 +30,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -66,9 +67,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
   },
 
@@ -82,9 +83,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -118,9 +119,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -143,5 +144,18 @@ module.exports = {
         res.status(400).send(err);
       });
     },
+  },
+  signup_staff: {
+    get:
+    (req, res) => (staffSignup.get(req))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
   },
 };

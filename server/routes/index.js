@@ -23,4 +23,8 @@ router.route('/room')
 router.route('/staff_auth')
 .put(controller.staff_auth.put);
 
+router.route('/signup/staff')
+.get(controller.signup_staff.get);
+
+
 module.exports = router;
