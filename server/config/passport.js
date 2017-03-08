@@ -190,6 +190,7 @@ module.exports = function(passport) {
            Staff.checkExistence(req.body.userid)
            .then((result) => {
              if (result) {
+               console.log('is in?')
                const hash = result.attributes.password;
                bcrypt.compare(req.body.password, hash, (err, res) => {
                  if (res) {
@@ -201,7 +202,7 @@ module.exports = function(passport) {
                  }
                });
              } else {
-               return resolve(done(null, false));
+               return reject('userid is not registered!');
              }
            });
          }

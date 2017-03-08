@@ -39,6 +39,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post('/api/signup/admin/',(req, res, next) => {
+  const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
+  if (formIncomplete) {
+    res.status(400).send('admin form incomplete');
+  }
   passport.authenticate('admin', (err, account) => {
     req.logIn(account, () => {
       res.status(err ? 400 : 200).send(err ? err : account);
@@ -47,6 +51,10 @@ app.post('/api/signup/admin/',(req, res, next) => {
 });
 
 app.post('/api/signup/staff/',(req, res, next) => {
+  const formIncomplete = !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
+  if (formIncomplete) {
+    res.status(400).send('staff form incomplete');
+  }
   passport.authenticate('staff', (err, account) => {
     req.logIn(account, () => {
       res.status(err ? 400 : 200).send(err ? err : account);
@@ -55,6 +63,10 @@ app.post('/api/signup/staff/',(req, res, next) => {
 });
 
 app.post('/api/login/', (req, res, next) => {
+  const formIncomplete = !req.body.userid || !req.body.password
+  if (formIncomplete) {
+    res.status(400).send('login form incomplete');
+  }
   passport.authenticate('login', (err, account) => {
     req.logIn(account, () => {
       res.status(err ? 400 : 200).send(err ? err : account);
