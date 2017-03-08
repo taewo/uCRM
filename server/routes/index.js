@@ -30,5 +30,9 @@ router.route('/staff/permit')
 router.route('/staff/signup')
 .get(controller.signup_staff.get);
 
+router.route('/billing')
+.get(controller.billing.get)
+.post(controller.billing.post);
+
 
 module.exports = router;

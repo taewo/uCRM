@@ -5,6 +5,7 @@ const lead = require('../model/lead');
 const room = require('../model/room');
 const staffSignup = require('../model/staff_signup');
 const reservation = require('../model/reservation');
+const billing = require('../model/billing');
 
 module.exports = {
 
@@ -188,5 +189,36 @@ module.exports = {
       console.log(err);
       res.status(400).send(err);
     }),
+  },
+  billing: {
+    get:
+    (req, res) => (billing.get(req))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      return new Promise((resolve, reject) => {
+        const dataIncomplete = (!req.body.space_id || !req.body.name || !req.body.cost || !req.body.duration || req.body.isdaily === undefined);
+        if (dataIncomplete) {
+          return reject('post data incomplete');
+        }
+        return resolve(billing.post(req));
+      })
+      .then((result) => {
+        const body = JSON.stringify(result);
+        res.json(body);
+      })
+      .catch((err) => {
+        console.log(err.stack);
+        res.status(400).send(err);
+      });
+    },
   },
 };
