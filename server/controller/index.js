@@ -3,6 +3,9 @@ const space = require('../model/space');
 const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
 const room = require('../model/room');
+const staffSignup = require('../model/staff_signup');
+const reservation = require('../model/reservation');
+const billing = require('../model/billing');
 
 module.exports = {
 
@@ -15,7 +18,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err.stack);
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
   },
 
@@ -29,9 +32,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -66,9 +69,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
   },
 
@@ -82,9 +85,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -118,9 +121,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.sendStatus(401);
+        res.status(401).send(err);
       }
-      res.sendStatus(400);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => {
@@ -140,6 +143,80 @@ module.exports = {
         if (err === 'unauthorized') {
           res.status(401).send(err);
         }
+        res.status(400).send(err);
+      });
+    },
+  },
+  reservation: {
+    get:
+    (req, res) => (reservation.get(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      return new Promise((resolve, reject) => {
+        const dataIncomplete = (!req.body.room_id || !req.body.date || !req.body.start_time || !req.body.end_time || !req.body.duration || !req.body.ispaid);
+        if (dataIncomplete) {
+          return reject('post data incomplete');
+        }
+        return resolve(reservation.post(req));
+      })
+      .then((result) => {
+        const body = JSON.stringify(result);
+        res.json(body);
+      })
+      .catch((err) => {
+        console.log(err.stack);
+        res.status(400).send(err);
+      });
+    },
+  },
+  signup_staff: {
+    get:
+    (req, res) => (staffSignup.get(req))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+  },
+  billing: {
+    get:
+    (req, res) => (billing.get(req))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      return new Promise((resolve, reject) => {
+        const dataIncomplete = (!req.body.space_id || !req.body.name || !req.body.cost || !req.body.duration || req.body.isdaily === undefined);
+        if (dataIncomplete) {
+          return reject('post data incomplete');
+        }
+        return resolve(billing.post(req));
+      })
+      .then((result) => {
+        const body = JSON.stringify(result);
+        res.json(body);
+      })
+      .catch((err) => {
+        console.log(err.stack);
         res.status(400).send(err);
       });
     },

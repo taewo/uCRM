@@ -20,7 +20,19 @@ router.route('/room')
 .get(controller.room.get)
 .post(controller.room.post);
 
-router.route('/staff_auth')
+router.route('/room/reservation')
+.get(controller.reservation.get)
+.post(controller.reservation.post);
+
+router.route('/staff/permit')
 .put(controller.staff_auth.put);
+
+router.route('/staff/signup')
+.get(controller.signup_staff.get);
+
+router.route('/billing')
+.get(controller.billing.get)
+.post(controller.billing.post);
+
 
 module.exports = router;

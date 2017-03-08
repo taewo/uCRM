@@ -121,7 +121,7 @@ module.exports = {
 
   checkDuplicateSpace: (body, companyid) => {
     return new Promise((resolve, reject) => {
-      Company.checkCompanySpace(companyid)
+      Company.checkCompanySpaceByID(companyid)
       .then((result) => {
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {

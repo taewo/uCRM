@@ -100,7 +100,7 @@ module.exports = function(passport) {
     const companyid = parseInt(req.query.companyid);
     const spaceid = parseInt(req.query.spaceid);
 
-    Company.checkCompanySpace(companyid)
+    Company.checkCompanySpaceByID(companyid)
     .then((result) => {
       if (!result) {
         return Promise.reject('company does not exist');
