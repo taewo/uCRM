@@ -4,6 +4,7 @@ const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
 const room = require('../model/room');
 const staffSignup = require('../model/staff_signup');
+const reservation = require('../model/reservation');
 
 module.exports = {
 
@@ -141,6 +142,36 @@ module.exports = {
         if (err === 'unauthorized') {
           res.status(401).send(err);
         }
+        res.status(400).send(err);
+      });
+    },
+  },
+  reservation: {
+    get:
+    (req, res) => (reservation.get(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      return new Promise((resolve, reject) => {
+        const dataIncomplete = (!req.body.room_id || !req.body.date || !req.body.start_time || !req.body.end_time || !req.body.duration || !req.body.ispaid);
+        if (dataIncomplete) {
+          return reject('post data incomplete');
+        }
+        return resolve(reservation.post(req));
+      })
+      .then((result) => {
+        const body = JSON.stringify(result);
+        res.json(body);
+      })
+      .catch((err) => {
+        console.log(err.stack);
         res.status(400).send(err);
       });
     },
