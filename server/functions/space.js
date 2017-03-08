@@ -10,13 +10,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
       .fetch({ withRelated: ['member'] })
-      .then(function(result) {
+      .then((result) => {
         if (!result) {
           return resolve([]);
         }
         return resolve(result.related('member').toJSON());
       })
-      .catch(function(err) {
+      .catch((err) => {
         return console.log(err);
       });
     });
@@ -67,9 +67,22 @@ module.exports = {
     });
   },
 
-  getSpaceDetail: (spaceid) => {
+  getSpaceDetailByID: (spaceid) => {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
+      .fetch()
+      .then((result) => {
+        if (!result) {
+          return reject('corresponding space does not exist');
+        }
+        return resolve(result.attributes);
+      });
+    });
+  },
+
+  getSpaceDetailByName: (spaceName) => {
+    return new Promise((resolve, reject) => {
+      Space.where({ name: spaceName })
       .fetch()
       .then((result) => {
         if (!result) {

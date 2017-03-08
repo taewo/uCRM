@@ -1,10 +1,8 @@
 const Dashboard = require('../functions/dashboard');
-// const Space = require('../functions/space');
 
 module.exports = {
   get: (req) => {
     const currentUser = req.session.passport.user;
-    // let dashboardList = [];
     console.log('sur', currentUser);
 
     if (currentUser.type === 'staff') {

@@ -1,6 +1,28 @@
 const Lead = require('../functions/lead');
 
 module.exports = {
+  get: (req) => {
+    const currentUser = req.session.passport.user;
+    return new Promise((resolve, reject) => {
+      if (currentUser.type === 'staff') {
+        return resolve(Lead.getLead(currentUser.space_id));
+      } else if (currentUser.type === 'comp') {
+        const container = []
+        if (currentUser.spaceList) {
+          currentUser.spaceList.forEach((space) => {
+            container.push(Lead.getLead(space));
+          });
+          console.log(container);
+        }
+        Promise.all(container)
+        .then((res) => {
+          return resolve(res);
+        });
+      } else {
+        return reject('unauthorized');
+      }
+    });
+  },
   post: (req) => {
     return new Promise((resolve, reject) => {
       const currentUser = req.session.passport.user;

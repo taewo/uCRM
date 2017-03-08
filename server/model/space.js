@@ -2,6 +2,28 @@ const Admin = require('../functions/admin');
 const Space = require('../functions/space');
 
 module.exports = {
+  get: (req) => {
+    const currentUser = req.session.passport.user;
+    return new Promise((resolve, reject) => {
+      if (currentUser.type === 'staff') {
+        return resolve(Space.getSpaceDetailByID(currentUser.space_id));
+      } else if (currentUser.type === 'comp') {
+        const container = []
+        if (currentUser.spaceList) {
+          currentUser.spaceList.forEach((space) => {
+            container.push(Space.getSpaceDetailByID(space));
+          });
+          console.log(container);
+        }
+        Promise.all(container)
+        .then((res) => {
+          return resolve(res);
+        });
+      } else {
+        return reject('unauthorized');
+      }
+    });
+  },
   post: (req) => {
     const currentUser = req.session.passport.user;
     console.log('currentUser', currentUser);
