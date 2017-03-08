@@ -30,9 +30,7 @@ module.exports = {
       console.log(spaceid, typeof spaceid)
 
       if (currentUser.type === 'comp') {
-        console.log('type comp', typeof spaceid, typeof currentUser.spaceList[0])
         const checkIsSpaceAdmin = currentUser.spaceList.includes(spaceid);
-        console.log(checkIsSpaceAdmin, 'check??')
         if (!checkIsSpaceAdmin) {
           return reject('admin space mismatch');
         }
@@ -44,7 +42,6 @@ module.exports = {
       } else if (!currentUser.type) {
         return reject('unauthorized');
       }
-      console.log('here!!!!!')
       Room.addNewRoom(req.body, spaceid)
       .then((result) => {
         console.log('new lead!', result)
