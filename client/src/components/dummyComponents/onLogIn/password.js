@@ -14,7 +14,7 @@ class Password extends Component {
     return (
       <div>
         <input
-          type="text" placeholder="Password" onChange={e => this.props.signUpPassword(e.target.value)}
+          type="text" placeholder="Passoword" onChange={e => this.props.logInPassword(e.target.value)}
         />
       </div>
     );

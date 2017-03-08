@@ -9,10 +9,6 @@ const defaultProps = {
 };
 
 class Email extends Component {
-  constructor(props) {
-    super(props);
-  }
-
 
   render() {
     return (
