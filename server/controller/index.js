@@ -3,6 +3,7 @@ const space = require('../model/space');
 const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
 const room = require('../model/room');
+const member = require('../model/member');
 const staffSignup = require('../model/staff_signup');
 const reservation = require('../model/reservation');
 const billing = require('../model/billing');
@@ -143,6 +144,36 @@ module.exports = {
         if (err === 'unauthorized') {
           res.status(401).send(err);
         }
+        res.status(400).send(err);
+      });
+    },
+  },
+  member: {
+    get:
+    (req, res) => (member.get(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      return new Promise((resolve, reject) => {
+        const dataIncomplete = (!req.body.space_id || !req.body.isactive || !req.body.name || !req.body.email || !req.body.mobile || !req.body.joined_date);
+        if (dataIncomplete) {
+          return reject('post data incomplete');
+        }
+        return resolve(member.post(req));
+      })
+      .then((result) => {
+        const body = JSON.stringify(result);
+        res.json(body);
+      })
+      .catch((err) => {
+        console.log(err.stack);
         res.status(400).send(err);
       });
     },
