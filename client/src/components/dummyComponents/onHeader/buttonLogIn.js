@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 const propTypes = {
 };
@@ -12,7 +13,9 @@ class ButtonLogIn extends Component {
   }
   render() {
     return (
-      <div></div>
+      <button>
+        <Link to={'/login'}>login</Link>
+      </button>
     );
   }
 }

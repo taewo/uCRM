@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ButtonSignUp from '../dummyComponents/onHeader/buttonSignUp';
+import ButtonLogIn from '../dummyComponents/onHeader/buttonLogIn';
+import styles from '../../../public/style.css';
+
 const propTypes = {
 };
 
@@ -12,9 +15,11 @@ class Header extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="Header">
         Header
         <ButtonSignUp />
+        <ButtonLogIn />
+        {this.props.children}
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 import * as types from './types';
 
 export const logInUserId = userid => ({
@@ -11,9 +12,13 @@ export const logInPassword = password => ({
   password,
 });
 
+export const isLogIn = toggleLogedIn => ({
+  type: types.IS_LOG_IN,
+  toggleLogedIn,
+});
+
 export function logInConfirm () {
   return (dispatch, getState) => {
-    console.log('1');
     const { userid, password } = getState().logInReducer;
     const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/login`, {
@@ -21,14 +26,17 @@ export function logInConfirm () {
       password,
     })
     .then((res) => {
-      console.log('res', res);
-      dispatch({
-        type: types.LOG_IN_CONFIRM,
-        res,
-      });
+      console.log(res);
+      dispatch(isLogIn(true));
+      const userData = JSON.parse(res.request.response);
+      localStorage.setItem('userData', JSON.stringify(userData));
+      const userDataLocal = JSON.parse(localStorage.getItem('userData'));
+      const userType = userDataLocal.type;
+      // userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
     })
     .catch((err) => {
-      console.log('Sign up Error', err);
+      console.log(err);
+      dispatch(isLogIn(false));
     });
   };
 }

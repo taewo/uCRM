@@ -13,16 +13,17 @@ import * as signUpActions from '../../actions/signUpActions';
 // };
 
 class SignUp extends Component {
+
   render() {
     return (
       <div>
-        SignUp
+          SignUp
+        <Userid signUpUserid={this.props.signUpUseridOnChange} />
+        <Password signUpPassword={this.props.signUpPasswordOnChange} />
+        <Name signUpName={this.props.signUpNameOnChange} />
+        <Companyname signUpCompanyname={this.props.signUpCompanynameOnChange} />
         <Email signUpEmail={this.props.signUpEmailOnChange} />
         <Mobile signUpMobile={this.props.signUpMobileOnChange} />
-        <Name signUpName={this.props.signUpNameOnChange} />
-        <Password signUpPassword={this.props.signUpPasswordOnChange} />
-        <Userid signUpUserid={this.props.signUpUseridOnChange} />
-        <Companyname signUpCompanyname={this.props.signUpCompanynameOnChange} />
         <Submit signUpSubmit={this.props.signUpSubmitOnCange} />
       </div>
     );
@@ -45,4 +46,4 @@ const mapDispatchToProps = dispatch => ({
   signUpSubmitOnCange: () => { dispatch(signUpActions.signUpSubmit()); },
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

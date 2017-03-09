@@ -4,12 +4,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-
-import { Home, SignUp, Login, Header } from './components/smartComponents';
-
+import { syncHistoryWithStore } from 'react-router-redux';
+import * as smartComponents from './components/smartComponents';
 import reducers from './reducers';
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -20,16 +17,26 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-ReactDOM.render(
+const App = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={Header}>
-        <IndexRoute component={Home} />
-        <Route path="signup" component={SignUp} />
-        <Route path="login" component={Login} />
+      <Route path="/" component={smartComponents.Header}>
+        <IndexRoute component={smartComponents.Home} />
+        <Route path="signup" component={smartComponents.SignUp} />
+        <Route path="login" component={smartComponents.Login} />
+        <Route path="admin" component={smartComponents.Admin}>
+          <Route path="manage" component={smartComponents.Manage}>
+            <Route path="dashboard" component={smartComponents.Dashboard} />
+          </Route>
+        </Route>
+        <Route path="staff" component={smartComponents.Staff} />
       </Route>
     </Router>
-  </Provider>,
+  </Provider>
+);
+
+ReactDOM.render(
+  <App />,
   document.getElementById('root')
 );
 
