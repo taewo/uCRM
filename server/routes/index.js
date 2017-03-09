@@ -20,6 +20,10 @@ router.route('/room')
 .get(controller.room.get)
 .post(controller.room.post);
 
+router.route('/member')
+.get(controller.member.get)
+.post(controller.member.post);
+
 router.route('/room/reservation')
 .get(controller.reservation.get)
 .post(controller.reservation.post);
