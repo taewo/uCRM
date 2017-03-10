@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { browserHistory } from 'react-router';
 import * as types from './types';
 
 export const signUpEmail = email => ({
@@ -32,9 +32,13 @@ export const signUpCompanyname = companyname => ({
   companyname,
 });
 
+export const isSignUp = toggleSignedUp => ({
+  type: types.IS_SIGN_UP,
+  toggleSignedUp,
+});
+
 export function signUpSubmit() {
   return (dispatch, getState) => {
-    console.log('1');
     const { email, mobile, name, password, userid, companyname } = getState().signUpReducer;
     const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/signup/admin`, {
@@ -47,12 +51,11 @@ export function signUpSubmit() {
     })
     .then((res) => {
       console.log('res', res);
-      dispatch({
-        type: types.SIGN_UP_SUBMIT,
-        res,
-      });
+      dispatch(isSignUp(true))
+      .reaplace('/home');
     })
     .catch((err) => {
+      dispatch(isSignUp(false));
       console.log('Sign up Error', err);
     });
   };

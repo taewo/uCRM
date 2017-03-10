@@ -26,6 +26,10 @@ class Login extends Component {
 Login.propTypes = propTypes;
 Login.defaultProps = defaultProps;
 
+const mapStateToProps = state => ({
+  toggleLogedIn: state.logInReducer.toggleLogedIn,
+});
+
 const mapDispatchToProps = dispatch => ({
   logInUseridOnChange: (userid) => { dispatch(logInActions.logInUserId(userid)); },
   logInPasswordOnChange: (password) => { dispatch(logInActions.logInPassword(password)); },
