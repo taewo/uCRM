@@ -15,18 +15,20 @@ module.exports = {
       });
     });
   },
-
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
       Staff
       .where({ userid })
       .fetch()
       .then((result) => {
-        return resolve(result);
+        if (result) {
+          return resolve(result.attributes);
+        } else {
+          return resolve(false);
+        }
       });
     });
   },
-
   addNewStaff: (body, spaceid) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
@@ -48,7 +50,6 @@ module.exports = {
       });
     });
   },
-
   approveNewStaff: (body) => {
     return new Promise((resolve, reject) => {
       new Staff({
@@ -60,6 +61,17 @@ module.exports = {
         delete result.attributes.password;
         return resolve(result.attributes);
       });
+    });
+  },
+  getSpaceId: (userid) => {
+    return new Promise((resolve, reject) => {
+      Staff.where({ userid })
+      .then((result) => {
+        return resolve(result.space_id);
+      })
+      .catch((err) => {
+        return reject('unahthorized, user has no space');
+      })
     });
   },
 };

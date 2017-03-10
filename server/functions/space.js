@@ -21,7 +21,6 @@ module.exports = {
       });
     });
   },
-
   getReservedList: (spaceid) => {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
@@ -37,7 +36,6 @@ module.exports = {
       });
     });
   },
-
   getUnpaidSum: (spaceid) => {
     return new Promise((resolve, reject) => {
       Member.where({ space_id: spaceid })
@@ -50,7 +48,6 @@ module.exports = {
       })
     });
   },
-
   getLatestActivity: (spaceid) => {
     return new Promise((resolve, reject) => {
       Activity.where({ space_id: spaceid })
@@ -66,7 +63,6 @@ module.exports = {
       });
     });
   },
-
   getSpaceDetailByID: (spaceid) => {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
@@ -79,7 +75,6 @@ module.exports = {
       });
     });
   },
-
   getSpaceDetailByName: (spaceName) => {
     return new Promise((resolve, reject) => {
       Space.where({ name: spaceName })
@@ -92,7 +87,6 @@ module.exports = {
       });
     });
   },
-
   getAllSpaces: (companyid) => {
     return new Promise((resolve, reject) => {
       Space
@@ -103,7 +97,6 @@ module.exports = {
       });
     });
   },
-
   addNewSpace: (body, user) => {
     return new Promise((resolve, reject) => {
       return new Space({
@@ -118,7 +111,6 @@ module.exports = {
       })
     });
   },
-
   checkDuplicateSpace: (body, companyid) => {
     return new Promise((resolve, reject) => {
       Company.checkCompanySpaceByID(companyid)

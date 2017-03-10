@@ -9,7 +9,6 @@ const reservation = require('../model/reservation');
 const billing = require('../model/billing');
 
 module.exports = {
-
   dashboard: {
     get:
     (req, res) => (dashboard.get(req))
