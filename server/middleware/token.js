@@ -67,35 +67,41 @@ module.exports = {
   },
   checkIdPassword: (userid, password) => {
     return new Promise((resolve, reject) => {
-      Admin.checkExistence(userid)
-      .then((admin) => {
-        // use bcrypt password
-        if (admin) {
+
+      const checkAdmin = Admin.checkExistence(userid);
+      const checkStaff = Staff.checkExistence(userid);
+
+      Promise.all([checkAdmin, checkStaff])
+      .then((result) => {
+        console.log(result);
+        if (result[0]) {
+          const admin = result[0];
           bcrypt.compare(password, admin.password, (err, res) => {
+            if (err) {
+              return reject('bcrypt compare error');
+            }
             if (res) {
               delete admin.password;
               return resolve([admin, 'comp']);
             } else {
-              console.log('user password not match in admin');
+              return reject('wrong admin password');
+            }
+          });
+        } else if (result[1]) {
+          const staff = result[1];
+          bcrypt.compare(password, staff.password, (err, res) => {
+            if (err) {
+              return reject('bcrypt compare error');
+            }
+            if (res) {
+              delete staff.password;
+              return resolve([staff, 'staff']);
+            } else {
+              return reject('wrong staff password');
             }
           });
         } else {
-          Staff.checkExistence(userid)
-          .then((staff) => {
-            bcrypt.compare(password, staff.password, (err, res) => {
-              if (err) {
-                return reject('invalid password');
-              }
-              if (res) {
-                delete staff.password;
-                return resolve([staff, 'staff']);
-              }
-            });
-          })
-          .catch((err) => {
-            console.log('staff checkExistence failed to fetch');
-            return reject(err);
-          });
+          return reject('user is not found');
         }
       })
       .catch((err) => {
@@ -106,7 +112,6 @@ module.exports = {
   },
   addNewToken: (body) => {
     return new Promise((resolve, reject) => {
-      console.log('here')
       module.exports.checkIdPassword(body.userid, body.password)
       .then((result) => {
         const storage = {};
@@ -137,7 +142,10 @@ module.exports = {
           console.log('new token saving failed');
           return reject('saving new token data failed');
         });
-      });
+      })
+      .catch((err) => {
+        return reject(err);
+      })
     });
   },
   deleteToken: (userid) => {
