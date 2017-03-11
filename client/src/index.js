@@ -27,6 +27,10 @@ const App = () => (
         <Route path="admin" component={smartComponents.Admin}>
           <Route path="manage" component={smartComponents.Manage}>
             <Route path="dashboard" component={smartComponents.Dashboard} />
+            <Route path="members">
+              <IndexRoute component={smartComponents.Members} />
+              <Route path="add" component={smartComponents.AddMembers} />
+            </Route>
           </Route>
         </Route>
         <Route path="staff" component={smartComponents.Staff} />
