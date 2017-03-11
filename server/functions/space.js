@@ -1,11 +1,13 @@
 const Space = require('../db/space');
+const Company = require('../db/company');
 const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const Company = require('../functions/company');
+const company = require('../functions/company');
 
 module.exports = {
+
   getMemberList: (spaceid) => {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
@@ -21,6 +23,7 @@ module.exports = {
       });
     });
   },
+
   getReservedList: (spaceid) => {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
@@ -36,6 +39,7 @@ module.exports = {
       });
     });
   },
+
   getUnpaidSum: (spaceid) => {
     return new Promise((resolve, reject) => {
       Member.where({ space_id: spaceid })
@@ -48,6 +52,7 @@ module.exports = {
       })
     });
   },
+
   getLatestActivity: (spaceid) => {
     return new Promise((resolve, reject) => {
       Activity.where({ space_id: spaceid })
@@ -63,6 +68,7 @@ module.exports = {
       });
     });
   },
+
   getSpaceDetailByID: (spaceid) => {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
@@ -75,6 +81,7 @@ module.exports = {
       });
     });
   },
+
   getSpaceDetailByName: (spaceName) => {
     return new Promise((resolve, reject) => {
       Space.where({ name: spaceName })
@@ -87,7 +94,8 @@ module.exports = {
       });
     });
   },
-  getAllSpaces: (companyid) => {
+
+  getAllSpacesById: (companyid) => {
     return new Promise((resolve, reject) => {
       Space
       .where({ company_id: companyid })
@@ -97,6 +105,19 @@ module.exports = {
       });
     });
   },
+
+  getAllSpacesByName: (companyname) => {
+    return new Promise((resolve, reject) => {
+      Company
+      .where({ name: companyname })
+      .fetch({ withRelated: ['space'] })
+      .then((result) => {
+        console.log('result at space function', result)
+        return resolve(result.related('space'));
+      });
+    });
+  },
+
   addNewSpace: (body, user) => {
     return new Promise((resolve, reject) => {
       return new Space({
@@ -111,9 +132,10 @@ module.exports = {
       })
     });
   },
+
   checkDuplicateSpace: (body, companyid) => {
     return new Promise((resolve, reject) => {
-      Company.checkCompanySpaceByID(companyid)
+      company.checkCompanySpaceByID(companyid)
       .then((result) => {
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {

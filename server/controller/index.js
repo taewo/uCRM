@@ -42,7 +42,7 @@ module.exports = {
     .then((result) => {
       console.log(result, 'body');
       const body = JSON.stringify(result);
-      res.json(body);
+      res.json(body).sendStatus(200);
     })
     .catch((err) => {
       console.log(err);

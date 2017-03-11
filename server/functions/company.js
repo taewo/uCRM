@@ -23,20 +23,6 @@ module.exports = {
     });
   },
 
-  checkCompanySpaceByName: (companyname) => {
-    return new Promise((resolve, reject) => {
-      Company
-      .where({ name: companyname })
-      .fetch({ withRelated: ['space'] })
-      .then((result) => {
-        if(!result) {
-          return reject('company does not exist');
-        }
-        return resolve(result);
-      });
-    });
-  },
-
   addNewCompany: (name) => {
     return new Promise((resolve, reject) => {
       return new Company({ name })

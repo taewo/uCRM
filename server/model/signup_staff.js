@@ -1,13 +1,14 @@
-const Company = require('../functions/company');
+const Space = require('../functions/space');
 const Staff = require('../functions/staff');
 const auth = require('../functions/auth');
 
 module.exports = {
   get: (req) => {
     return new Promise((resolve, reject) => {
-      Company.checkCompanySpaceByName(req.query.companyname)
+      Space.getAllSpacesByName(req.query.companyname)
       .then((result) => {
-        return resolve(result.related('space').toJSON());
+        console.log('company has following spaces', result)
+        return resolve(result.toJSON());
       })
       .catch((err) => {
         return reject(err);

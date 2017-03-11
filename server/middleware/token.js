@@ -122,7 +122,7 @@ module.exports = {
 
         if (result[1] === 'comp') {
           const companyid = result[0].company_id;
-          const spaceList = Space.getAllSpaces(companyid);
+          const spaceList = Space.getAllSpacesById(companyid);
           storage.type = 'comp';
           storage.space_list = spaceList;
         } else if (result[1] === 'staff') {

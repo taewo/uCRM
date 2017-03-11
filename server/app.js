@@ -58,16 +58,30 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 //     });
 //   })(req, res, next);
 // });
-app.post('/api/signup/admin/', (req, res, next) => {
+app.post('/api/signup/admin/', (req, res) => {
   console.log('req.body', req.body);
-  const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email;
+  const formIncomplete = !req.body.companyname
+    || !req.body.userid
+    || !req.body.name
+    || !req.body.mobile
+    || !req.body.password
+    || !req.body.email;
+
   if (formIncomplete) {
     res.status(400).send('admin form incomplete');
   }
   controller.signup_admin.post(req, res);
 });
 
-app.post('/api/signup/staff/',(req, res, next) => {
+app.get('/api/signup/staff', (req, res) => {
+  const formIncomplete = !req.query.companyname;
+  if (formIncomplete) {
+    res.status(400).send('we need companyname');
+  }
+  controller.signup_staff.get(req, res);
+})
+
+app.post('/api/signup/staff/', (req, res) => {
   const formIncomplete = !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
   if (formIncomplete) {
     res.status(400).send('staff form incomplete');
