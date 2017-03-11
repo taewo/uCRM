@@ -1,7 +1,9 @@
-import axios from 'axios';
-import { browserHistory } from 'react-router';
+// import axios from 'axios';
+// import { browserHistory } from 'react-router';
 import * as types from './types';
 import data from '../../data.json';
+import createFragment from 'react-addons-create-fragment'
+
 
 export const dashboardAllMember = allMember => ({
   type: types.DASHBOARD_ALLMEMBER_SHOW,
@@ -28,11 +30,21 @@ export const dashboardIsChangeDashboard = isChangeDashboard => ({
   isChangeDashboard,
 });
 
-export function dashboardShow () {
+export function dashboardShow() {
   return (dispatch) => {
-    console.log('1')
-    console.log(data);
-    dispatch(dashboardAllMember(data.memberList.length))
-    dispatch(dashboardCurrentMember())
-  }
+    console.log('come in dashboardShow');
+
+    // function Dashboard Current Member
+    const dataMemberList = data.memberList;
+    let countCurrentMember = 0;
+    for (let i = 0; i < dataMemberList.length; i += 1) {
+      if (dataMemberList[i].end_date === null) {
+        countCurrentMember += 1;
+      }
+    }
+    dispatch(dashboardAllMember(data.memberList.length));
+    dispatch(dashboardCurrentMember(countCurrentMember));
+    dispatch(dashboardLatestActivity(data.latestActivity));
+    dispatch(dashboarRoomReservation(data.reservedList));
+  };
 }

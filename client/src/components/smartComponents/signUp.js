@@ -31,7 +31,7 @@ class SignUp extends Component {
 }
 // SignUp.propTypes = propTypes;
 // SignUp.defaultProps = defaultProps;
-//
+
 const mapStateToProps = state => ({
   toggleSignedUp: state.signUpReducer.toggleSignedUp,
 });

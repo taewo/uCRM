@@ -32,7 +32,7 @@ export function logInConfirm () {
       localStorage.setItem('userData', JSON.stringify(userData));
       const userDataLocal = JSON.parse(localStorage.getItem('userData'));
       const userType = userDataLocal.type;
-      // userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
+      userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
     })
     .catch((err) => {
       console.log(err);

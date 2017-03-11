@@ -31,12 +31,18 @@ class Dashboard extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  allMemberOnChange: state.dashboardReducer.allMember,
+  currentMemberOnChange: state.dashboardReducer.currentMember,
+  latestActivityOnChange: state.dashboardReducer.latestActivity,
+  roomReservationOnChange: state.dashboardReducer.roomReservation,
+});
+
 const mapDispatchToProps = dispatch => ({
   dashboardShow: () => { dispatch(dashboardActions.dashboardShow()); }
-
 });
 
 Dashboard.propTypes = propTypes;
 Dashboard.defaultProps = defaultProps;
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
