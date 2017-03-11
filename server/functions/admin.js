@@ -21,7 +21,7 @@ module.exports = {
       .fetch()
       .then((result) => {
         if (result) {
-          return resolve(result.attrubutes);
+          return resolve(result.attributes);
         } else {
           return resolve(false);
         }
@@ -60,4 +60,5 @@ module.exports = {
       });
     });
   },
+
 };

@@ -29,7 +29,7 @@ module.exports = {
       });
     });
   },
-  addNewStaff: (body, spaceid) => {
+  addNewStaff: (body) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
         const accountDetail = {};
@@ -38,7 +38,7 @@ module.exports = {
         accountDetail.name = body.name;
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
-        accountDetail.space_id = spaceid;
+        accountDetail.space_id = body.spaceid;
         accountDetail.is_approved = false;
         accountDetail.joined_date = moment().format('YYYY-MM-DD');
 

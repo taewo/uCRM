@@ -2,6 +2,7 @@ const Dashboard = require('../functions/dashboard');
 
 module.exports = {
   get: (req) => {
+    console.log(req);
     const currentUser = req.session.passport.user;
     console.log('sur', currentUser);
 

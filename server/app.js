@@ -4,13 +4,16 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const passport = require('passport');
+// const passport = require('passport');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const index = require('./routes/index');
+const controller = require('./controller/index');
 const auth = require('./middleware/token');
 
 const app = express();
-require('./config/passport')(passport);
+
+// require('./config/passport')(passport);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -44,16 +47,24 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 
 
 
-app.post('/api/signup/admin/',(req, res, next) => {
-  const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
+// app.post('/api/signup/admin/',(req, res, next) => {
+//   const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
+//   if (formIncomplete) {
+//     res.status(400).send('admin form incomplete');
+//   }
+//   passport.authenticate('admin', (err, account) => {
+//     req.logIn(account, () => {
+//       res.status(err ? 400 : 200).send(err ? err : account);
+//     });
+//   })(req, res, next);
+// });
+app.post('/api/signup/admin/', (req, res, next) => {
+  console.log('req.body', req.body);
+  const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email;
   if (formIncomplete) {
     res.status(400).send('admin form incomplete');
   }
-  passport.authenticate('admin', (err, account) => {
-    req.logIn(account, () => {
-      res.status(err ? 400 : 200).send(err ? err : account);
-    });
-  })(req, res, next);
+  controller.signup_admin.post(req, res);
 });
 
 app.post('/api/signup/staff/',(req, res, next) => {
@@ -88,7 +99,11 @@ app.post('/api/login/', (req, res) => {
     .then((result) => {
       res.set({
         Token: result.token,
-      }).status(202).send(result);
+      })
+      .then((result) => {
+
+      })
+      .sendStatus(202);
     })
     .catch((err) => {
       console.log(err)
@@ -98,7 +113,7 @@ app.post('/api/login/', (req, res) => {
 });
 
 app.get('/api/logout', (req, res) => {
-  console.log(req.body)
+  console.log(req.Token);
   auth.deleteToken(req.body.userid)
   .then((result) => {
     res.status(500).send(result);

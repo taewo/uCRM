@@ -73,7 +73,6 @@ module.exports = {
 
       Promise.all([checkAdmin, checkStaff])
       .then((result) => {
-        console.log(result);
         if (result[0]) {
           const admin = result[0];
           bcrypt.compare(password, admin.password, (err, res) => {
@@ -90,6 +89,7 @@ module.exports = {
         } else if (result[1]) {
           const staff = result[1];
           bcrypt.compare(password, staff.password, (err, res) => {
+            console.log(password, staff.password)
             if (err) {
               return reject('bcrypt compare error');
             }
@@ -132,14 +132,12 @@ module.exports = {
         } else {
           return reject('unahthorized user tried to add token');
         }
-        console.log('token storage', storage);
         new Token(storage)
         .save()
         .then((result) => {
           return resolve(result.attributes);
         })
         .catch((err) => {
-          console.log('new token saving failed');
           return reject('saving new token data failed');
         });
       })
@@ -149,6 +147,7 @@ module.exports = {
     });
   },
   deleteToken: (userid) => {
+    console.log('userid', userid)
     return new Promise((resolve, reject) => {
       Token.where({ userid })
       .fetch()
