@@ -147,28 +147,28 @@
     {
       "id": 2,
       "space_id": 3,
-      "type": "staff_drinking",
+      "type": "staff_registered",
       "date": "2017-02-28T15:00:00.000Z",
       "user": "ilmo"
     },
     {
       "id": 3,
       "space_id": 3,
-      "type": "staff_smoking",
+      "type": "member_registered",
       "date": "2017-02-28T15:00:00.000Z",
       "user": "taewoong"
     },
     {
       "id": 4,
       "space_id": 3,
-      "type": "staff_drinking",
+      "type": "invoice_paid",
       "date": "2017-02-28T15:00:00.000Z",
       "user": "Hyun Jin Lee"
     },
     {
       "id": 5,
       "space_id": 3,
-      "type": "staff_smoking",
+      "type": "room_booked",
       "date": "2017-02-28T15:00:00.000Z",
       "user": "sanghoon"
     }

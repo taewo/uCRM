@@ -15,7 +15,7 @@ class MiddlebarDashboard extends Component {
     return (
       <div>
         <Link to={'/admin/manage/dashboard'}>
-          Dashboard
+          MiddlebarDashboard
         </Link>
       </div>
     );

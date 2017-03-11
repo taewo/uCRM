@@ -19,9 +19,10 @@ const dashboardReducer = (state = initialState, action) => {
         currentMember: action.currentMember,
       });
     case types.DASHBOARD_LATESTACTIVITY_SHOW:
+      console.log('before return')
       return Object.assign({}, state, {
         latestActivity: action.latestActivity,
-      });
+      })
     case types.DASHBOARD_ROOMRESERVE_SHOW:
       return Object.assign({}, state, {
         roomReservation: action.roomReservation,
