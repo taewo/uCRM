@@ -82,15 +82,17 @@ app.get('/api/signup/staff', (req, res) => {
 })
 
 app.post('/api/signup/staff/', (req, res) => {
-  const formIncomplete = !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
+  const formIncomplete = !req.body.userid
+    || !req.body.name
+    || !req.body.mobile
+    || !req.body.password
+    || !req.body.email;
+
   if (formIncomplete) {
     res.status(400).send('staff form incomplete');
   }
-  passport.authenticate('staff', (err, account) => {
-    req.logIn(account, () => {
-      res.status(err ? 400 : 200).send(err ? err : account);
-    });
-  })(req, res, next);
+
+  controller.signup_staff.post(req, res);
 });
 
 // app.post('/api/login/', (req, res, next) => {
@@ -111,13 +113,11 @@ app.post('/api/login/', (req, res) => {
   } else {
     auth.addNewToken(req.body)
     .then((result) => {
+      console.log('token data result', result)
       res.set({
         Token: result.token,
       })
-      .then((result) => {
-
-      })
-      .sendStatus(202);
+      .send(result.token);
     })
     .catch((err) => {
       console.log(err)

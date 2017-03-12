@@ -24,4 +24,27 @@ module.exports = {
       });
     });
   },
+  getUser: (userid) => {
+    return new Promise((resolve, reject) => {
+      const ifAdmin = Admin.checkExistence(userid);
+      const ifStaff = Staff.checkExistence(userid);
+
+      Promise.all([ifAdmin, ifStaff])
+      .then((users) => {
+        console.log('getuser user', users)
+        if (users[0]) {
+          users[0].type = 'comp';
+          delete users[0].password;
+          return resolve(users[0]);
+        } else if (users[1]) {
+          users[1].type = 'staff';
+          delete users[1].password;
+          return resolve(users[1]);
+        }
+      })
+      .catch((err) => {
+        return reject('user is neither admin nor staff');
+      })
+    });
+  }
 };

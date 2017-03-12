@@ -33,20 +33,24 @@ module.exports = {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
         const accountDetail = {};
+        accountDetail.space_id = body.space_id;
         accountDetail.userid = body.userid;
         accountDetail.password = hash;
         accountDetail.name = body.name;
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
-        accountDetail.space_id = body.spaceid;
         accountDetail.is_approved = false;
         accountDetail.joined_date = moment().format('YYYY-MM-DD');
 
         new Staff(accountDetail)
         .save()
         .then((result) => {
+          delete result.attributes.password;
           return resolve(result);
-        });
+        })
+        .catch((err) => {
+          return reject('save new staff failed');
+        })
       });
     });
   },

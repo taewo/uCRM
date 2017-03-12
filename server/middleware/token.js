@@ -34,8 +34,8 @@ module.exports = {
       Token.where({ token })
       .fetch()
       .then((result) => {
-        console.log('userid found', result)
-        return resolve(result.userid);
+        console.log('userid found', result.attributes)
+        return resolve(result.attributes);
       })
       .catch((err) => {
         console.log(err);
@@ -105,7 +105,7 @@ module.exports = {
         }
       })
       .catch((err) => {
-        console.log('admin checkExistence failed to fetch');
+        console.log('checkExistence failed to fetch');
         return reject(err);
       })
     });
@@ -121,31 +121,49 @@ module.exports = {
         storage.expiredat = tokenData.expiredat;
 
         if (result[1] === 'comp') {
-          const companyid = result[0].company_id;
-          const spaceList = Space.getAllSpacesById(companyid);
-          storage.type = 'comp';
-          storage.space_list = spaceList;
+            const companyid = result[0].company_id;
+            storage.type = 'comp';
+            Space.getAllSpacesById(companyid)
+            .then((spaceList) => {
+              const JSONspaceList = spaceList.map(space => space.id);
+              storage.space_list = JSON.stringify(JSONspaceList);
+              new Token(storage)
+              .save()
+              .then((result) => {
+                return resolve(result.attributes);
+              })
+              .catch((err) => {
+                console.log(err)
+                return reject('failed to save new token for admin');
+              });
+            })
+            .catch((err) => {
+              return reject(err);
+            });
         } else if (result[1] === 'staff') {
           const spaceid = result[0].space_id;
           storage.type = 'staff';
           storage.space_id = spaceid;
+
+          new Token(storage)
+          .save()
+          .then((result) => {
+            console.log('new Token', result.attributes)
+            return resolve(result.attributes);
+          })
+          .catch((err) => {
+            return reject('saving new token data failed for staff');
+          });
         } else {
           return reject('unahthorized user tried to add token');
         }
-        new Token(storage)
-        .save()
-        .then((result) => {
-          return resolve(result.attributes);
-        })
-        .catch((err) => {
-          return reject('saving new token data failed');
-        });
       })
       .catch((err) => {
         return reject(err);
       })
     });
   },
+
   deleteToken: (userid) => {
     console.log('userid', userid)
     return new Promise((resolve, reject) => {

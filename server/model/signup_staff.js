@@ -25,7 +25,7 @@ module.exports = {
             return resolve(result);
           })
         } else {
-          return reject('useid already exist');
+          return reject('userid already exist');
         }
       })
       .catch((err) => {

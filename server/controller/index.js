@@ -31,22 +31,22 @@ module.exports = {
     .then((result) => {
       console.log(result, 'body');
       const body = JSON.stringify(result);
-      res.json(body).sendStatus(200);
+      res.json(body);
     })
     .catch((err) => {
       console.log(err);
       res.send(err).status(400);
     }),
     post:
-    (req, res) => (staffSignup.get(req.body))
+    (req, res) => (signupStaff.post(req.body))
     .then((result) => {
       console.log(result, 'body');
       const body = JSON.stringify(result);
-      res.json(body).sendStatus(200);
+      res.json(body);
     })
     .catch((err) => {
       console.log(err);
-      res.status(400).send(err);
+      res.send(err).status(400);
     }),
   },
 
@@ -54,6 +54,7 @@ module.exports = {
     get:
     (req, res) => (dashboard.get(req))
     .then((result) => {
+      console.log(result);
       const body = JSON.stringify(result);
       res.json(body);
     })

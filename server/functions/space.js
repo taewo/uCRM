@@ -101,7 +101,8 @@ module.exports = {
       .where({ company_id: companyid })
       .fetchAll()
       .then((result) => {
-        return resolve(result);
+        console.log('companyid', companyid, 'all space', result.toJSON())
+        return resolve(result.toJSON());
       });
     });
   },
