@@ -2,7 +2,6 @@ const Bookshelf = require('./bookshelf');
 
 require('./admin');
 require('./space');
-require('./billingplan');
 
 const Company = Bookshelf.Model.extend({
   tableName: 'company',
@@ -12,9 +11,6 @@ const Company = Bookshelf.Model.extend({
   },
   space: function() {
     return this.hasMany('Space');
-  },
-  billingplan: function() {
-    return this.hasMany('BillingPlan');
   },
 });
 

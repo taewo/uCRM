@@ -1,11 +1,13 @@
 const Space = require('../db/space');
+const Company = require('../db/company');
 const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const Company = require('../functions/company');
+const company = require('../functions/company');
 
 module.exports = {
+
   getMemberList: (spaceid) => {
     return new Promise((resolve, reject) => {
       Space.where({ id: spaceid })
@@ -93,13 +95,26 @@ module.exports = {
     });
   },
 
-  getAllSpaces: (companyid) => {
+  getAllSpacesById: (companyid) => {
     return new Promise((resolve, reject) => {
       Space
       .where({ company_id: companyid })
       .fetchAll()
       .then((result) => {
-        return resolve(result);
+        console.log('companyid', companyid, 'all space', result.toJSON())
+        return resolve(result.toJSON());
+      });
+    });
+  },
+
+  getAllSpacesByName: (companyname) => {
+    return new Promise((resolve, reject) => {
+      Company
+      .where({ name: companyname })
+      .fetch({ withRelated: ['space'] })
+      .then((result) => {
+        console.log('result at space function', result)
+        return resolve(result.related('space'));
       });
     });
   },
@@ -121,7 +136,7 @@ module.exports = {
 
   checkDuplicateSpace: (body, companyid) => {
     return new Promise((resolve, reject) => {
-      Company.checkCompanySpaceByID(companyid)
+      company.checkCompanySpaceByID(companyid)
       .then((result) => {
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {

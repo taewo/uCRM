@@ -3,7 +3,22 @@ const passport = require('passport');
 
 const router = express.Router();
 const controller = require('../controller/index');
+const auth = require('../middleware/token');
+
 require('../config/passport')(passport);
+
+router.use((req, res, next) => {
+  auth.checkToken(req.headers)
+  .then((result) => {
+    next();
+  })
+  .catch((err) => {
+    if (err === 'invalid token') {
+      res.sendStatus(500).send(err)
+    }
+  })
+});
+
 
 router.route('/dashboard')
 .get(controller.dashboard.get);
@@ -30,9 +45,6 @@ router.route('/room/reservation')
 
 router.route('/staff/permit')
 .put(controller.staff_auth.put);
-
-router.route('/staff/signup')
-.get(controller.signup_staff.get);
 
 router.route('/billing')
 .get(controller.billing.get)

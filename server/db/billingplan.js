@@ -1,13 +1,13 @@
 const Bookshelf = require('./bookshelf');
 
-require('./company');
+require('./space');
 require('./payment');
 
 const BillingPlan = Bookshelf.Model.extend({
   tableName: 'billingplan',
 
-  company: function() {
-    return this.belongsTo('Company');
+  space: function() {
+    return this.belongsTo('Space');
   },
   payment: function() {
     return this.hasMany('Payment');

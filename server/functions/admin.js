@@ -14,19 +14,34 @@ module.exports = {
       })
     })
   },
-
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
       Admin
       .where({ userid })
       .fetch()
       .then((result) => {
-        console.log('checkEx result', result);
-        return resolve(result);
+        if (result) {
+          return resolve(result.attributes);
+        } else {
+          return resolve(false);
+        }
       })
-    })
+      .catch((err) => {
+        return reject('admin not found');
+      })
+    });
   },
-
+  getCompanyId: (userid) => {
+    return new Promise((resolve, reject) => {
+      Admin.where({ userid })
+      .then((result) => {
+        return resolve(result.company_id);
+      })
+      .catch((err) => {
+        return reject('unahthorized, user has no company');
+      })
+    });
+  },
   addNewAdmin: (body, companyid) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
@@ -45,4 +60,5 @@ module.exports = {
       });
     });
   },
+
 };

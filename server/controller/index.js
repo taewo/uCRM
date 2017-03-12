@@ -4,16 +4,57 @@ const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
 const room = require('../model/room');
 const member = require('../model/member');
-const staffSignup = require('../model/staff_signup');
+const signupAdmin = require('../model/signup_admin');
+const signupStaff = require('../model/signup_staff');
 const reservation = require('../model/reservation');
 const billing = require('../model/billing');
 
 module.exports = {
 
+  signup_admin: {
+    post:
+    (req, res) => (signupAdmin.post(req.body))
+    .then((result) => {
+      console.log('signup successfull!', result);
+      const body = JSON.stringify(result);
+      res.json(body).sendStatus(200);
+    })
+    .catch((err) => {
+      // console.log('err', err);
+      res.status(400).send(err);
+    }),
+  },
+
+  signup_staff: {
+    get:
+    (req, res) => (signupStaff.get(req))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err).status(400);
+    }),
+    post:
+    (req, res) => (signupStaff.post(req.body))
+    .then((result) => {
+      console.log(result, 'body');
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err).status(400);
+    }),
+  },
+
   dashboard: {
     get:
     (req, res) => (dashboard.get(req))
     .then((result) => {
+      console.log(result);
       const body = JSON.stringify(result);
       res.json(body);
     })
@@ -112,6 +153,7 @@ module.exports = {
       });
     },
   },
+
   room: {
     get:
     (req, res) => (room.get(req))
@@ -148,6 +190,7 @@ module.exports = {
       });
     },
   },
+
   member: {
     get:
     (req, res) => (member.get(req))
@@ -178,6 +221,7 @@ module.exports = {
       });
     },
   },
+
   reservation: {
     get:
     (req, res) => (reservation.get(req))
@@ -208,19 +252,7 @@ module.exports = {
       });
     },
   },
-  signup_staff: {
-    get:
-    (req, res) => (staffSignup.get(req))
-    .then((result) => {
-      console.log(result, 'body');
-      const body = JSON.stringify(result);
-      res.json(body);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).send(err);
-    }),
-  },
+
   billing: {
     get:
     (req, res) => (billing.get(req))

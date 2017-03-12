@@ -16,10 +16,10 @@ const getDashboard = (spaceid) => {
       container.unpaidSum = result[2];
       container.latestActivity = result[3];
       return resolve(container);
+    })
+    .catch((err) => {
+      return reject(err);
     });
-  })
-  .catch((err) => {
-    return Promise.reject(err);
   });
 };
 
