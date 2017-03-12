@@ -113,7 +113,6 @@ app.post('/api/login/', (req, res) => {
   } else {
     auth.addNewToken(req.body)
     .then((result) => {
-      console.log('token data result', result)
       res.set({
         Token: result.token,
       })
@@ -127,14 +126,13 @@ app.post('/api/login/', (req, res) => {
 });
 
 app.get('/api/logout', (req, res) => {
-  console.log(req.Token);
-  auth.deleteToken(req.body.userid)
+  auth.deleteToken(req.headers.token)
   .then((result) => {
     res.status(500).send(result);
   })
   .catch((err) => {
     res.status(403).send(err);
-  })
+  });
 });
 
 // ask Namse api 가 아닌데도 다 낚아 채버림.....위에 코드들 다 실행 안됌

@@ -121,25 +121,25 @@ module.exports = {
         storage.expiredat = tokenData.expiredat;
 
         if (result[1] === 'comp') {
-            const companyid = result[0].company_id;
-            storage.type = 'comp';
-            Space.getAllSpacesById(companyid)
-            .then((spaceList) => {
-              const JSONspaceList = spaceList.map(space => space.id);
-              storage.space_list = JSON.stringify(JSONspaceList);
-              new Token(storage)
-              .save()
-              .then((result) => {
-                return resolve(result.attributes);
-              })
-              .catch((err) => {
-                console.log(err)
-                return reject('failed to save new token for admin');
-              });
+          const companyid = result[0].company_id;
+          storage.type = 'comp';
+          Space.getAllSpacesById(companyid)
+          .then((spaceList) => {
+            const JSONspaceList = spaceList.map(space => space.id);
+            storage.space_list = JSONspaceList.toJSON();
+            new Token(storage)
+            .save()
+            .then((result) => {
+              return resolve(result.attributes);
             })
             .catch((err) => {
-              return reject(err);
+              console.log(err)
+              return reject('failed to save new token for admin');
             });
+          })
+          .catch((err) => {
+            return reject(err);
+          });
         } else if (result[1] === 'staff') {
           const spaceid = result[0].space_id;
           storage.type = 'staff';
@@ -164,13 +164,13 @@ module.exports = {
     });
   },
 
-  deleteToken: (userid) => {
-    console.log('userid', userid)
+  deleteToken: (token) => {
     return new Promise((resolve, reject) => {
-      Token.where({ userid })
-      .fetch()
-      .then((result) => {console.log('result', result)})
+      Token.where({ token })
       .destroy()
+      .then((result) => {
+        return resolve();
+      })
       .catch((err) => {
         return reject('failed to delete token');
       });
