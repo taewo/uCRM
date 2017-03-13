@@ -20,23 +20,25 @@ export const isLogIn = toggleLogedIn => ({
 export function logInConfirm () {
   return (dispatch, getState) => {
     const { userid, password } = getState().logInReducer;
-    const API_URL = 'http://localhost:4000/api';
-    return axios.post(`${API_URL}/login`, {
-      userid,
-      password,
-    })
-    .then((res) => {
-      console.log(res);
+    // const API_URL = 'http://localhost:4000/api';
+    // return axios.post(`${API_URL}/login`, {
+    //   userid,
+    //   password,
+    // })
+    // .then((res) => {
+    //   console.log(res);
       dispatch(isLogIn(true));
-      const userData = JSON.parse(res.request.response);
-      localStorage.setItem('userData', JSON.stringify(userData));
-      const userDataLocal = JSON.parse(localStorage.getItem('userData'));
-      const userType = userDataLocal.type;
-      userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch(isLogIn(false));
-    });
+      browserHistory.push('/admin/manage/dashboard')
+
+    //   const userData = JSON.parse(res.request.response);
+    //   localStorage.setItem('userData', JSON.stringify(userData));
+    //   const userDataLocal = JSON.parse(localStorage.getItem('userData'));
+      // const userType = userDataLocal.type;
+    //  userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    //   dispatch(isLogIn(false));
+    // });
   };
 }

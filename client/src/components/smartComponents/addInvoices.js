@@ -10,26 +10,14 @@ function sundays(day) {
   return day.getDay() === 0;
 }
 
-class AddMembers extends Component {
+class AddInvoices extends Component {
   constructor(props) {
     super(props);
-    this.handleDayClick = this.handleDayClick.bind(this);
     this.submitData = this.submitData.bind(this);
-    this.state = {
-      selectedDay : new Date(),
-    };
   }
-  handleDayClick(day, { disabled, selected }) {
-    if (disabled) {
-      return;
-    }
-    this.setState({
-      selectedDay: selected ? null : day,
-    });
-  }
+
   submitData(e) {
     const data = Object.assign({}, e);
-    data.date = JSON.stringify(this.state.selectedDay);
     console.log(11, data);
   }
 
@@ -45,37 +33,30 @@ class AddMembers extends Component {
             </div>
           </div>
           <div>
-            <label>Email</label>
+            <label>Cost</label>
             <div>
-              <Field name="email" component="input" type="text" placeholder="Email" />
+              <Field name="cost" component="input" type="text" placeholder="Cost" />
             </div>
           </div>
           <div>
-            <label>Mobile</label>
+            <label>isDaily</label>
             <div>
-              <Field name="mobile" component="input" type="text" placeholder="Mobile" />
+              <label><Field name="isDaily" component="input" type="radio" value="yes" /> yes </label>
+              <label><Field name="isDaily" component="input" type="radio" value="no" /> no </label>
             </div>
           </div>
           <div>
-            <lavel>joined date</lavel>
-            <DayPicker
-              initialMonth={new Date(2017, 1)}
-              disabledDays={sundays}
-              selectedDays={this.state.selectedDay}
-              onDayClick={this.handleDayClick}
-            />
-          </div>
-          <div>
-            <label>Gender</label>
+            <label>Duration</label>
             <div>
-              <label><Field name="sex" component="input" type="radio" value="male" /> Male</label>
-              <label><Field name="sex" component="input" type="radio" value="female" /> Female</label>
+              <label><Field name="Duration" component="input" type="radio" value="1달" /> 1달 </label>
+              <label><Field name="Duration" component="input" type="radio" value="3달" /> 3달 </label>
+              <label><Field name="Duration" component="input" type="radio" value="6달" /> 6달</label>
             </div>
           </div>
           <div>
-            <label>Notes</label>
+            <label>Description</label>
             <div>
-              <Field name="notes" component="textarea" />
+              <Field name="Description" component="textarea" />
             </div>
           </div>
           <div>
@@ -94,7 +75,6 @@ class AddMembers extends Component {
             </button>
           </div>
         </form>
-        <div id="name_result" ></div>
       </div>
     );
   }
@@ -102,4 +82,4 @@ class AddMembers extends Component {
 
 export default reduxForm({
   form: 'simple',
-})(AddMembers);
+})(AddInvoices);
