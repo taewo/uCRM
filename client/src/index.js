@@ -15,6 +15,8 @@ const store = createStore(
     applyMiddleware(thunk),
 ));
 
+// store.subscribe(() => console.log(store.getState().form.registeredFields));
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 const App = () => (
@@ -31,9 +33,16 @@ const App = () => (
               <IndexRoute component={smartComponents.Members} />
               <Route path="add" component={smartComponents.AddMembers} />
             </Route>
+            <Route path="invoices">
+              <IndexRoute component={smartComponents.Invoices} />
+              <Route path="add" component={smartComponents.AddInvoices} />
+            </Route>
+            <Route path="room">
+              <IndexRoute component={smartComponents.Room} />
+              <Route path="add" component={smartComponents.AddRoom} />
+            </Route>
           </Route>
         </Route>
-        <Route path="staff" component={smartComponents.Staff} />
       </Route>
     </Router>
   </Provider>

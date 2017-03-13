@@ -2,9 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { AddMember, ProfileMember } from '../dummyComponents/onMembers';
-import * as membersActions from '../../actions/membersActions';
-
 const propTypes = {
 };
 
