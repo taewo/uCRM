@@ -1,4 +1,5 @@
 const Admin = require('../db/admin');
+const Space = require('../functions/space');
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
@@ -46,19 +47,30 @@ module.exports = {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
         const accountDetail = {};
+        accountDetail.company_id = companyid;
         accountDetail.userid = body.userid;
         accountDetail.password = hash;
         accountDetail.name = body.name;
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
-        accountDetail.company_id = companyid;
 
         new Admin(accountDetail).save()
-        .then((result) => {
-          return resolve(result);
+        .then((admin) => {
+          delete admin.password;
+          return resolve(admin);
         })
       });
-    });
+    })
+    .then((result) => {
+      return new Promise((resolve, reject) => {
+        result.spaceList = Space.getSpaceDetailByID(result.company_id);
+        console.log('final admin result', result);
+        return resolve(result);
+      });
+    })
+    .catch((err) => {
+      return reject('failed to add new admin');
+    })
   },
 
 };
