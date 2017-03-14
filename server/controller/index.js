@@ -54,7 +54,6 @@ module.exports = {
     get:
     (req, res) => (dashboard.get(req))
     .then((result) => {
-      console.log(result);
       const body = JSON.stringify(result);
       res.json(body);
     })
