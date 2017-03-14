@@ -75,10 +75,14 @@ module.exports = {
       .fetch()
       .then((result) => {
         if (!result) {
-          return reject('corresponding space does not exist');
+          console.log('no space list found');
+          return resolve([]);
         }
         return resolve(result.attributes);
-      });
+      })
+      .catch((err) => {
+        return reject('failed to get space info from db');
+      })
     });
   },
 

@@ -63,7 +63,7 @@ app.post('/api/login/', (req, res) => {
   if (formIncomplete) {
     res.status(400).send('login form incomplete');
   } else {
-    auth.addNewToken(req.body)
+    auth.addNewToken(req)
     .then((result) => {
       res.set({
         Token: result.token,

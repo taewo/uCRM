@@ -17,11 +17,11 @@ module.exports = {
     .then((result) => {
       console.log('signup successfull!', result);
       const body = JSON.stringify(result);
-      res.json(body).sendStatus(200);
+      res.json(body);
     })
     .catch((err) => {
-      // console.log('err', err);
-      res.status(400).send(err);
+      console.log('signup admin failed', err)
+      res.sendStatus(400);
     }),
   },
 
