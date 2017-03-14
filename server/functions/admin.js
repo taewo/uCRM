@@ -54,22 +54,16 @@ module.exports = {
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
 
-        new Admin(accountDetail).save()
+        new Admin(accountDetail)
+        .save()
         .then((admin) => {
           delete admin.password;
           return resolve(admin);
         })
+        .catch((err) => {
+          return reject('failed to save new admin in db');
+        })
       });
-    })
-    .then((result) => {
-      return new Promise((resolve, reject) => {
-        result.spaceList = Space.getSpaceDetailByID(result.company_id);
-        console.log('final admin result', result);
-        return resolve(result);
-      });
-    })
-    .catch((err) => {
-      return reject('failed to add new admin');
     })
   },
 

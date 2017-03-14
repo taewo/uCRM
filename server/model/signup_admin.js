@@ -10,62 +10,58 @@ module.exports = {
         if (result) {
           return reject('company already exist');
         }
-        return resolve(body.companyname);
+        return resolve();
       })
-      .then((companyname) => {
-        console.log('company name? ', companyname)
-        return new Promise((resolve, reject) => {
-          console.log('body.userid', body.userid)
-          Admin.checkExistence(body.userid)
-          .then((result) => {
-            console.log('checkE', result)
-            if (result) {
-              return reject('id already taken');
-            }
-            return resolve(companyname);
-          });
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        console.log('body.userid', body.userid)
+        Admin.checkExistence(body.userid)
+        .then((result) => {
+          if (result) {
+            return reject('admin already exist');
+          }
+          return resolve();
         });
-      })
-      .then((companyname) => {
-        return new Promise((resolve, reject) => {
-          Staff.checkExistence(body.userid)
-          .then((result) => {
-            if (result) {
-              return reject('id already taken');
-            }
-            return resolve(companyname);
-          });
+      });
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        Staff.checkExistence(body.userid)
+        .then((result) => {
+          if (result) {
+            return reject('id already taken by staff');
+          }
+          return resolve();
         });
-      })
-      .then((companyname) => {
-        return new Promise((resolve, reject) => {
-          Company.addNewCompany(body.companyName)
-          .then((newCompany) => {
-            console.log('successfully added a new company', newCompany)
-            return resolve(newCompany.id);
-          })
-          .catch((err) => {
-            return reject(err);
-          })
+      });
+    })
+    .then(() => {
+      console.log('body', body)
+      return new Promise((resolve, reject) => {
+        Company.addNewCompany(body.companyname)
+        .then((newCompany) => {
+          console.log('successfully added a new company', newCompany.attributes)
+          return resolve(newCompany.attributes.id);
+        })
+        .catch((err) => {
+          return reject(err);
         })
       })
-      .then((companyid) => {
-        return new Promise((resolve, reject) => {
-          Admin.addNewAdmin(body, companyid)
-          .then((newAdmin) => {
-            console.log('promiseall newAdmin', newAdmin)
-            delete newAdmin.attributes.password;
-            newAdmin.attributes.type = 'comp';
-            return resolve(newAdmin.attributes);
-          })
-          .catch((err) => {
-            return reject(err);
-          });
+    })
+    .then((companyid) => {
+      console.log('companyid', companyid)
+      return new Promise((resolve, reject) => {
+        Admin.addNewAdmin(body, companyid)
+        .then((newAdmin) => {
+          delete newAdmin.attributes.password;
+          newAdmin.attributes.type = 'comp';
+          console.log('newAdmin', newAdmin.attributes)
+          return resolve(newAdmin.attributes);
+        })
+        .catch((err) => {
+          return reject(err);
         });
-      })
-      .catch((err) => {
-        console.log(err.stack);
-        return reject(err);
       });
     });
   },
