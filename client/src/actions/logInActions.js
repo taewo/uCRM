@@ -20,25 +20,30 @@ export const isLogIn = toggleLogedIn => ({
 export function logInConfirm () {
   return (dispatch, getState) => {
     const { userid, password } = getState().logInReducer;
-    // const API_URL = 'http://localhost:4000/api';
-    // return axios.post(`${API_URL}/login`, {
-    //   userid,
-    //   password,
-    // })
-    // .then((res) => {
-    //   console.log(res);
-      dispatch(isLogIn(true));
-      browserHistory.push('/admin/manage/dashboard')
-
-    //   const userData = JSON.parse(res.request.response);
-    //   localStorage.setItem('userData', JSON.stringify(userData));
-    //   const userDataLocal = JSON.parse(localStorage.getItem('userData'));
-      // const userType = userDataLocal.type;
-    //  userType === 'comp' ? browserHistory.push('/admin/manage/dashboard') : browserHistory.push('/staff');
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    //   dispatch(isLogIn(false));
-    // });
+    const API_URL = 'http://localhost:4000/api';
+    return axios.post(`${API_URL}/login`, {
+      userid,
+      password,
+    })
+    .then((res) => {
+      return new Promise((resolve, reject) => {
+        console.log(res);
+        dispatch(isLogIn(true));
+        const userType = res.data.type;
+        const userToken = res.data.token;
+        if (localStorage.getItem('userToken')) {
+          return reject('melon')
+        }
+        console.log(1,userType);
+        console.log(2,userToken);
+        localStorage.setItem('userType', userType);
+        localStorage.setItem('userToken', userToken);
+        return userType === 'comp' ? resolve(browserHistory.push('/admin/manage/dashboard')) : resolve(browserHistory.push('/staff'));
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(isLogIn(false));
+    });
   };
 }

@@ -8,7 +8,7 @@ BigCalendar.setLocalizer(
   BigCalendar.momentLocalizer(moment),
 );
 
-class AddRoom extends Component {
+class AddRoom extends Component {ls
   constructor(props) {
     super(props);
     this.state = {

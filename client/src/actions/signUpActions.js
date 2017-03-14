@@ -51,8 +51,8 @@ export function signUpSubmit() {
     })
     .then((res) => {
       console.log('res', res);
-      dispatch(isSignUp(true))
-      .reaplace('/home');
+      dispatch(isSignUp(true));
+      browserHistory.push('/');
     })
     .catch((err) => {
       dispatch(isSignUp(false));
