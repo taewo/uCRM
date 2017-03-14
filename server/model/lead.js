@@ -1,28 +1,46 @@
 const Lead = require('../functions/lead');
+const Token = require('../middleware/token');
 
 module.exports = {
   get: (req) => {
-    const currentUser = req.session.passport.user;
     return new Promise((resolve, reject) => {
-      if (currentUser.type === 'staff') {
-        return resolve(Lead.getLead(currentUser.space_id));
-      } else if (currentUser.type === 'comp') {
-        const container = []
-        if (currentUser.spaceList) {
-          currentUser.spaceList.forEach((space) => {
-            console.log(space)
-            container.push(Lead.getLead(space));
+      Token.getUserByToken(req.headers.token)
+      .then((user) => {
+        return resolve(user);
+      })
+      .catch((err) => {
+        return reject(err);
+      })
+    })
+    .then((user) => {
+      return new Promise((resolve, reject) => {
+        if (user.type === 'comp') {
+          const container = JSON.parse(user.space_list);
+          console.log('conatiner', container)
+          const leadContainer = container.map((space) => {
+            return Lead.getLead(space.id);
           });
-          console.log(container);
+
+          Promise.all(leadContainer)
+          .then((lead) => {
+            return resolve(lead);
+          })
+          .catch((err) => {
+            return reject(err);
+          });
+        } else if (user.type === 'staff') {
+          Lead.getLead(user.space_id)
+          .then((lead) => {
+            console.log('lead', lead);
+            return resolve(lead);
+          })
+          .catch((err) => {
+            return reject(err);
+          });
+        } else {
+          return reject('unahthorized');
         }
-        Promise.all(container)
-        .then((res) => {
-          console.log('cont',res)
-          return resolve(res);
-        });
-      } else {
-        return reject('unauthorized');
-      }
+      });
     });
   },
   post: (req) => {

@@ -132,8 +132,8 @@ module.exports = {
         max_desks: body.max_desks,
       })
       .save()
-      .then((result) => {
-        return resolve(result);
+      .then((newSpace) => {
+        return resolve(newSpace);
       })
     });
   },

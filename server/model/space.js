@@ -28,20 +28,16 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Token.getUserByToken(req.headers.token)
       .then((user) => {
-        if (user.type === 'comp') {
-          return resolve('comp')
-        } else if (user.type === 'staff') {
-          return resolve('staff');
-        }
+        return resolve(user);
       })
       .catch((err) => {
         return reject(err);
       });
     })
-    .then((result) => {
-      console.log('finally result', result);
+    .then((user) => {
+      console.log('finally user', user);
       return new Promise((resolve, reject) => {
-        if (result === 'comp') {
+        if (user.type === 'comp') {
           Space.checkDuplicateSpace(req.body)
           .then((flagIfSpaceExist) => {
             console.log('duplicate?', flagIfSpaceExist);
@@ -56,49 +52,11 @@ module.exports = {
                 return reject(err);
               });
             }
-          })
-        } else if (result === 'staff') {
+          });
+        } else if (user.type === 'staff') {
           return reject('staff is not authorized to create a new space');
         }
       });
-    })
-
-    if (user.type === 'comp') {
-      return new Promise((resolve, reject) => {
-        return resolve(Admin.checkExistence(user.userid))
-      })
-      .then((result) => {
-        return new Promise((resolve, reject) => {
-          if (!result) {
-            return reject('admin does not exist');
-          } else {
-            return resolve(Space.checkDuplicateSpace(user));
-          }
-        });
-      })
-      .then((isDuplicate) => {
-        return new Promise((resolve, reject) => {
-          if (isDuplicate) {
-            return reject('space already exist');
-          } else {
-            return resolve(Space.addNewSpace(req.body, user));
-          }
-        });
-      })
-      .then((result) => {
-        return new Promise((resolve, reject) => {
-          if (!result) {
-            return reject('space creation error');
-          }
-          return resolve(result);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        return Promise.reject(err);
-      });
-    } else {
-      return Promise.reject('unauthorized');
-    }
+    });
   },
 }
