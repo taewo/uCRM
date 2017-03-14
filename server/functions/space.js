@@ -99,7 +99,7 @@ module.exports = {
     });
   },
 
-  getAllSpacesById: (companyid) => {
+  getAllSpacesByCompanyId: (companyid) => {
     return new Promise((resolve, reject) => {
       Space
       .where({ company_id: companyid })

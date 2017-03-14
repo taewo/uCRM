@@ -163,9 +163,9 @@ module.exports = {
     .catch((err) => {
       console.log(err.stack);
       if (err === 'unauthorized') {
-        res.status(401).send(err);
+        res.send(err).status(401);
       }
-      res.status(400).send(err);
+      res.send(err).status(400);
     }),
     post:
     (req, res) => {
@@ -181,11 +181,11 @@ module.exports = {
         res.json(body);
       })
       .catch((err) => {
-        console.log(err.stack);
+        console.log(err);
         if (err === 'unauthorized') {
-          res.status(401).send(err);
+          res.send(err).status(401);
         }
-        res.status(400).send(err);
+        res.send(err).status(400);
       });
     },
   },

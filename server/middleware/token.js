@@ -26,7 +26,6 @@ module.exports = {
       .then((result) => {
         const now = new Date();
         const session = result.attributes.expiredat;
-        console.log('result', 'now', now, 'session', session, 'now-session', now - session)
         if (now - session > 0) {
           console.log('token expired');
           return reject('session(token) expired');
@@ -34,7 +33,6 @@ module.exports = {
           // updated token expiration date
           module.exports.extendExpiredAt(token)
           .then((extendedToken) => {
-            console.log('extendedToken', extendedToken)
             return resolve(extendedToken);
           })
           .catch((err) => {
@@ -82,7 +80,7 @@ module.exports = {
       .where({ token })
       .save({ expiredat: newExpiredAt }, { method: 'update' })
       .then((result) => {
-        return resolve(result.expiredat);
+        return resolve(result.attributes);
       })
       .catch((err) => {
         reject('extend expiration date failed');
@@ -158,7 +156,7 @@ module.exports = {
           if (result[1] === 'comp') {
             const companyid = result[0].company_id;
             storage.type = 'comp';
-            Space.getAllSpacesById(companyid)
+            Space.getAllSpacesByCompanyId(companyid)
             .then((spaceList) => {
               const JSONspaceList = spaceList.map((space) => {
                 return {

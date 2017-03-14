@@ -65,6 +65,7 @@ app.post('/api/login/', (req, res) => {
   } else {
     auth.addNewToken(req)
     .then((result) => {
+      delete result.expiredat;
       res.set({
         Token: result.token,
       })
@@ -80,7 +81,7 @@ app.post('/api/login/', (req, res) => {
 app.get('/api/logout', (req, res) => {
   auth.deleteToken(req.headers.token)
   .then((result) => {
-    res.status(500).send(result);
+    res.send('logged out!');
   })
   .catch((err) => {
     res.status(403).send(err);
