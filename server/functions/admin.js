@@ -54,6 +54,7 @@ module.exports = {
         adminInfo.password = hash;
         adminInfo.email = body.email;
         adminInfo.mobile = body.mobile;
+        adminInfo.space_list = '[]';
 
         console.log('admin info', adminInfo)
         new Admin(adminInfo)
