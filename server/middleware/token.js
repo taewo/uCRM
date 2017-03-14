@@ -23,7 +23,6 @@ module.exports = {
       Token.where({ token })
       .fetch()
       .then((result) => {
-        console.log('valid token found, you are good to go');
         return resolve(result)
       })
       .catch((err) => {
@@ -36,7 +35,19 @@ module.exports = {
       Token.where({ userid })
       .fetch()
       .then((result) => {
-        console.log('userid found', result.attributes)
+        return resolve(result.attributes);
+      })
+      .catch((err) => {
+        console.log(err);
+        return reject('invalid token');
+      })
+    });
+  },
+  getUserByToken: (token) => {
+    return new Promise((resolve, reject) => {
+      Token.where({ token })
+      .fetch()
+      .then((result) => {
         return resolve(result.attributes);
       })
       .catch((err) => {
@@ -50,7 +61,6 @@ module.exports = {
       Token.where({ token })
       .fetch()
       .then((user) => {
-        console.log('userid found', user)
         const newExpiredAt =  new Date().getTime() + time || (60 * 60 * 1000);
         new Token({ token })
         .save({ expiredat: newExpiredAt })
@@ -91,7 +101,6 @@ module.exports = {
         } else if (result[1]) {
           const staff = result[1];
           bcrypt.compare(password, staff.password, (err, res) => {
-            console.log(password, staff.password)
             if (err) {
               return reject('bcrypt compare error');
             }
@@ -114,10 +123,8 @@ module.exports = {
   },
   addNewToken: (req) => {
     return new Promise((resolve, reject) => {
-      console.log('token', req.headers.token)
       module.exports.checkUserHasToken(req.body.userid)
       .then((result) => {
-        console.log('user found in token db', result)
         return reject('already logged in!');
         // module.exports.extendExpiredAt(req.headers.token)
       })
@@ -132,7 +139,6 @@ module.exports = {
         .then((result) => {
           const storage = {};
           const tokenData = module.exports.generateTokenData();
-          console.log('tokendata', tokenData)
           storage.userid = req.body.userid;
           storage.token = tokenData.token;
           storage.expiredat = tokenData.expiredat;
@@ -152,7 +158,6 @@ module.exports = {
               new Token(storage)
               .save()
               .then((result) => {
-                console.log('result', result)
                 return resolve(result.attributes);
               })
               .catch((err) => {
@@ -171,7 +176,6 @@ module.exports = {
             new Token(storage)
             .save()
             .then((result) => {
-              console.log('new Token', result.attributes)
               return resolve(result.attributes);
             })
             .catch((err) => {

@@ -8,15 +8,15 @@ const auth = require('../middleware/token');
 require('../config/passport')(passport);
 
 router.use((req, res, next) => {
-  auth.checkToken(req.headers)
+  auth.checkToken(req.headers.token)
   .then((result) => {
     next();
   })
   .catch((err) => {
     if (err === 'invalid token') {
-      res.sendStatus(500).send(err)
+      res.send(err).status(500);
     }
-  })
+  });
 });
 
 
