@@ -1,18 +1,39 @@
 const Room = require('../db/room');
 
 module.exports = {
-  getRoom: (spaceid) => {
+  checkIfRoomExistByRoomName: (spaceId, roomName) => {
+    return new Promise((resolve, reject) => {
+      Room
+      .where({
+        space_id: spaceId,
+        name: roomName,
+      })
+      .fetch()
+      .then((result) => {
+        console.log('result', result)
+        if (result) {
+          return resolve(true);
+        } else {
+          return resolve(false);
+        }
+      })
+      .catch((err) => {
+        return resolve(false);
+      });
+    });
+  },
+
+  getRoomListBySpaceId: (spaceid) => {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
       .fetchAll()
       .then((result) => {
-        return resolve(result);
+        return resolve(result.toJSON());
       });
     });
   },
-  addNewRoom: (body, spaceid) => {
+  addNewRoom: (body) => {
     return new Promise((resolve, reject) => {
-      body.space_id = spaceid;
       new Room(body)
       .save()
       .then((result) => {
