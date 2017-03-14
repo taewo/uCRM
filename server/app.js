@@ -68,7 +68,7 @@ app.post('/api/login/', (req, res) => {
       res.set({
         Token: result.token,
       })
-      .send(result.token);
+      .send(result);
     })
     .catch((err) => {
       console.log(err)
