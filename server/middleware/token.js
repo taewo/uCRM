@@ -50,7 +50,12 @@ module.exports = {
       Token.where({ userid })
       .fetch()
       .then((result) => {
-        return resolve(result.attributes);
+        console.log('result checkUserHasToken', result)
+        if (result) {
+          return resolve(result.attributes);
+        } else {
+          return reject('invalid token-');
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -13,6 +13,7 @@ module.exports = {
       });
     });
   },
+
   post: (req) => {
     return new Promise((resolve, reject) => {
       console.log(req.body)
