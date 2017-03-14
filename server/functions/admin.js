@@ -34,7 +34,8 @@ module.exports = {
   },
   getCompanyId: (userid) => {
     return new Promise((resolve, reject) => {
-      Admin.where({ userid })
+      Admin
+      .where({ userid })
       .then((result) => {
         return resolve(result.company_id);
       })
@@ -46,18 +47,20 @@ module.exports = {
   addNewAdmin: (body, companyid) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
-        const accountDetail = {};
-        accountDetail.company_id = companyid;
-        accountDetail.userid = body.userid;
-        accountDetail.password = hash;
-        accountDetail.name = body.name;
-        accountDetail.mobile = body.mobile;
-        accountDetail.email = body.email;
-        accountDetail.space_list = [];
+        const adminInfo = {};
+        adminInfo.company_id = companyid;
+        adminInfo.name = body.name;
+        adminInfo.userid = body.userid;
+        adminInfo.password = hash;
+        adminInfo.email = body.email;
+        adminInfo.mobile = body.mobile;
+        adminInfo.space_list = '[]';
 
-        new Admin(accountDetail)
+        console.log('admin info', adminInfo)
+        new Admin(adminInfo)
         .save()
         .then((admin) => {
+          console.log('new admin added', admin)
           delete admin.password;
           return resolve(admin);
         })
