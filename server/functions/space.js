@@ -123,10 +123,10 @@ module.exports = {
     });
   },
 
-  addNewSpace: (body, user) => {
+  addNewSpace: (body) => {
     return new Promise((resolve, reject) => {
       return new Space({
-        company_id: user.company_id,
+        company_id: body.company_id,
         name: body.name,
         address: body.address,
         max_desks: body.max_desks,
@@ -138,17 +138,18 @@ module.exports = {
     });
   },
 
-  checkDuplicateSpace: (body, companyid) => {
+  checkDuplicateSpace: (body) => {
     return new Promise((resolve, reject) => {
-      company.checkCompanySpaceByID(companyid)
+      company.checkCompanySpaceByID(body.company_id)
       .then((result) => {
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {
-          console.log('space', space)
-          console.log('body', body)
           return space.name === body.name;
         });
         return resolve(flag);
+      })
+      .catch((err) => {
+        return reject(err);
       });
     });
   },
