@@ -1,6 +1,5 @@
 const Dashboard = require('../functions/dashboard');
 const Token = require('../middleware/token');
-const auth = require('../functions/auth');
 
 module.exports = {
   get: (req) => {
@@ -11,7 +10,7 @@ module.exports = {
           const spaceid = user.space_id;
           return resolve(Dashboard(spaceid));
         } else if (user.type === 'comp') {
-            return resolve(user);
+          return resolve(user);
         }
       })
       .catch((err) => {

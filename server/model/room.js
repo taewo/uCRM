@@ -2,27 +2,9 @@ const Room = require('../functions/room');
 
 module.exports = {
   get: (req) => {
-    const currentUser = req.session.passport.user;
-    return new Promise((resolve, reject) => {
-      if (currentUser.type === 'staff') {
-        return resolve(Room.getRoom(currentUser.space_id));
-      } else if (currentUser.type === 'comp') {
-        const container = []
-        if (currentUser.spaceList) {
-          currentUser.spaceList.forEach((space) => {
-            container.push(Room.getRoom(space));
-          });
-          console.log(container);
-        }
-        Promise.all(container)
-        .then((res) => {
-          return resolve(res);
-        });
-      } else {
-        return reject('unauthorized');
-      }
-    });
+    return Room.getRoom(req.query.space_id);
   },
+
   post: (req) => {
     return new Promise((resolve, reject) => {
       const currentUser = req.session.passport.user;

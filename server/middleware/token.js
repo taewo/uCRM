@@ -158,7 +158,7 @@ module.exports = {
           if (result[1] === 'comp') {
             const companyid = result[0].company_id;
             storage.type = 'comp';
-            Space.getAllSpacesById(companyid)
+            Space.getAllSpacesByCompanyId(companyid)
             .then((spaceList) => {
               const JSONspaceList = spaceList.map((space) => {
                 return {
