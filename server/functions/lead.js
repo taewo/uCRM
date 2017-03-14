@@ -7,19 +7,15 @@ module.exports = {
       Lead
       .where({ space_id: spaceid })
       .fetchAll()
-      .then((result) => {
-        return resolve(result);
-      })
+      .then(result => (resolve(result)));
     });
   },
-  addNewLead: (body, spaceid) => {
+  addNewLead: (body) => {
     return new Promise((resolve, reject) => {
-      body.space_id = spaceid;
+      // body.space_id = spaceid;
       new Lead(body)
       .save()
-      .then((result) => {
-        return resolve(result);
-      });
+      .then(result => (resolve(result)));
     });
   },
 };
