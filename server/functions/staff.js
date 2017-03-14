@@ -40,7 +40,7 @@ module.exports = {
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
         accountDetail.is_approved = false;
-        accountDetail.joined_date = moment().format('YYYY-MM-DD');
+        accountDetail.joined_date = body.joined_date;
 
         new Staff(accountDetail)
         .save()

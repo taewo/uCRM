@@ -53,6 +53,7 @@ module.exports = {
         accountDetail.name = body.name;
         accountDetail.mobile = body.mobile;
         accountDetail.email = body.email;
+        accountDetail.space_list = [];
 
         new Admin(accountDetail)
         .save()

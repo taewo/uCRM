@@ -8,20 +8,22 @@ const bcrypt = require('bcrypt');
 module.exports = {
   generateTokenData: () => {
     const token = uuid();
-    const expiredat = new Date().getTime() + (60 * 60 * 1000);
+    console.log('new Data', new Date(), 'newDAte.getTime', new Date().getTime())
+    const expiredat = new Date().getTime() + (30 * 60 * 1000);
+    // const expiredat = new Date();
+    console.log('expiredat', expiredat)
     const tokenData = {
       token,
       expiredat,
     };
     return tokenData;
   },
-  checkToken: (headers) => {
+  checkToken: (token) => {
     return new Promise((resolve, reject) => {
-      Token.where({ token: headers.token })
+      Token.where({ token })
       .fetch()
       .then((result) => {
         console.log('valid token found, you are good to go');
-        // this.extendExpiredAt(headers.token);
         return resolve(result)
       })
       .catch((err) => {
@@ -29,9 +31,9 @@ module.exports = {
       });
     });
   },
-  getUserId: (token) => {
+  checkUserHasToken: (userid) => {
     return new Promise((resolve, reject) => {
-      Token.where({ token })
+      Token.where({ userid })
       .fetch()
       .then((result) => {
         console.log('userid found', result.attributes)
@@ -110,62 +112,79 @@ module.exports = {
       })
     });
   },
-  addNewToken: (body) => {
+  addNewToken: (req) => {
     return new Promise((resolve, reject) => {
-      module.exports.checkIdPassword(body.userid, body.password)
+      console.log('token', req.headers.token)
+      module.exports.checkUserHasToken(req.body.userid)
       .then((result) => {
-        const storage = {};
-        const tokenData = module.exports.generateTokenData();
-        storage.userid = body.userid;
-        storage.token = tokenData.token;
-        storage.expiredat = tokenData.expiredat;
+        console.log('user found in token db', result)
+        return reject('already logged in!');
+        // module.exports.extendExpiredAt(req.headers.token)
+      })
+      .catch((err) => {
+        console.log('no token found err');
+        return resolve();
+      })
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        module.exports.checkIdPassword(req.body.userid, req.body.password)
+        .then((result) => {
+          const storage = {};
+          const tokenData = module.exports.generateTokenData();
+          console.log('tokendata', tokenData)
+          storage.userid = req.body.userid;
+          storage.token = tokenData.token;
+          storage.expiredat = tokenData.expiredat;
 
-        if (result[1] === 'comp') {
-          const companyid = result[0].company_id;
-          storage.type = 'comp';
-          Space.getAllSpacesById(companyid)
-          .then((spaceList) => {
-            const JSONspaceList = spaceList.map((space) => {
-              return {
-                id: space.id,
-                name: space.name,
-              };
+          if (result[1] === 'comp') {
+            const companyid = result[0].company_id;
+            storage.type = 'comp';
+            Space.getAllSpacesById(companyid)
+            .then((spaceList) => {
+              const JSONspaceList = spaceList.map((space) => {
+                return {
+                  id: space.id,
+                  name: space.name,
+                };
+              });
+              storage.space_list = JSON.stringify(JSONspaceList);
+              new Token(storage)
+              .save()
+              .then((result) => {
+                console.log('result', result)
+                return resolve(result.attributes);
+              })
+              .catch((err) => {
+                console.log(err)
+                return reject('failed to save new token for admin');
+              });
+            })
+            .catch((err) => {
+              return reject(err);
             });
-            storage.space_list = JSON.stringify(JSONspaceList);
+          } else if (result[1] === 'staff') {
+            const spaceid = result[0].space_id;
+            storage.type = 'staff';
+            storage.space_id = spaceid;
+
             new Token(storage)
             .save()
             .then((result) => {
+              console.log('new Token', result.attributes)
               return resolve(result.attributes);
             })
             .catch((err) => {
-              console.log(err)
-              return reject('failed to save new token for admin');
+              return reject('saving new token data failed for staff');
             });
-          })
-          .catch((err) => {
-            return reject(err);
-          });
-        } else if (result[1] === 'staff') {
-          const spaceid = result[0].space_id;
-          storage.type = 'staff';
-          storage.space_id = spaceid;
-
-          new Token(storage)
-          .save()
-          .then((result) => {
-            console.log('new Token', result.attributes)
-            return resolve(result.attributes);
-          })
-          .catch((err) => {
-            return reject('saving new token data failed for staff');
-          });
-        } else {
-          return reject('unahthorized user tried to add token');
-        }
-      })
-      .catch((err) => {
-        return reject(err);
-      })
+          } else {
+            return reject('unahthorized user tried to add token');
+          }
+        })
+        .catch((err) => {
+          return reject(err);
+        });
+      });
     });
   },
 
