@@ -21,7 +21,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log('signup admin failed', err)
-      res.sendStatus(400);
+      res.send(err).status(400);
     }),
   },
 
