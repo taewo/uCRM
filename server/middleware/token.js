@@ -125,8 +125,13 @@ module.exports = {
           storage.type = 'comp';
           Space.getAllSpacesById(companyid)
           .then((spaceList) => {
-            const JSONspaceList = spaceList.map(space => space.id);
-            storage.space_list = JSONspaceList.toJSON();
+            const JSONspaceList = spaceList.map((space) => {
+              return {
+                id: space.id,
+                name: space.name,
+              };
+            });
+            storage.space_list = JSON.stringify(JSONspaceList);
             new Token(storage)
             .save()
             .then((result) => {

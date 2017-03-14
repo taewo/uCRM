@@ -1,19 +1,13 @@
 const express = require('express');
-const session = require('express-session');
 const path = require('path');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
 const index = require('./routes/index');
 const controller = require('./controller/index');
 const auth = require('./middleware/token');
 
 const app = express();
-
-// require('./config/passport')(passport);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -23,48 +17,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-// app.use(cookieParser());
-
-//
-// app.use(session({
-//   secret: 'uajwlekfjaslfjlsajlj23r23er',
-//   resave: true,
-//   saveUninitialized: false,
-// }));
 
 // specify the folder where user can access static files
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// middleware example
-// var myLogger = function (req, res, next) {
-//   console.log('LOGGED')
-//   next()
-// }
-// use web token auth middleware
-
-
-
-// app.post('/api/signup/admin/',(req, res, next) => {
-//   const formIncomplete = !req.body.companyname || !req.body.userid || !req.body.name || !req.body.mobile || !req.body.password || !req.body.email
-//   if (formIncomplete) {
-//     res.status(400).send('admin form incomplete');
-//   }
-//   passport.authenticate('admin', (err, account) => {
-//     req.logIn(account, () => {
-//       res.status(err ? 400 : 200).send(err ? err : account);
-//     });
-//   })(req, res, next);
-// });
 app.post('/api/signup/admin/', (req, res) => {
   console.log('req.body', req.body);
   const formIncomplete = !req.body.companyname
     || !req.body.userid
+    || !req.body.password
     || !req.body.name
     || !req.body.mobile
-    || !req.body.password
     || !req.body.email;
 
   if (formIncomplete) {
@@ -83,9 +46,9 @@ app.get('/api/signup/staff', (req, res) => {
 
 app.post('/api/signup/staff/', (req, res) => {
   const formIncomplete = !req.body.userid
+  || !req.body.password
     || !req.body.name
     || !req.body.mobile
-    || !req.body.password
     || !req.body.email;
 
   if (formIncomplete) {
@@ -95,17 +58,6 @@ app.post('/api/signup/staff/', (req, res) => {
   controller.signup_staff.post(req, res);
 });
 
-// app.post('/api/login/', (req, res, next) => {
-//   const formIncomplete = !req.body.userid || !req.body.password
-//   if (formIncomplete) {
-//     res.status(400).send('login form incomplete');
-//   }
-//   passport.authenticate('login', (err, account) => {
-//     req.logIn(account, () => {
-//       res.status(err ? 400 : 200).send(err ? err : account);
-//     });
-//   })(req, res, next);
-// })
 app.post('/api/login/', (req, res) => {
   const formIncomplete = !req.body.userid || !req.body.password;
   if (formIncomplete) {
