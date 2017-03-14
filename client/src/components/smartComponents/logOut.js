@@ -10,13 +10,13 @@ class LogOut extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  logout() {
-    const instance = {
-      headers: {
-        token: localStorage.getItem('userToken'),
-      },
-    }
-    axios.get(`${API_URL}/logout`,
+    logout() {
+      const instance = {
+        headers: {
+          token: localStorage.getItem('userToken'),
+        },
+      };
+      axios.get(`${API_URL}/logout`,
        instance,
      )
     .then((res) => {
@@ -27,7 +27,7 @@ class LogOut extends Component {
     .catch((err) => {
       console.log(err);
     });
-  }
+    }
 
   render() {
     return (

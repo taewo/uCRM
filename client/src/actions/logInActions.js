@@ -17,7 +17,7 @@ export const isLogIn = toggleLogedIn => ({
   toggleLogedIn,
 });
 
-export function logInConfirm () {
+export function logInConfirm() {
   return (dispatch, getState) => {
     const { userid, password } = getState().logInReducer;
     const API_URL = 'http://localhost:4000/api';
@@ -31,14 +31,18 @@ export function logInConfirm () {
         dispatch(isLogIn(true));
         const userType = res.data.type;
         const userToken = res.data.token;
+        const userSpaceList = res.data.space_list;
+        const userSpaceListChecker = userSpaceList.length;
+        console.log(userSpaceListChecker);
         if (localStorage.getItem('userToken')) {
-          return reject('melon')
+          return reject('alredy logIn')
         }
-        console.log(1,userType);
-        console.log(2,userToken);
+
         localStorage.setItem('userType', userType);
         localStorage.setItem('userToken', userToken);
-        return userType === 'comp' ? resolve(browserHistory.push('/admin/manage/dashboard')) : resolve(browserHistory.push('/staff'));
+        return (userType === 'comp' && userSpaceListChecker === 2) ?
+        resolve(browserHistory.push('/space'))
+        : resolve(browserHistory.push('/admin/manage/dashboard'));
       });
     })
     .catch((err) => {
