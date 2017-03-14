@@ -13,6 +13,8 @@ module.exports = {
   addNewLead: (body) => {
     return new Promise((resolve, reject) => {
       // body.space_id = spaceid;
+      body.conversion = 0;
+
       new Lead(body)
       .save()
       .then(result => (resolve(result)));
