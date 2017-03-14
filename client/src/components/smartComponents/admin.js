@@ -1,16 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import SidebarManage from '../dummyComponents/onAdmin/sidebarManage';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
+import { tokenChecker } from '../../config';
 
 class Admin extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    tokenChecker();
   }
+
   render() {
     return (
       <div className="Admin">
@@ -20,7 +17,6 @@ class Admin extends Component {
     );
   }
 }
-Admin.propTypes = propTypes;
-Admin.defaultProps = defaultProps;
+
 
 export default Admin;

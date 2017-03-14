@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ButtonSignUp from '../dummyComponents/onHeader/buttonSignUp';
 import ButtonLogIn from '../dummyComponents/onHeader/buttonLogIn';
+import LogOut from './logOut';
 import styles from '../../../public/style.css';
 
 const propTypes = {
@@ -19,6 +20,7 @@ class Header extends Component {
         Header
         <ButtonSignUp />
         <ButtonLogIn />
+        <LogOut />
         {this.props.children}
       </div>
     );
