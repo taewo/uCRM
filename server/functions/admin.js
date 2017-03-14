@@ -54,13 +54,13 @@ module.exports = {
         adminInfo.password = hash;
         adminInfo.email = body.email;
         adminInfo.mobile = body.mobile;
-        adminInfo.space_list = '[]';
 
         console.log('admin info', adminInfo)
         new Admin(adminInfo)
         .save()
         .then((admin) => {
           console.log('new admin added', admin)
+          adminInfo.space_list = [];
           delete admin.password;
           return resolve(admin);
         })
