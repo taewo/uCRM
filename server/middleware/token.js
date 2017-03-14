@@ -9,7 +9,8 @@ module.exports = {
   generateTokenData: () => {
     const token = uuid();
     console.log('new Data', new Date(), 'newDAte.getTime', new Date().getTime())
-    const expiredat = new Date().getTime() + (30 * 60 * 1000);
+    const expiredat = new Date();
+    expiredat.setTime(expiredat.getTime() + (30 * 60 * 1000));
     // const expiredat = new Date();
     console.log('expiredat', expiredat)
     const tokenData = {
@@ -23,7 +24,23 @@ module.exports = {
       Token.where({ token })
       .fetch()
       .then((result) => {
-        return resolve(result)
+        const now = new Date();
+        const session = result.attributes.expiredat;
+        console.log('result', 'now', now, 'session', session, 'now-session', now - session)
+        if (now - session > 0) {
+          console.log('token expired');
+          return reject('session(token) expired');
+        } else {
+          // updated token expiration date
+          module.exports.extendExpiredAt(token)
+          .then((extendedToken) => {
+            console.log('extendedToken', extendedToken)
+            return resolve(extendedToken);
+          })
+          .catch((err) => {
+            return reject(err);
+          });
+        }
       })
       .catch((err) => {
         return reject('invalid token');
@@ -56,25 +73,20 @@ module.exports = {
       })
     });
   },
-  extendExpiredAt: (token, time) => {
+  extendExpiredAt: (token) => {
     return new Promise((resolve, reject) => {
-      Token.where({ token })
-      .fetch()
-      .then((user) => {
-        const newExpiredAt =  new Date().getTime() + time || (60 * 60 * 1000);
-        new Token({ token })
-        .save({ expiredat: newExpiredAt })
-        .then((result) => {
-          return resolve(result.expiredat);
-        })
-        .catch((err) => {
-          reject('extend expiration date failed');
-        });
+      const newExpiredAt =  new Date();
+      newExpiredAt.setTime(newExpiredAt.getTime() + (30 * 60 * 1000));
+
+      Token
+      .where({ token })
+      .save({ expiredat: newExpiredAt }, { method: 'update' })
+      .then((result) => {
+        return resolve(result.expiredat);
       })
       .catch((err) => {
-        console.log(err);
-        return reject('invalid token');
-      })
+        reject('extend expiration date failed');
+      });
     });
   },
   checkIdPassword: (userid, password) => {

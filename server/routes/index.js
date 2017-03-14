@@ -10,12 +10,11 @@ require('../config/passport')(passport);
 router.use((req, res, next) => {
   auth.checkToken(req.headers.token)
   .then((result) => {
+    console.log('checktoken result', result)
     next();
   })
   .catch((err) => {
-    if (err === 'invalid token') {
-      res.send(err).status(500);
-    }
+    res.send(err).status(500)
   });
 });
 
