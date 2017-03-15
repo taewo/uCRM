@@ -1,7 +1,6 @@
 import axios from 'axios';
 // import { browserHistory } from 'react-router';
 import * as types from './types';
-import data from '../../data.json';
 
 export const dashboardAllMember = allMember => ({
   type: types.DASHBOARD_ALLMEMBER_SHOW,
@@ -38,25 +37,26 @@ export function dashboardShow() {
         token: localStorage.getItem('userToken'),
       },
     };
-    return axios.get(`${API_URL}/dashboard`, {
-      instance,
+    return axios({
+      method: 'get',
+      url: `${API_URL}/dashboard`,
+      param: localStorage.getItem('userSpaceListId'),
+      headers: instance.headers,
     })
     .then((res) => {
       console.log(res);
-    });
-
-
-    // function Dashboard Current Member
-    // const dataMemberList = data.memberList;
-    // let countCurrentMember = 0;
-    // for (let i = 0; i < dataMemberList.length; i += 1) {
-    //   if (dataMemberList[i].end_date === null) {
-    //     countCurrentMember += 1;
+    //   const dataMemberList = data.memberList;
+    //   let countCurrentMember = 0;
+    //   for (let i = 0; i < dataMemberList.length; i += 1) {
+    //     if (dataMemberList[i].end_date === null) {
+    //       countCurrentMember += 1;
+    //     }
     //   }
-    // }
-    // dispatch(dashboardAllMember(data.memberList.length));
-    // dispatch(dashboardCurrentMember(countCurrentMember));
-    // dispatch(dashboardLatestActivity(data.latestActivity));
-    // dispatch(dashboarRoomReservation(data.reservedList));
+    //   dispatch(dashboardAllMember(data.memberList.length));
+    //   dispatch(dashboardCurrentMember(countCurrentMember));
+    //   dispatch(dashboardLatestActivity(data.latestActivity));
+    //   dispatch(dashboarRoomReservation(data.reservedList));
+    // });
+    });
   };
 }

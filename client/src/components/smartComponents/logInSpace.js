@@ -7,7 +7,23 @@ import { tokenChecker, API_URL } from '../../config';
 
 const renderMembers = ({ fields }) => (
   <ul>
-    <button type="button" onClick={() => fields.push()}>
+    <button type="button" onClick={() => {
+      const instance = {
+        headers: {
+          token: localStorage.getItem('userToken'),
+        },
+      };
+      fields.push();
+      axios({
+        method: 'get',
+        url: `${API_URL}/space`,
+        headers: instance.headers,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+    }}
+    >
       Add Information</button>
     {fields.map((space, index) =>
       <li key={index}>
@@ -61,15 +77,17 @@ class LogInSpace extends Component {
     };
     const data = Object.assign({}, e);
     const spaceData = data.space;
-    axios.post(`${API_URL}/space`, {
-      instance,
-    },
-    )
+
+    axios({
+      method: 'post',
+      url: `${API_URL}/space`,
+      headers: instance.headers,
+      data: spaceData,
+    })
     .then((res) => {
       console.log('res', res);
       // browserHistory.push('/admin')
     })
-
   }
 
   render() {
