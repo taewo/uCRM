@@ -20,4 +20,39 @@ module.exports = {
       .then(result => (resolve(result)));
     });
   },
+  toggleConvertedLead: (spaceid, email) => {
+    return new Promise((resolve, reject) => {
+      Lead
+      .where({
+        space_id: spaceid,
+        email: email,
+      })
+      .fetchAll()
+      .then((result) => {
+        const list = result.toJSON();
+        let latestLeadId;
+        const latestVisitDate = list[0].date;
+        list.forEach((lead) => {
+          if (latestVisitDate < lead.date) {
+            latestLeadId = lead.id;
+          }
+        });
+        return resolve(latestLeadId);
+      })
+      .catch((err) => {
+        return reject(err);
+      });
+    })
+    .then((latestLeadId) => {
+      return new Promise((resolve, reject) => {
+        new Lead({ id: latestLeadId })
+        .save({ conversion: 1 }, {patch: true})
+        .then((lead) => {
+          console.log('converted lead info', lead.toJSON());
+          return resolve();
+        })
+        .catch(err => reject('failed to toggle lead conversion flag'));
+      });
+    })
+  },
 };
