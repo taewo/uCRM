@@ -4,7 +4,8 @@ import { Field, reduxForm } from 'redux-form';
 // import 'react-infinite-calendar/styles.css'; // Make sure to import the default stylesheet
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-const  { DOM: { input, select, textarea } } = React
+
+const { DOM: { input, select, textarea } } = React
 
 function sundays(day) {
   return day.getDay() === 0;
@@ -16,7 +17,7 @@ class AddMembers extends Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.submitData = this.submitData.bind(this);
     this.state = {
-      selectedDay : new Date(),
+      selectedDay: new Date(),
     };
   }
   handleDayClick(day, { disabled, selected }) {
