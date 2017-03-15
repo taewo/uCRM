@@ -22,7 +22,7 @@ module.exports = {
       .fetch()
       .then((result) => {
         if (result) {
-          return reject('member already exist 1');
+          return reject('member already exist');
         } else {
           return resolve(true);
         }
@@ -31,12 +31,11 @@ module.exports = {
   },
   checkExistingMemberByMobile: (mobile) => {
     return new Promise((resolve, reject) => {
-      console.log('mobile', mobile)
       Member.where({ mobile })
       .fetch()
       .then((result) => {
         if (result) {
-          return reject('member already exist 2');
+          return reject('member already exist');
         } else {
           return resolve(true);
         }
@@ -47,6 +46,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       console.log('body', body, 'spaceid', spaceid)
       body.space_id = spaceid;
+      body.isactive = 1;
       new Member(body)
       .save()
       .then((result) => {

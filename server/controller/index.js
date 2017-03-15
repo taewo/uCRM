@@ -204,7 +204,14 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.space_id || !req.body.isactive || !req.body.name || !req.body.email || !req.body.mobile || !req.body.joined_date);
+        const dataIncomplete = (
+          !req.body.space_id
+          // || !req.body.isactive
+          || !req.body.name
+          || !req.body.email
+          || !req.body.mobile
+          || !req.body.joined_date
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
