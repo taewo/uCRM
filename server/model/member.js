@@ -22,7 +22,7 @@ module.exports = {
       const ifMemberExistByMobile = Member.checkExistingMemberByMobile(req.body.mobile);
       Promise.all([ifMemberExistByEmail, ifMemberExistByMobile])
       .then((check) => {
-        console.log('check',check);
+        console.log('check', check);
         if (check[0] && check[1]) {
           Member.addNewMember(req.body, req.body.space_id)
           .then((newMember) => {
