@@ -4,7 +4,6 @@ const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const Token = require('../middleware/token');
 const company = require('../functions/company');
 
 module.exports = {
@@ -126,6 +125,7 @@ module.exports = {
 
   getAllSpacesByCompanyId: (companyid) => {
     return new Promise((resolve, reject) => {
+      console.log('here')
       Space
       .where({ company_id: companyid })
       .fetchAll()
