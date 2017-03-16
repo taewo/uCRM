@@ -7,7 +7,7 @@ class AddLead extends Component {
   constructor(props){
     super(props);
     this.state = {
-      today: new Date(),
+      today: new Date().toISOString().substring(0, 10),
     }
     this.submitData = this.submitData.bind(this);
   }
@@ -17,26 +17,44 @@ class AddLead extends Component {
   }
 
   submitData(e) {
-    const date = JSON.stringify(this.state.today)
+    const addDate = this.state.today;
     const data = e;
-    data.date = date
-    console.log(111,data);
+    data.date = addDate;
+    data.space_id = 5;
+    console.log(111, data);
     const instance = {
       headers: {
         token: localStorage.getItem('userToken'),
       },
     };
+  //   "space_id": 13,
+  // "date": "2017-01-01",
+  // "name": "ygdb",
+  // "email": "yg@gmail.com",
+  // "mobile": "010-0000-0000",
+  // "note": "this customer is ugly",
+  // "type": "email"
     axios({
       method: 'post',
       url: `${API_URL}/lead`,
-      headers: instance.headers
+      req:
+      date: data.date,
+      space_id: data.space_id,
+      name: data.name,
+      email: data.email,
+      mobile: data.mobile,
+      note: data.note,
+      type: data.type,
+      headers: instance.headers,
     })
     .then((res) => {
-      console.log('res',res)
+      console.log(11);
+      console.log('res', res);
     })
     .catch((err) => {
-      console.log('err',err);
-    })
+      console.log(222);
+      console.log('err', err);
+    });
   }
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props
