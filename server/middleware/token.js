@@ -140,11 +140,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       module.exports.checkUserHasToken(req.body.userid)
       .then((result) => {
-        return reject('already logged in!');
-        // module.exports.extendExpiredAt(req.headers.token)
+        return reject('you are already logged in.');
       })
       .catch((err) => {
-        console.log('no token found err');
+        console.log('no token found. continue to log in');
         return resolve();
       })
     })
@@ -161,6 +160,8 @@ module.exports = {
           if (result[1] === 'comp') {
             const companyid = result[0].company_id;
             storage.type = 'comp';
+            console.log('companyid', companyid)
+            // console.log('function', Space.getAllSpacesByCompanyId);
             Space.getAllSpacesByCompanyId(companyid)
             .then((spaceList) => {
               const JSONspaceList = spaceList.map((space) => {

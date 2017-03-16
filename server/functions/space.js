@@ -24,6 +24,30 @@ module.exports = {
     });
   },
 
+  checkIfUserHasSpace: (user, spaceid) => {
+      return new Promise((resolve, reject) => {
+        if (user.type === 'comp') {
+          const flag = JSON.parse(user.space_list).some((space) => {
+            return space.id === JSON.parse(spaceid);
+          });
+          console.log('flag', flag);
+          if (flag) {
+            return resolve(true);
+          } else {
+            return resolve(false);
+          }
+        } else if (user.type === 'staff') {
+          if (user.space_id === spaceid) {
+            return resolve(true);
+          } else {
+            return resolve(false);
+          }
+        } else {
+          return reject('unahthorized user');
+        }
+      });
+  },
+
   getReservedList: (spaceid) => {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
@@ -101,6 +125,7 @@ module.exports = {
 
   getAllSpacesByCompanyId: (companyid) => {
     return new Promise((resolve, reject) => {
+      console.log('here')
       Space
       .where({ company_id: companyid })
       .fetchAll()

@@ -1,4 +1,5 @@
 const Member = require('../functions/member');
+const Lead = require('../functions/lead');
 
 module.exports = {
   get: (req) => {
@@ -21,11 +22,11 @@ module.exports = {
       const ifMemberExistByMobile = Member.checkExistingMemberByMobile(req.body.mobile);
       Promise.all([ifMemberExistByEmail, ifMemberExistByMobile])
       .then((check) => {
-        console.log(check);
+        console.log('check', check);
         if (check[0] && check[1]) {
           Member.addNewMember(req.body, req.body.space_id)
-          .then((result) => {
-            return resolve(result);
+          .then((newMember) => {
+            return resolve(newMember);
           });
         }
         else {
@@ -34,6 +35,17 @@ module.exports = {
       })
       .catch((err) => {
         return reject(err);
+      });
+    })
+    .then((newMember) => {
+      return new Promise((resolve, reject) => {
+        Lead.toggleConvertedLead(req.body.space_id, req.body.email)
+        .then(() => {
+          return resolve(newMember);
+        })
+        .catch((err) => {
+          return reject(err)
+        })
       });
     })
   },

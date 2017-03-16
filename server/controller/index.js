@@ -133,7 +133,13 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.date || !req.body.email || !req.body.type || !req.body.space_id);
+        const dataIncomplete = (
+          !req.body.date
+          || !req.body.space_id
+          || !req.body.email
+          || !req.body.type
+          || !req.body.name
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
@@ -170,7 +176,12 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.name || !req.body.cost || !req.body.max_size || !req.body.space_id);
+        const dataIncomplete = (
+          !req.body.name
+          || !req.body.cost
+          || !req.body.max_size
+          || !req.body.space_id
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
@@ -204,7 +215,13 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.space_id || !req.body.isactive || !req.body.name || !req.body.email || !req.body.mobile || !req.body.joined_date);
+        const dataIncomplete = (
+          !req.body.space_id
+          || !req.body.name
+          || !req.body.email
+          || !req.body.mobile
+          || !req.body.joined_date
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
@@ -235,7 +252,14 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.room_id || !req.body.date || !req.body.start_time || !req.body.end_time || !req.body.duration || !req.body.ispaid);
+        const dataIncomplete = (
+          !req.body.room_id
+          || !req.body.date
+          || !req.body.start_time
+          || !req.body.end_time
+          || !req.body.duration
+          || !req.body.ispaid
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
@@ -267,7 +291,13 @@ module.exports = {
     post:
     (req, res) => {
       return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.space_id || !req.body.name || !req.body.cost || !req.body.duration || req.body.isdaily === undefined);
+        const dataIncomplete = (
+          !req.body.space_id
+          || !req.body.name
+          || !req.body.cost
+          || !req.body.duration
+          || req.body.isdaily === undefined
+        );
         if (dataIncomplete) {
           return reject('post data incomplete');
         }
