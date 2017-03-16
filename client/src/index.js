@@ -42,6 +42,10 @@ const App = () => (
               <IndexRoute component={smartComponents.Room} />
               <Route path="add" component={smartComponents.AddRoom} />
             </Route>
+            <Route path="lead">
+              <IndexRoute component={smartComponents.Lead} />
+              <Route path="add" component={smartComponents.AddLead} />
+            </Route>
           </Route>
         </Route>
       </Route>

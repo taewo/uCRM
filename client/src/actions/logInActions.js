@@ -19,6 +19,7 @@ export const isLogIn = toggleLogedIn => ({
 
 export function logInConfirm() {
   return (dispatch, getState) => {
+    console.log(111)
     const { userid, password } = getState().logInReducer;
     const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/login`, {
@@ -26,8 +27,9 @@ export function logInConfirm() {
       password,
     })
     .then((res) => {
+      console.log(2222)
       return new Promise((resolve, reject) => {
-        console.log(res.data);
+        console.log('res',res.data);
         dispatch(isLogIn(true));
         const userType = res.data.type;
         const userToken = res.data.token;
