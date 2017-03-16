@@ -177,15 +177,15 @@ module.exports = {
             return resolve(tokenData);
           })
         } else {
-          console.log('lets save token, this has to be false', token)
+          console.log('lets save token, this has to be false', tokenData)
           Auth.getUser(req.body.userid)
           .then((user) => {
             console.log('user for token generation', user)
             const storage = {};
-            const tokenData = module.exports.generateTokenData();
+            const newToken = module.exports.generateTokenData();
             storage.userid = req.body.userid;
-            storage.token = tokenData.token;
-            storage.expiredat = tokenData.expiredat;
+            storage.token = newToken.token;
+            storage.expiredat = newToken.expiredat;
 
             if (user.type === 'comp') {
               const companyid = user.company_id;
