@@ -15,3 +15,6 @@ export { default as AddRoom } from './addRoom';
 export { default as LogInSpace } from './logInSpace';
 export { default as Lead } from './lead';
 export { default as AddLead } from './addLead';
+export { default as Report } from './report';
+export { default as ChurnPage } from './churnpage';
+export { default as ChurnReport } from './churnreport';

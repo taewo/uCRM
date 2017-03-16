@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SidebarManage from '../dummyComponents/onAdmin/sidebarManage';
+import SidebarReport from '../dummyComponents/onAdmin/sidebarReport';
 import { tokenChecker } from '../../config';
 
 class Admin extends Component {
@@ -12,6 +13,7 @@ class Admin extends Component {
     return (
       <div className="Admin">
         <SidebarManage />
+        <SidebarReport />
         {this.props.children}
       </div>
     );
