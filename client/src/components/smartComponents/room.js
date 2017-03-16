@@ -7,7 +7,7 @@ class Room extends Component {
 
   constructor(props) {
     super(props);
-    this.getRoom = this.getRoom.bind(this);
+    // this.getRoom = this.getRoom.bind(this);
   }
 
   // getRoom() {
