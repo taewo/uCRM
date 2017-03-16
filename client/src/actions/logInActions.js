@@ -29,18 +29,16 @@ export function logInConfirm() {
       return new Promise((resolve, reject) => {
         console.log(res.data);
         dispatch(isLogIn(true));
+
         const userType = res.data.type;
         const userToken = res.data.token;
-        const userSpaceList = [];
-        userSpaceList.push(res.data.space_list);
-        userSpaceList.slice(1, userSpaceList.length-1);
-        console.log(typeof userSpaceList);
-        const userSpaceListId = userSpaceList[0];
-        console.log(userSpaceListId);
+
+        const userSpaceList = JSON.parse(res.data.space_list);
+        const userSpaceListId = userSpaceList[0].id
         const userSpaceListChecker = userSpaceList.length;
-        console.log(userSpaceListChecker);
+
         if (localStorage.getItem('userToken')) {
-          return reject('alredy logIn')
+          return reject('alredy logIn');
         }
 
         localStorage.setItem('userType', userType);
