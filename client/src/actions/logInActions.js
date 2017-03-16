@@ -26,28 +26,34 @@ export function logInConfirm() {
       password,
     })
     .then((res) => {
-      console.log(2222)
       return new Promise((resolve, reject) => {
-        console.log('res',res.data);
         dispatch(isLogIn(true));
 
         const userType = res.data.type;
         const userToken = res.data.token;
 
-        const userSpaceList = JSON.parse(res.data.space_list);
-        const userSpaceListId = userSpaceList[0].id
-        const userSpaceListChecker = userSpaceList.length;
+        if (res.data.space_list.length === 2) {
+          if (localStorage.getItem('userToken')) {
+            return reject('alredy logIn');
+          }
+          localStorage.setItem('userToken', userToken);
+          return resolve(browserHistory.push('/space'))
 
-        if (localStorage.getItem('userToken')) {
-          return reject('alredy logIn');
+        } else {
+          console.log(res.data.space_list);
+          const userSpaceListJson = JSON.parse(res.data.space_list);
+          const userSpaceListId = userSpaceListJson[0].id;
+          const userSpaceList = res.data.space_list;
+          console.log(userSpaceList);
+          if (localStorage.getItem('userToken')) {
+            return reject('alredy logIn');
+          }
+
+          localStorage.setItem('userType', userType);
+          localStorage.setItem('userToken', userToken);
+          localStorage.setItem('userSpaceList', userSpaceList);
+          return resolve(browserHistory.push('/selectspace'));
         }
-
-        localStorage.setItem('userType', userType);
-        localStorage.setItem('userToken', userToken);
-        localStorage.setItem('userSpaceListId', userSpaceListId);
-        return (userType === 'comp' && userSpaceListChecker === 2) ?
-        resolve(browserHistory.push('/space'))
-        : resolve(browserHistory.push('/admin/manage/dashboard'));
       });
     })
     .catch((err) => {

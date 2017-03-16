@@ -23,6 +23,10 @@ class LogOut extends Component {
       console.log('res', res);
       browserHistory.push('/');
       localStorage.removeItem('userToken');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('userSpaceList');
+      localStorage.removeItem('userSpaceListId');
+      localStorage.removeItem('userType');
     })
     .catch((err) => {
       console.log(err);
