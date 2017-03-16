@@ -37,15 +37,15 @@ class AddLead extends Component {
     axios({
       method: 'post',
       url: `${API_URL}/lead`,
-      req:
-      date: data.date,
-      space_id: data.space_id,
-      name: data.name,
-      email: data.email,
-      mobile: data.mobile,
-      note: data.note,
-      type: data.type,
-      headers: instance.headers,
+      // req:
+      // date: data.date,
+      // space_id: data.space_id,
+      // name: data.name,
+      // email: data.email,
+      // mobile: data.mobile,
+      // note: data.note,
+      // type: data.type,
+      // headers: instance.headers,
     })
     .then((res) => {
       console.log(11);
