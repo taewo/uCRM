@@ -37,14 +37,10 @@ module.exports = {
           .then((extendedToken) => {
             return resolve(extendedToken);
           })
-          .catch((err) => {
-            return reject(err);
-          });
+          .catch(err => (reject(err)));
         }
       })
-      .catch((err) => {
-        return reject('invalid token');
-      });
+      .catch(err => (reject('invalid token')));
     });
   },
   checkUserHasToken: (userid) => {
@@ -58,10 +54,7 @@ module.exports = {
           return resolve(false);
         }
       })
-      .catch((err) => {
-        console.log(err);
-        return reject('invalid token');
-      })
+      .catch(err => (reject('invalid token')));
     });
   },
   getUserByToken: (token) => {
@@ -71,15 +64,12 @@ module.exports = {
       .then((result) => {
         return resolve(result.attributes);
       })
-      .catch((err) => {
-        console.log(err);
-        return reject('invalid token');
-      })
+      .catch(err => (reject('invalid token')));
     });
   },
   extendToken: (token) => {
     return new Promise((resolve, reject) => {
-      const newExpiredAt =  new Date();
+      const newExpiredAt = new Date();
       newExpiredAt.setTime(newExpiredAt.getTime() + (30 * 60 * 1000));
       console.log('new extended time?', newExpiredAt)
 
@@ -87,13 +77,8 @@ module.exports = {
       .where({ token })
       .save({ expiredat: newExpiredAt }, { method: "update" })
       // .save({ expiredat: newExpiredAt }, { patch: true }) // this works too
-      .then((result) => {
-        console.log('updated result', result.attributes)
-        return resolve(result.attributes);
-      })
-      .catch((err) => {
-        return reject('extend expiration date failed', err);
-      });
+      .then(result => (resolve(result.attributes)))
+      .catch(err => (reject('extend expiration date failed', err)));
     });
   },
 
@@ -135,20 +120,14 @@ module.exports = {
           return reject('user is not found');
         }
       })
-      .catch((err) => {
-        console.log('checkExistence failed to fetch');
-        return reject(err);
-      })
+      .catch(err => (reject(err)));
     });
   },
 
   login: (req) => {
     return new Promise((resolve, reject) => {
       module.exports.checkIdPassword(req.body.userid, req.body.password)
-      .then((userInfo) => {
-        console.log('id and password are ok', userInfo);
-        return resolve(userInfo);
-      })
+      .then(userInfo => (resolve(userInfo)))
       .catch(err => (reject(err)));
     })
     .then((userInfo) => {
@@ -180,7 +159,6 @@ module.exports = {
           console.log('lets save token, this has to be false', tokenData)
           Auth.getUser(req.body.userid)
           .then((user) => {
-            console.log('user for token generation', user)
             const storage = {};
             const newToken = module.exports.generateTokenData();
             storage.userid = req.body.userid;
@@ -190,8 +168,7 @@ module.exports = {
             if (user.type === 'comp') {
               const companyid = user.company_id;
               storage.type = 'comp';
-              console.log('companyid', companyid)
-              // console.log('function', Space.getAllSpacesByCompanyId);
+
               Space.getAllSpacesByCompanyId(companyid)
               .then((spaceList) => {
                 const JSONspaceList = spaceList.map((space) => {
@@ -206,14 +183,9 @@ module.exports = {
                 .then((result) => {
                   return resolve(result.attributes);
                 })
-                .catch((err) => {
-                  console.log(err)
-                  return reject('failed to save new token for admin');
-                });
+                .catch(err => (reject('failed to save new token for admin')));
               })
-              .catch((err) => {
-                return reject(err);
-              });
+              .catch(err => (reject(err)));
             } else if (user.type === 'staff') {
               const spaceid = user.space_id;
               storage.type = 'staff';
@@ -221,19 +193,13 @@ module.exports = {
 
               new Token(storage)
               .save()
-              .then((result) => {
-                return resolve(result.attributes);
-              })
-              .catch((err) => {
-                return reject('saving new token data failed for staff');
-              });
+              .then(result => (resolve(result.attributes)))
+              .catch(err => (reject('saving new token data failed for staff')));
             } else {
               return reject('unahthorized user tried to add token');
             }
           })
-          .catch((err) => {
-            return reject(err);
-          });
+          .catch(err => (reject(err)));
         }
       });
     });

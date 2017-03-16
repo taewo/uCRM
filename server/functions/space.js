@@ -18,34 +18,32 @@ module.exports = {
         }
         return resolve(result.related('member').toJSON());
       })
-      .catch((err) => {
-        return console.log(err);
-      });
+      .catch(err => (reject(err)));
     });
   },
 
   checkIfUserHasSpace: (user, spaceid) => {
-      return new Promise((resolve, reject) => {
-        if (user.type === 'comp') {
-          const flag = JSON.parse(user.space_list).some((space) => {
-            return space.id === JSON.parse(spaceid);
-          });
-          console.log('flag', flag);
-          if (flag) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
-        } else if (user.type === 'staff') {
-          if (user.space_id === spaceid) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
+    return new Promise((resolve, reject) => {
+      if (user.type === 'comp') {
+        const flag = JSON.parse(user.space_list).some((space) => {
+          return space.id === JSON.parse(spaceid);
+        });
+        console.log('flag', flag);
+        if (flag) {
+          return resolve(true);
         } else {
-          return reject('unahthorized user');
+          return resolve(false);
         }
-      });
+      } else if (user.type === 'staff') {
+        if (user.space_id === spaceid) {
+          return resolve(true);
+        } else {
+          return resolve(false);
+        }
+      } else {
+        return reject('unahthorized user');
+      }
+    });
   },
 
   getReservedList: (spaceid) => {
@@ -104,9 +102,7 @@ module.exports = {
         }
         return resolve(result.attributes);
       })
-      .catch((err) => {
-        return reject('failed to get space info from db');
-      })
+      .catch(err => (reject('failed to get space info from db')));
     });
   },
 
@@ -123,20 +119,19 @@ module.exports = {
     });
   },
 
-  getAllSpacesByCompanyId: (companyid) => {
+  getAllSpacesByCompanyId: (companyId) => {
     return new Promise((resolve, reject) => {
-      console.log('here')
       Space
-      .where({ company_id: companyid })
+      .where({ company_id: companyId })
       .fetchAll()
       .then((result) => {
-        console.log('companyid', companyid, 'all space', result.toJSON())
         return resolve(result.toJSON());
-      });
+      })
+      .catch(err => (reject(err)));
     });
   },
 
-  getAllSpacesByName: (companyname) => {
+  getAllSpacesByCompanyName: (companyname) => {
     return new Promise((resolve, reject) => {
       Company
       .where({ name: companyname })
