@@ -12,8 +12,8 @@ module.exports = {
       .fetch()
       .then((result) => {
         return resolve(result);
-      })
-    })
+      });
+    });
   },
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
@@ -32,18 +32,7 @@ module.exports = {
       })
     });
   },
-  getCompanyId: (userid) => {
-    return new Promise((resolve, reject) => {
-      Admin
-      .where({ userid })
-      .then((result) => {
-        return resolve(result.company_id);
-      })
-      .catch((err) => {
-        return reject('unahthorized, user has no company');
-      })
-    });
-  },
+
   addNewAdmin: (body, companyid) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {

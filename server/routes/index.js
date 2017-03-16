@@ -43,9 +43,9 @@ router.route('/room/reservation')
 router.route('/staff/permit')
 .put(controller.staff_auth.put);
 
-router.route('/billing')
-.get(controller.billing.get)
-.post(controller.billing.post);
+router.route('/billplan')
+.get(controller.billplan.get)
+.post(controller.billplan.post);
 
 
 module.exports = router;

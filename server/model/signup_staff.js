@@ -5,7 +5,7 @@ const auth = require('../functions/auth');
 module.exports = {
   get: (req) => {
     return new Promise((resolve, reject) => {
-      Space.getAllSpacesByName(req.query.companyname)
+      Space.getAllSpacesByCompanyName(req.query.companyname)
       .then((result) => {
         console.log('company has following spaces', result)
         return resolve(result.toJSON());

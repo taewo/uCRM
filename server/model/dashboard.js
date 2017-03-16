@@ -20,8 +20,9 @@ module.exports = {
       return new Promise((resolve, reject) => {
         if (access) {
           return resolve(Dashboard(req));
+        } else {
+          return reject('Error: you have no access to this space');
         }
-        return reject('Error: you have no access to this space');
       });
     });
   },

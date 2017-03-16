@@ -71,7 +71,6 @@ module.exports = {
       res.json(body);
     })
     .catch((err) => {
-      console.log(err.stack);
       if (err === 'unauthorized') {
         res.status(401).send(err);
       }
@@ -277,7 +276,7 @@ module.exports = {
     },
   },
 
-  billing: {
+  billplan: {
     get:
     (req, res) => (billing.get(req))
     .then((result) => {
