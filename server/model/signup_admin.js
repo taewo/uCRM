@@ -12,17 +12,18 @@ module.exports = {
         }
         return resolve();
       })
+      .catch(err => (reject(err)));
     })
     .then(() => {
       return new Promise((resolve, reject) => {
-        console.log('body.userid', body.userid)
         Admin.checkExistence(body.userid)
         .then((result) => {
           if (result) {
             return reject('admin already exist');
           }
           return resolve();
-        });
+        })
+        .catch(err => (reject(err)));
       });
     })
     .then(() => {
@@ -33,21 +34,18 @@ module.exports = {
             return reject('id already taken by staff');
           }
           return resolve();
-        });
+        })
+        .catch(err => (reject(err)));
       });
     })
     .then(() => {
-      console.log('body', body)
       return new Promise((resolve, reject) => {
         Company.addNewCompany(body.companyname)
         .then((newCompany) => {
-          console.log('successfully added a new company', newCompany.attributes)
           return resolve(newCompany.attributes.id);
         })
-        .catch((err) => {
-          return reject(err);
-        })
-      })
+        .catch(err => (reject(err)));
+      });
     })
     .then((companyid) => {
       console.log('companyid', companyid)
@@ -56,12 +54,9 @@ module.exports = {
         .then((newAdmin) => {
           delete newAdmin.attributes.password;
           newAdmin.attributes.type = 'comp';
-          console.log('newAdmin', newAdmin.attributes)
           return resolve(newAdmin.attributes);
         })
-        .catch((err) => {
-          return reject(err);
-        });
+        .catch(err => (reject(err)));
       });
     });
   },

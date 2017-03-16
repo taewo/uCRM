@@ -13,13 +13,10 @@ module.exports = {
         if (user.type === 'comp') {
           return resolve();
         } else {
-          console.log('staff not authorized');
           return reject('staff cannot add a room');
         }
       })
-      .catch((err) => {
-        return reject('staff cannot add new room');
-      });
+      .catch(err => (reject('staff cannot add new room')));
     })
     .then(() => {
       return new Promise((resolve, reject) => {
@@ -31,9 +28,7 @@ module.exports = {
             return resolve();
           }
         })
-        .catch((err) => {
-          return reject(err);
-        });
+        .catch(err => (reject(err)));
       });
     })
     .then(() => {
@@ -42,9 +37,7 @@ module.exports = {
         .then((newRoom) => {
           return resolve(newRoom);
         })
-        .catch((err) => {
-          return reject(err);
-        });
+        .catch(err => (reject(err)));
       });
     });
   },

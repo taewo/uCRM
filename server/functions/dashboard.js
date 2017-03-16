@@ -1,12 +1,11 @@
 const Space = require('../functions/space');
 
-const getDashboard = (spaceid) => {
+const getDashboard = (req) => {
   return new Promise((resolve, reject) => {
-
-    const memberList = Space.getMemberList(spaceid);
-    const reservedList = Space.getReservedList(spaceid);
-    const unpaidSum = Space.getUnpaidSum(spaceid);
-    const latestActivity = Space.getLatestActivity(spaceid);
+    const memberList = Space.getMemberList(req.query.space_id);
+    const reservedList = Space.getReservedList(req.query.space_id);
+    const unpaidSum = Space.getUnpaidSum(req.query.space_id);
+    const latestActivity = Space.getLatestActivity(req.query.space_id);
 
     Promise.all([memberList, reservedList, unpaidSum, latestActivity])
     .then((result) => {
@@ -17,9 +16,7 @@ const getDashboard = (spaceid) => {
       container.latestActivity = result[3];
       return resolve(container);
     })
-    .catch((err) => {
-      return reject(err);
-    });
+    .catch(err => (reject(err)));
   });
 };
 

@@ -29,6 +29,9 @@ module.exports = {
       })
       .fetchAll()
       .then((result) => {
+        if (!result.toJSON().length) {
+          return resolve(false);
+        }
         const list = result.toJSON();
         let latestLeadId;
         const latestVisitDate = list[0].date;
@@ -45,6 +48,9 @@ module.exports = {
     })
     .then((latestLeadId) => {
       return new Promise((resolve, reject) => {
+        if (!latestLeadId) {
+          return resolve(false)
+        }
         new Lead({ id: latestLeadId })
         .save({ conversion: 1 }, {patch: true})
         .then((lead) => {

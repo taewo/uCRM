@@ -5,10 +5,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Billing.getBillPlan(req.query.space_id)
       .then((result) => {
-        if (!result) {
-          return resolve([]);
+        if (result) {
+          return resolve(result);
         }
-        return resolve(result);
+        return resolve([]);
       });
     });
   },
