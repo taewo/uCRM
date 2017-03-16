@@ -47,6 +47,9 @@ const App = () => (
               <Route path="add" component={smartComponents.AddLead} />
             </Route>
           </Route>
+          <Route path="report" component={smartComponents.Report}>
+            <Route path="churn" component={smartComponents.ChurnPage} />
+          </Route>
         </Route>
       </Route>
     </Router>
