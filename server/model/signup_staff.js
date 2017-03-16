@@ -10,9 +10,7 @@ module.exports = {
         console.log('company has following spaces', result)
         return resolve(result.toJSON());
       })
-      .catch((err) => {
-        return reject(err);
-      });
+      .catch(err => (reject(err)));
     });
   },
   post: (body) => {
@@ -28,10 +26,7 @@ module.exports = {
           return reject('userid already exist');
         }
       })
-      .catch((err) => {
-        console.log(err);
-        return reject(err);
-      });
+      .catch(err => (reject(err)));
     });
   },
 };

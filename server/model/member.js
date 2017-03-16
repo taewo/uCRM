@@ -1,16 +1,31 @@
 const Member = require('../functions/member');
 const Lead = require('../functions/lead');
+const Space = require('../functions/space');
+const Token = require('../middleware/token');
 
 module.exports = {
   get: (req) => {
     return new Promise((resolve, reject) => {
-      const spaceid = parseInt(req.query.space_id);
-      Member.getAllMembers(spaceid)
-      .then((result) => {
-        return resolve(result.toJSON());
-      })
-      .catch((err) => {
-        return reject(err);
+      Token.getUserByToken(req.headers.token)
+      .then(user => (resolve(user)))
+      .catch(err => (reject(err)));
+    })
+    .then((user) => {
+      return new Promise((resolve, reject) => {
+        console.log('user', user)
+        Space.checkIfUserHasSpace(user, req.query.space_id)
+        .then(flag => (resolve()))
+        .catch(err => (reject(err)));
+      });
+    })
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        const spaceid = parseInt(req.query.space_id);
+        Member.getAllMembers(spaceid)
+        .then((result) => {
+          return resolve(result.toJSON());
+        })
+        .catch(err => (reject(err)));
       });
     });
   },
@@ -33,9 +48,7 @@ module.exports = {
           return reject('member already exist 3');
         }
       })
-      .catch((err) => {
-        return reject(err);
-      });
+      .catch(err => (reject(err)));
     })
     .then((newMember) => {
       return new Promise((resolve, reject) => {
@@ -43,9 +56,7 @@ module.exports = {
         .then(() => {
           return resolve(newMember);
         })
-        .catch((err) => {
-          return reject(err)
-        })
+        .catch(err => (reject(err)));
       });
     })
   },

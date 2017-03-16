@@ -3,7 +3,6 @@ const Token = require('../middleware/token');
 
 module.exports = {
   get: (req) => {
-    console.log('req', req.query)
     return new Promise((resolve, reject) => {
       Token.getUserByToken(req.headers.token)
       .then((user) => {
@@ -16,25 +15,16 @@ module.exports = {
           return reject('user is neither admin nor staff');
         }
       })
-      .catch((err) => {
-        return reject(err);
-      })
+      .catch(err => (reject(err)));
     });
   },
   post: (req) => {
-    console.log('req', req.body)
-    // const user = req.body;
     return new Promise((resolve, reject) => {
       Token.getUserByToken(req.headers.token)
-      .then((user) => {
-        return resolve(user);
-      })
-      .catch((err) => {
-        return reject(err);
-      });
+      .then(user => (resolve(user)))
+      .catch(err => (reject(err)));
     })
     .then((user) => {
-      console.log('finally user', user);
       return new Promise((resolve, reject) => {
         if (user.type === 'comp') {
           Space.checkDuplicateSpace(req.body)
