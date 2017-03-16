@@ -30,7 +30,6 @@ export function logInConfirm() {
       return new Promise((resolve, reject) => {
         console.log('res',res.data);
         dispatch(isLogIn(true));
-
         const userType = res.data.type;
         const userToken = res.data.token;
 
