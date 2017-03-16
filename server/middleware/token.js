@@ -1,7 +1,9 @@
 const Token = require('../db/token');
 const Admin = require('../functions/admin');
 const Staff = require('../functions/staff');
+const Auth = require('../functions/auth');
 const Space = require('../functions/space');
+
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 
@@ -31,7 +33,7 @@ module.exports = {
           return reject('session(token) expired');
         } else {
           // updated token expiration date
-          module.exports.extendExpiredAt(token)
+          module.exports.extendToken(token)
           .then((extendedToken) => {
             return resolve(extendedToken);
           })
@@ -50,11 +52,10 @@ module.exports = {
       Token.where({ userid })
       .fetch()
       .then((result) => {
-        console.log('result checkUserHasToken', result)
         if (result) {
           return resolve(result.attributes);
         } else {
-          return reject('invalid token-');
+          return resolve(false);
         }
       })
       .catch((err) => {
@@ -76,22 +77,26 @@ module.exports = {
       })
     });
   },
-  extendExpiredAt: (token) => {
+  extendToken: (token) => {
     return new Promise((resolve, reject) => {
       const newExpiredAt =  new Date();
       newExpiredAt.setTime(newExpiredAt.getTime() + (30 * 60 * 1000));
+      console.log('new extended time?', newExpiredAt)
 
       Token
       .where({ token })
-      .save({ expiredat: newExpiredAt }, { method: 'update' })
+      .save({ expiredat: newExpiredAt }, { method: "update" })
+      // .save({ expiredat: newExpiredAt }, { patch: true }) // this works too
       .then((result) => {
+        console.log('updated result', result.attributes)
         return resolve(result.attributes);
       })
       .catch((err) => {
-        reject('extend expiration date failed');
+        return reject('extend expiration date failed', err);
       });
     });
   },
+
   checkIdPassword: (userid, password) => {
     return new Promise((resolve, reject) => {
 
@@ -136,74 +141,100 @@ module.exports = {
       })
     });
   },
-  addNewToken: (req) => {
-    return new Promise((resolve, reject) => {
-      module.exports.checkUserHasToken(req.body.userid)
-      .then((result) => {
-        return reject('you are already logged in.');
-      })
-      .catch((err) => {
-        console.log('no token found. continue to log in');
-        return resolve();
-      })
-    })
-    .then(() => {
-      return new Promise((resolve, reject) => {
-        module.exports.checkIdPassword(req.body.userid, req.body.password)
-        .then((result) => {
-          const storage = {};
-          const tokenData = module.exports.generateTokenData();
-          storage.userid = req.body.userid;
-          storage.token = tokenData.token;
-          storage.expiredat = tokenData.expiredat;
 
-          if (result[1] === 'comp') {
-            const companyid = result[0].company_id;
-            storage.type = 'comp';
-            console.log('companyid', companyid)
-            // console.log('function', Space.getAllSpacesByCompanyId);
-            Space.getAllSpacesByCompanyId(companyid)
-            .then((spaceList) => {
-              const JSONspaceList = spaceList.map((space) => {
-                return {
-                  id: space.id,
-                  name: space.name,
-                };
+  login: (req) => {
+    return new Promise((resolve, reject) => {
+      module.exports.checkIdPassword(req.body.userid, req.body.password)
+      .then((userInfo) => {
+        console.log('id and password are ok', userInfo);
+        return resolve(userInfo);
+      })
+      .catch(err => (reject(err)));
+    })
+    .then((userInfo) => {
+      return new Promise((resolve, reject) => {
+        module.exports.checkUserHasToken(userInfo[0].userid)
+        .then((tokenData) => {
+          if (tokenData) {
+            console.log('user already logged in. lets extend the token', tokenData);
+            return resolve(tokenData);
+          } else {
+            console.log('no token found. lets continue to log in')
+            return resolve(false);
+          }
+        })
+        .catch(err => (reject(err)));
+      });
+    })
+    .then((tokenData) => {
+      return new Promise((resolve, reject) => {
+        if (tokenData) {
+          console.log('tokenData found extended', tokenData)
+          module.exports.extendToken(tokenData.token)
+          .then((result) => {
+            console.log('extended!', result);
+            delete tokenData.expiredat;
+            return resolve(tokenData);
+          })
+        } else {
+          console.log('lets save token, this has to be false', tokenData)
+          Auth.getUser(req.body.userid)
+          .then((user) => {
+            console.log('user for token generation', user)
+            const storage = {};
+            const newToken = module.exports.generateTokenData();
+            storage.userid = req.body.userid;
+            storage.token = newToken.token;
+            storage.expiredat = newToken.expiredat;
+
+            if (user.type === 'comp') {
+              const companyid = user.company_id;
+              storage.type = 'comp';
+              console.log('companyid', companyid)
+              // console.log('function', Space.getAllSpacesByCompanyId);
+              Space.getAllSpacesByCompanyId(companyid)
+              .then((spaceList) => {
+                const JSONspaceList = spaceList.map((space) => {
+                  return {
+                    id: space.id,
+                    name: space.name,
+                  };
+                });
+                storage.space_list = JSON.stringify(JSONspaceList);
+                new Token(storage)
+                .save()
+                .then((result) => {
+                  return resolve(result.attributes);
+                })
+                .catch((err) => {
+                  console.log(err)
+                  return reject('failed to save new token for admin');
+                });
+              })
+              .catch((err) => {
+                return reject(err);
               });
-              storage.space_list = JSON.stringify(JSONspaceList);
+            } else if (user.type === 'staff') {
+              const spaceid = user.space_id;
+              storage.type = 'staff';
+              storage.space_id = spaceid;
+
               new Token(storage)
               .save()
               .then((result) => {
                 return resolve(result.attributes);
               })
               .catch((err) => {
-                console.log(err)
-                return reject('failed to save new token for admin');
+                return reject('saving new token data failed for staff');
               });
-            })
-            .catch((err) => {
-              return reject(err);
-            });
-          } else if (result[1] === 'staff') {
-            const spaceid = result[0].space_id;
-            storage.type = 'staff';
-            storage.space_id = spaceid;
-
-            new Token(storage)
-            .save()
-            .then((result) => {
-              return resolve(result.attributes);
-            })
-            .catch((err) => {
-              return reject('saving new token data failed for staff');
-            });
-          } else {
-            return reject('unahthorized user tried to add token');
-          }
-        })
-        .catch((err) => {
-          return reject(err);
-        });
+            } else {
+              return reject('unahthorized user tried to add token');
+            }
+          })
+          .catch((err) => {
+            return reject(err);
+          });
+        }
       });
     });
   },

@@ -40,23 +40,24 @@ export function dashboardShow() {
     return axios({
       method: 'get',
       url: `${API_URL}/dashboard`,
-      param: localStorage.getItem('userSpaceListId'),
+      params: { space_id: localStorage.getItem('userSpaceListId') },
       headers: instance.headers,
     })
     .then((res) => {
       console.log(res);
-    //   const dataMemberList = data.memberList;
-    //   let countCurrentMember = 0;
-    //   for (let i = 0; i < dataMemberList.length; i += 1) {
-    //     if (dataMemberList[i].end_date === null) {
-    //       countCurrentMember += 1;
-    //     }
-    //   }
-    //   dispatch(dashboardAllMember(data.memberList.length));
-    //   dispatch(dashboardCurrentMember(countCurrentMember));
-    //   dispatch(dashboardLatestActivity(data.latestActivity));
-    //   dispatch(dashboarRoomReservation(data.reservedList));
-    // });
+      const data = JSON.parse(res.data);
+      const dataMemberList = data.memberList;
+      const dataMemberListLength = dataMemberList.length;
+      let countCurrentMember = 0;
+      for (let i = 0; i < dataMemberListLength; i += 1) {
+        if (dataMemberList[i].end_date === null) {
+          countCurrentMember += 1;
+        }
+      }
+      dispatch(dashboardAllMember(data.memberList.length));
+      dispatch(dashboardCurrentMember(countCurrentMember));
+      dispatch(dashboardLatestActivity(data.latestActivity));
+      dispatch(dashboarRoomReservation(data.reservedList));
     });
   };
 }
