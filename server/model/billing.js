@@ -7,21 +7,16 @@ module.exports = {
       .then((result) => {
         if (!result) {
           return resolve([]);
-        } else {
-          return resolve(result);
         }
+        return resolve(result);
       });
     });
   },
   post: (req) => {
     return new Promise((resolve, reject) => {
       Billing.addNewBillPlan(req.body)
-      .then((result) => {
-        return resolve(result);
-      })
-      .catch((err) => {
-        return reject(err);
-      })
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
 };

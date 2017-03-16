@@ -42,7 +42,7 @@ module.exports = {
     })
     .then((user) => {
       return new Promise((resolve, reject) => {
-        Space.checkIfUserHasSpace(user, req.query.space_id)
+        Space.checkIfUserHasSpace(user, req.body.space_id)
         .then(flag => (resolve(flag)))
         .catch(err => (reject(err)));
       });
