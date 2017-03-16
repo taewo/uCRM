@@ -19,7 +19,6 @@ export const isLogIn = toggleLogedIn => ({
 
 export function logInConfirm() {
   return (dispatch, getState) => {
-    console.log(111)
     const { userid, password } = getState().logInReducer;
     const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/login`, {
@@ -31,18 +30,16 @@ export function logInConfirm() {
       return new Promise((resolve, reject) => {
         console.log('res',res.data);
         dispatch(isLogIn(true));
+
         const userType = res.data.type;
         const userToken = res.data.token;
-        const userSpaceList = [];
-        userSpaceList.push(res.data.space_list);
-        userSpaceList.slice(1, userSpaceList.length-1);
-        console.log(typeof userSpaceList);
-        const userSpaceListId = userSpaceList[0];
-        console.log(userSpaceListId);
+
+        const userSpaceList = JSON.parse(res.data.space_list);
+        const userSpaceListId = userSpaceList[0].id
         const userSpaceListChecker = userSpaceList.length;
-        console.log(userSpaceListChecker);
+
         if (localStorage.getItem('userToken')) {
-          return reject('alredy logIn')
+          return reject('alredy logIn');
         }
 
         localStorage.setItem('userType', userType);
