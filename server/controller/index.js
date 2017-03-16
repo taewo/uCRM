@@ -205,11 +205,12 @@ module.exports = {
     get:
     (req, res) => (member.get(req))
     .then((result) => {
+      console.log('?final?', result)
       const body = JSON.stringify(result);
       res.json(body);
     })
     .catch((err) => {
-      console.log(err.stack);
+      console.log(err);
       res.status(400).send(err);
     }),
     post:

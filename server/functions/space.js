@@ -25,27 +25,27 @@ module.exports = {
   },
 
   checkIfUserHasSpace: (user, spaceid) => {
-      return new Promise((resolve, reject) => {
-        if (user.type === 'comp') {
-          const flag = JSON.parse(user.space_list).some((space) => {
-            return space.id === JSON.parse(spaceid);
-          });
-          console.log('flag', flag);
-          if (flag) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
-        } else if (user.type === 'staff') {
-          if (user.space_id === spaceid) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
+    return new Promise((resolve, reject) => {
+      if (user.type === 'comp') {
+        const flag = JSON.parse(user.space_list).some((space) => {
+          return space.id === JSON.parse(spaceid);
+        });
+        console.log('flag', flag);
+        if (flag) {
+          return resolve(true);
         } else {
-          return reject('unahthorized user');
+          return resolve(false);
         }
-      });
+      } else if (user.type === 'staff') {
+        if (user.space_id === spaceid) {
+          return resolve(true);
+        } else {
+          return resolve(false);
+        }
+      } else {
+        return reject('unahthorized user');
+      }
+    });
   },
 
   getReservedList: (spaceid) => {
