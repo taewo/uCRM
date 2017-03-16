@@ -1,4 +1,3 @@
-const Admin = require('../functions/admin');
 const Space = require('../functions/space');
 const Token = require('../middleware/token');
 
