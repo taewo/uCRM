@@ -37,14 +37,17 @@ module.exports = {
         .then((token) => {
           console.log('TOKEN', token)
           if (token) {
-            return Space.getAllSpacesByCompanyId(companyId)
-            .then((spaceList) => {
-              newToken.space_list = spaceList.map(space => ({
-                space_id: space.id,
-                name: space.name,
-              }));
-              newToken.company_id = companyId;
-              return newToken;
+            return Token.extendToken(token)
+            .then((extendedToken) => {
+              return Space.getAllSpacesByCompanyId(companyId)
+              .then((spaceList) => {
+                extendedToken.space_list = spaceList.map(space => ({
+                  space_id: space.id,
+                  name: space.name,
+                }));
+                extendedToken.company_id = companyId;
+                return extendedToken;
+              });
             });
           }
           return Token.addNewToken(newToken)

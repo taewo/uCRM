@@ -46,24 +46,53 @@ module.exports = {
   },
 
   getUserByUserId: (userid) => {
-    return new Promise((resolve, reject) => {
-      const ifAdmin = Admin.checkExistence(userid);
-      const ifStaff = Staff.checkExistence(userid);
+    const ifAdmin = Admin.checkExistence(userid);
+    const ifStaff = Staff.checkExistence(userid);
 
-      Promise.all([ifAdmin, ifStaff])
-      .then((users) => {
-        console.log('getuser user', users)
-        if (users[0]) {
-          users[0].type = 'comp';
-          delete users[0].password;
-          return resolve(users[0]);
-        } else if (users[1]) {
-          users[1].type = 'staff';
-          delete users[1].password;
-          return resolve(users[1]);
+    return Promise.all([ifAdmin, ifStaff])
+    .then((users) => {
+      console.log('getuser user', users)
+      if (users[0]) {
+        users[0].type = 'comp';
+        delete users[0].password;
+        return users[0];
+      } else if (users[1]) {
+        users[1].type = 'staff';
+        delete users[1].password;
+        return users[1];
+      }
+    })
+  },
+
+  checkIfUserHasSpace: (req) => {
+    const {
+      token
+    } = req.headers;
+    const spaceid = req.query.space_id;
+
+    return module.exports.getUserByToken(token)
+    .then((user) => {
+      console.log('USER', user)
+      if (user.type === 'comp') {
+        console.log('userspacelist', user)
+        const flag = JSON.parse(user.space_list).some((space) => {
+          return space.id === JSON.parse(spaceid);
+        });
+        console.log('FLAG', flag)
+        if (flag) {
+          return true;
+        } else {
+          return false;
         }
-      })
-      .catch(err => (reject('user is neither admin nor staff')));
+      } else if (user.type === 'staff') {
+        if (user.space_id === spaceid) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        throw new Error('unahthorized user');
+      }
     });
   },
 };

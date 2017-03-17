@@ -1,10 +1,10 @@
 const Dashboard = require('../functions/dashboard');
-const Space = require('../functions/space');
+const Auth = require('../functions/auth');
 
 module.exports = {
   get: (req) => {
     return new Promise((resolve, reject) => {
-      Space.checkIfUserHasSpace(req)
+      Auth.checkIfUserHasSpace(req)
       .then(access => (resolve(access)))
       .catch(err => (reject(err)));
     })

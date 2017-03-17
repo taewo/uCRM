@@ -76,56 +76,25 @@ module.exports = {
   },
   extendToken: (tokenData) => {
     console.log('TOKENDATA', tokenData.company_id)
-    return new Promise((resolve, reject) => {
+    // return new Promise((resolve, reject) => {
       console.log('space', Space)
-      Space.getAllSpacesByCompanyId(tokenData.company_id)
-      .then((spaceList) => {
-        console.log('spaceList', spaceList)
+      // Space.getAllSpacesByCompanyId(tokenData.company_id)
+      // .then((spaceList) => {
         const newExpiredAt = new Date();
         newExpiredAt.setTime(newExpiredAt.getTime() + (30 * 60 * 1000));
         console.log('tokenData', tokenData)
-        Token
+        return Token
         .where({ token: tokenData.token })
         // .save({ expiredat: newExpiredAt }, { method: "update" })
         .save({ expiredat: newExpiredAt }, { patch: true }) // this works too
-        .then(result => (resolve(result.toJSON())))
-        .catch(err => (reject('extend expiration date failed', err)));
-      });
-    });
-  },
-
-  checkIfUserHasSpace: (req) => {
-    return new Promise((resolve, reject) => {
-      module.exports.getUserByToken(req.headers.token)
-      .then(user => (resolve(user)))
-      .catch(err => (reject(err)));
-    })
-    .then((user) => {
-      console.log('USER', user)
-      return new Promise((resolve, reject) => {
-        const spaceid = req.query.space_id;
-        if (user.type === 'comp') {
-          console.log('userspacelist', user)
-          const flag = JSON.parse(user.space_list).some((space) => {
-            return space.id === JSON.parse(spaceid);
-          });
-          console.log('FLAG', flag)
-          if (flag) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
-        } else if (user.type === 'staff') {
-          if (user.space_id === spaceid) {
-            return resolve(true);
-          } else {
-            return resolve(false);
-          }
-        } else {
-          return reject('unahthorized user');
-        }
-      });
-    });
+        .then((result) => {
+          const data = result.toJSON();
+          data.token = tokenData.token;
+          return data;
+        });
+        // .catch(err => (reject('extend expiration date failed', err)));
+      // });
+    // });
   },
 
   addNewToken: (tokenData) => {
