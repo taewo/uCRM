@@ -1,11 +1,8 @@
 const Token = require('../db/token');
 
-const Admin = require('./admin');
-const Staff = require('./staff');
 const Space = require('./space');
 
 const uuid = require('uuid');
-const bcrypt = require('bcrypt');
 
 
 module.exports = {
@@ -37,11 +34,18 @@ module.exports = {
     });
   },
 
-  getUserToken(userid) {
+  getTokenByUserId(userid) {
     return Token
     .where({ userid })
     .fetch()
-    .then(result => (result ? result.toJSON : null));
+    // .then(result => (result ? result.toJSON : null));
+    .then((result) => {
+      if (result) {
+
+        console.log('get user token', result.toJSON());
+        return result.toJSON();
+      }
+    })
   },
 
   checkUserHasToken: (userid) => {
@@ -87,70 +91,6 @@ module.exports = {
         .then(result => (resolve(result.toJSON())))
         .catch(err => (reject('extend expiration date failed', err)));
       });
-    });
-  },
-
-  checkIdPassword2: (userid, password) => {
-    const checkAdmin = Admin.checkExistence(userid);
-    const checkStaff = Staff.checkExistence(userid);
-
-    return Promise.all([checkAdmin, checkStaff])
-    .then((result) => {
-      const user = result[0] || result[1];
-      if (!user) {
-        return false;
-      }
-
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, isValidPassword) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(isValidPassword);
-        });
-      });
-    });
-  },
-
-  checkIdPassword: (userid, password) => {
-    return new Promise((resolve, reject) => {
-
-      const checkAdmin = Admin.checkExistence(userid);
-      const checkStaff = Staff.checkExistence(userid);
-
-      Promise.all([checkAdmin, checkStaff])
-      .then((result) => {
-        if (result[0]) {
-          const admin = result[0];
-          bcrypt.compare(password, admin.password, (err, res) => {
-            if (err) {
-              return reject('bcrypt compare error');
-            }
-            if (res) {
-              delete admin.password;
-              return resolve([admin, 'comp']);
-            } else {
-              return reject('wrong admin password');
-            }
-          });
-        } else if (result[1]) {
-          const staff = result[1];
-          bcrypt.compare(password, staff.password, (err, res) => {
-            if (err) {
-              return reject('bcrypt compare error');
-            }
-            if (res) {
-              delete staff.password;
-              return resolve([staff, 'staff']);
-            } else {
-              return reject('wrong staff password');
-            }
-          });
-        } else {
-          return reject('user is not found');
-        }
-      })
-      .catch(err => (reject(err)));
     });
   },
 

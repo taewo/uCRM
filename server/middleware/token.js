@@ -1,6 +1,5 @@
 const Auth = require('../functions/auth');
 const Token = require('../functions/token');
-const Company = require('../functions/company');
 const Space = require('../functions/space');
 
 const ADMIN = 'comp';
@@ -12,40 +11,53 @@ module.exports = {
       password,
     } = req.body;
 
-    return Token.checkIdPassword2(userid, password)
+    return Auth.checkIdPassword(userid, password)
     .then((isValidIDAndPassword) => {
+      console.log('heyheh')
       if (!isValidIDAndPassword) {
         throw new Error('invalid id or password');
       }
-      return Token.getUserToken(userid)
-      .then((token) => {
-        if (token) {
-          return token;
+      console.log('finally we are here')
+      const newToken = Token.generateTokenData();
+      newToken.userid = userid;
+
+      return Auth.getUserByUserId(userid)
+      .then((user) => {
+        if (!user) {
+          throw new Error('no user found!');
+        }
+        newToken.type = user.type;
+        if (user.type !== ADMIN) {
+          return newToken;
         }
 
-        const newToken = Token.generateTokenData();
-        newToken.userid = userid;
+        const companyId = user.company_id;
 
-        return Auth.getUser(req.body.userid)
-        .then((user) => {
-          if (!user) {
-            throw new Error('no user founded');
+        return Token.getTokenByUserId(userid)
+        .then((token) => {
+          console.log('TOKEN', token)
+          if (token) {
+            return Space.getAllSpacesByCompanyId(companyId)
+            .then((spaceList) => {
+              newToken.space_list = spaceList.map(space => ({
+                space_id: space.id,
+                name: space.name,
+              }));
+              newToken.company_id = companyId;
+              return newToken;
+            });
           }
-          newToken.type = user.type;
-
-          if (user.type !== ADMIN) {
-            return newToken;
-          }
-
-          const companyId = user.company_id;
-          return Space.getAllSpacesByCompanyId(companyId)
-          .then((spaceList) => {
-            newToken.space_list = spaceList.map(space => ({
-              id: space.id,
-              name: space.name,
-            }));
-            newToken.company_id = companyId;
-            return newToken;
+          return Token.addNewToken(newToken)
+          .then((tokenData) => {
+            return Space.getAllSpacesByCompanyId(companyId)
+            .then((spaceList) => {
+              tokenData.space_list = spaceList.map(space => ({
+                space_id: space.id,
+                name: space.name,
+              }));
+              tokenData.company_id = companyId;
+              return tokenData;
+            });
           });
         });
       });

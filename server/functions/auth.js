@@ -1,6 +1,8 @@
 const Admin = require('../functions/admin');
 const Staff = require('../functions/staff');
 
+const bcrypt = require('bcrypt');
+
 module.exports = {
   checkId: (userid) => {
     return new Promise((resolve, reject) => {
@@ -22,7 +24,28 @@ module.exports = {
     });
   },
 
-  getUser: (userid) => {
+  checkIdPassword: (userid, password) => {
+    const checkAdmin = Admin.checkExistence(userid);
+    const checkStaff = Staff.checkExistence(userid);
+    return Promise.all([checkAdmin, checkStaff])
+    .then((result) => {
+      const user = result[0] || result[1];
+      if (!user) {
+        return false;
+      }
+
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, isValidPassword) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(isValidPassword);
+        });
+      });
+    });
+  },
+
+  getUserByUserId: (userid) => {
     return new Promise((resolve, reject) => {
       const ifAdmin = Admin.checkExistence(userid);
       const ifStaff = Staff.checkExistence(userid);
