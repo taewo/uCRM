@@ -35,7 +35,7 @@ class AddMembers extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props
+    const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
         <form id="name" onSubmit={handleSubmit(this.submitData)}>

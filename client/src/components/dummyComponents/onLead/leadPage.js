@@ -6,9 +6,21 @@ class LeadPage extends Component {
     super(props);
   }
   render() {
+    const displayLeadData = this.props.data ?
+    this.props.data.map((leadData, i) =>
+      <Date
+        key={i}
+        date={leadData.date}
+        name={leadData.name}
+        space_id={leadData.space_id}
+        type={leadData.type}
+      />,
+    )
+    : [];
     return (
       <div>
-        LeadPage  <br /><br /><br />
+        LeadPage<br /><br /><br />
+        {displayLeadData}
       </div>
     );
   }
