@@ -77,10 +77,11 @@ module.exports = {
       }
       return space.post(req)
       .then((result) => {
-        if (result) {
+        if (result === undefined) {
+          res.status(400).send('unauthorized');
+        } else {
           res.json(result);
         }
-        res.status(400).send('unauthorized');
       })
       .catch((err) => {
         console.log(err.stack);

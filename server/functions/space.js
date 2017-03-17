@@ -135,7 +135,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       company.getCompanySpaceInfoByCompanyId(body.company_id)
       .then((result) => {
-        console.log('RESULT', result.toJSON())
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {
           return space.name === body.name;
