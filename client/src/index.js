@@ -51,6 +51,17 @@ const App = () => (
           <Route path="report" component={smartComponents.Report}>
             <Route path="churn" component={smartComponents.ChurnPage} />
           </Route>
+          <Route path="setting" component={smartComponents.Setting}>
+            <Route path="basic" component={smartComponents.Basic} />
+            <Route path="billplan">
+              <IndexRoute component={smartComponents.BillPlan} />
+              <Route path="add" component={smartComponents.AddBillPlan} />
+            </Route>
+            <Route path="space">
+              <IndexRoute component={smartComponents.Space} />
+              <Route path="add" component={smartComponents.AddSpace} />
+            </Route>
+          </Route>
         </Route>
       </Route>
     </Router>

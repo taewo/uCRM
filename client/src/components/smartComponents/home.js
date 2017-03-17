@@ -1,11 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import styles from '../../../public/style.css';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
 
 class Home extends Component {
   constructor(props) {
@@ -17,7 +11,5 @@ class Home extends Component {
     );
   }
 }
-Home.propTypes = propTypes;
-Home.defaultProps = defaultProps;
 
 export default Home;
