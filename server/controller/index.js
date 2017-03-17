@@ -10,6 +10,17 @@ const reservation = require('../model/reservation');
 const billing = require('../model/billing');
 
 module.exports = {
+  dashboard: {
+    get:
+    (req, res) => (dashboard.get(req))
+    .then((result) => {
+      const body = JSON.stringify(result);
+      res.json(body);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    }),
+  },
 
   signup_admin: {
     post:
@@ -47,19 +58,6 @@ module.exports = {
     .catch((err) => {
       console.log(err);
       res.send(err).status(400);
-    }),
-  },
-
-  dashboard: {
-    get:
-    (req, res) => (dashboard.get(req))
-    .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
-    })
-    .catch((err) => {
-      console.log(err.stack);
-      res.status(400).send(err);
     }),
   },
 

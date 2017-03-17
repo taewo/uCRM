@@ -1,5 +1,8 @@
 const Admin = require('../functions/admin');
 const Staff = require('../functions/staff');
+const Token = require('../functions/token');
+const Company = require('../functions/company');
+const Space = require('../functions/space');
 
 const bcrypt = require('bcrypt');
 
@@ -68,22 +71,19 @@ module.exports = {
     const {
       token
     } = req.headers;
-    const spaceid = req.query.space_id;
+    const spaceid = parseInt(req.query.space_id);
 
-    return module.exports.getUserByToken(token)
+    return Token.getUserByToken(token)
     .then((user) => {
-      console.log('USER', user)
       if (user.type === 'comp') {
-        console.log('userspacelist', user)
-        const flag = JSON.parse(user.space_list).some((space) => {
-          return space.id === JSON.parse(spaceid);
+        return Company.getCompanyIdByUserId(user.userid)
+        .then((companyId) => {
+          return Space.getAllSpacesByCompanyId(companyId)
+          .then((spaceList) => {
+            const hasSpace = spaceList.some(space => (space.id === spaceid));
+            return hasSpace;
+          });
         });
-        console.log('FLAG', flag)
-        if (flag) {
-          return true;
-        } else {
-          return false;
-        }
       } else if (user.type === 'staff') {
         if (user.space_id === spaceid) {
           return true;

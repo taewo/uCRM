@@ -13,11 +13,9 @@ module.exports = {
 
     return Auth.checkIdPassword(userid, password)
     .then((isValidIDAndPassword) => {
-      console.log('heyheh')
       if (!isValidIDAndPassword) {
         throw new Error('invalid id or password');
       }
-      console.log('finally we are here')
       const newToken = Token.generateTokenData();
       newToken.userid = userid;
 
@@ -35,7 +33,6 @@ module.exports = {
 
         return Token.getTokenByUserId(userid)
         .then((token) => {
-          console.log('TOKEN', token)
           if (token) {
             return Token.extendToken(token)
             .then((extendedToken) => {
@@ -68,28 +65,20 @@ module.exports = {
   },
 
   checkNExtendedToken: (token) => {
-    return new Promise((resolve, reject) => {
-      Token.checkToken(token)
-      .then((token) => {
-        if (token) {
-          return resolve(token);
+    return Token.checkToken(token)
+      .then((tokenCheck) => {
+        if (tokenCheck) {
+          return tokenCheck;
         } else {
-          return reject('Error: Authentication credentials expired.');
+          throw new Error('Error: Authentication credentials expired.');
         }
       })
-      .catch(err => (reject(err)));
-    })
-    .then((tokenData) => {
-      console.log('TOKEN', tokenData)
-      return new Promise((resolve, reject) => {
-        Token.extendToken(tokenData)
+      .then((tokenData) => {
+        return Token.extendToken(tokenData)
         .then((result) => {
           delete result.expiredat;
-          console.log('extended', result)
-          return resolve(result);
-        })
-        .catch(err => (reject(err)));
+          return result;
+        });
       });
-    });
   },
 };

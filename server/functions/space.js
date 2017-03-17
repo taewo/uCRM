@@ -94,13 +94,11 @@ module.exports = {
   },
 
   getAllSpacesByCompanyId: (companyId) => {
-    console.log('COMPANYID', companyId)
     return new Promise((resolve, reject) => {
       Space
       .where({ company_id: companyId })
       .fetchAll()
       .then((result) => {
-        console.log('RESULT', result.toJSON())
         return resolve(result.toJSON());
       })
       .catch(err => (reject(err)));
