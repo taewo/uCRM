@@ -20,3 +20,6 @@ export { default as Report } from './report';
 export { default as ChurnPage } from './churnpage';
 export { default as ChurnReport } from './churnreport';
 export { default as ChurnTable } from './churntable';
+export { default as LeadPage } from './leadpage';
+export { default as LeadReport } from './leadreport';
+export { default as LeadTable } from './leadtable';
