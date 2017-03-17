@@ -1,20 +1,9 @@
 const Admin = require('../db/admin');
-const Space = require('../functions/space');
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
 module.exports = {
-  checkSession: (id) => {
-    return new Promise((resolve, reject) => {
-      Admin
-      .where({ id })
-      .fetch()
-      .then((result) => {
-        return resolve(result);
-      });
-    });
-  },
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
       Admin
@@ -27,9 +16,7 @@ module.exports = {
           return resolve(false);
         }
       })
-      .catch((err) => {
-        return reject('admin not found');
-      })
+      .catch(err => (reject('admin not found')));
     });
   },
 
@@ -44,7 +31,6 @@ module.exports = {
         adminInfo.email = body.email;
         adminInfo.mobile = body.mobile;
 
-        console.log('admin info', adminInfo)
         new Admin(adminInfo)
         .save()
         .then((admin) => {
@@ -53,11 +39,8 @@ module.exports = {
           delete admin.password;
           return resolve(admin);
         })
-        .catch((err) => {
-          return reject('failed to save new admin in db');
-        })
+        .catch(err => (reject('failed to save new admin in db')));
       });
-    })
+    });
   },
-
 };

@@ -4,7 +4,7 @@ const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const company = require('../functions/company');
+const company = require('./company');
 
 module.exports = {
 
@@ -18,31 +18,7 @@ module.exports = {
         }
         return resolve(result.related('member').toJSON());
       })
-      .catch(err => (reject(err)));
-    });
-  },
-
-  checkIfUserHasSpace: (user, spaceid) => {
-    return new Promise((resolve, reject) => {
-      if (user.type === 'comp') {
-        const flag = JSON.parse(user.space_list).some((space) => {
-          return space.id === JSON.parse(spaceid);
-        });
-        console.log('flag', flag);
-        if (flag) {
-          return resolve(true);
-        } else {
-          return resolve(false);
-        }
-      } else if (user.type === 'staff') {
-        if (user.space_id === spaceid) {
-          return resolve(true);
-        } else {
-          return resolve(false);
-        }
-      } else {
-        return reject('unahthorized user');
-      }
+      .catch(err => (reject('failed to get member list')));
     });
   },
 
@@ -56,9 +32,7 @@ module.exports = {
         }
         return resolve(result.related('reservation').toJSON());
       })
-      .catch(function(err) {
-        return console.log(err);
-      });
+      .catch(err => (reject(err)));
     });
   },
 
@@ -86,7 +60,7 @@ module.exports = {
         if (!result) {
           return resolve([]);
         }
-        return resolve(result.attributes);
+        return resolve(result.toJSON());
       });
     });
   },
@@ -114,7 +88,7 @@ module.exports = {
         if (!result) {
           return reject('corresponding space does not exist');
         }
-        return resolve(result.attributes);
+        return resolve(result.toJSON());
       });
     });
   },
@@ -137,7 +111,6 @@ module.exports = {
       .where({ name: companyname })
       .fetch({ withRelated: ['space'] })
       .then((result) => {
-        console.log('result at space function', result)
         return resolve(result.related('space'));
       });
     });
@@ -160,7 +133,7 @@ module.exports = {
 
   checkDuplicateSpace: (body) => {
     return new Promise((resolve, reject) => {
-      company.checkCompanySpaceByID(body.company_id)
+      company.getCompanySpaceInfoByCompanyId(body.company_id)
       .then((result) => {
         const existingSpace = result.related('space').toJSON();
         const flag = existingSpace.some((space) => {

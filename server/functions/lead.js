@@ -3,23 +3,24 @@ const Lead = require('../db/lead');
 module.exports = {
   getLead: (spaceid) => {
     return new Promise((resolve, reject) => {
-      console.log('spaceid', spaceid)
       Lead
       .where({ space_id: spaceid })
       .fetchAll()
-      .then(result => (resolve(result)));
+      .then(result => (resolve(result.toJSON())))
+      .catch(err => (reject(err)));
     });
   },
+
   addNewLead: (body) => {
     return new Promise((resolve, reject) => {
-      // body.space_id = spaceid;
       body.conversion = 0;
-
       new Lead(body)
       .save()
-      .then(result => (resolve(result)));
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
+
   toggleConvertedLead: (spaceid, email) => {
     return new Promise((resolve, reject) => {
       Lead
@@ -42,9 +43,7 @@ module.exports = {
         });
         return resolve(latestLeadId);
       })
-      .catch((err) => {
-        return reject(err);
-      });
+      .catch(err => (reject(err)));
     })
     .then((latestLeadId) => {
       return new Promise((resolve, reject) => {
@@ -59,6 +58,6 @@ module.exports = {
         })
         .catch(err => reject('failed to toggle lead conversion flag'));
       });
-    })
+    });
   },
 };

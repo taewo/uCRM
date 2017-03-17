@@ -17,9 +17,7 @@ module.exports = {
           return resolve(false);
         }
       })
-      .catch((err) => {
-        return resolve(false);
-      });
+      .catch(err => (resolve(false)));
     });
   },
 
@@ -27,18 +25,17 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Room.where({ space_id: spaceid })
       .fetchAll()
-      .then((result) => {
-        return resolve(result.toJSON());
-      });
+      .then(result => (resolve(result.toJSON())))
+      .catch(err => (reject(err)));
     });
   },
+
   addNewRoom: (body) => {
     return new Promise((resolve, reject) => {
       new Room(body)
       .save()
-      .then((result) => {
-        return resolve(result);
-      });
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
 };

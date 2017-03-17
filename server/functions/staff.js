@@ -5,16 +5,6 @@ const moment = require('moment');
 const saltRounds = 10;
 
 module.exports = {
-  checkSession: (id) => {
-    return new Promise((resolve, reject) => {
-      Staff
-      .where({ id })
-      .fetch()
-      .then((result) => {
-        return resolve(result);
-      });
-    });
-  },
   checkExistence: (userid) => {
     return new Promise((resolve, reject) => {
       Staff

@@ -6,18 +6,27 @@ const room = require('../model/room');
 const member = require('../model/member');
 const signupAdmin = require('../model/signup_admin');
 const signupStaff = require('../model/signup_staff');
-const reservation = require('../model/reservation');
+// const reservation = require('../model/reservation');
 const billing = require('../model/billing');
 
 module.exports = {
+  dashboard: {
+    get:
+    (req, res) => (dashboard.get(req))
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    }),
+  },
 
   signup_admin: {
     post:
     (req, res) => (signupAdmin.post(req.body))
     .then((result) => {
       console.log('signup successfull!', result);
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log('signup admin failed', err)
@@ -30,8 +39,7 @@ module.exports = {
     (req, res) => (signupStaff.get(req))
     .then((result) => {
       console.log(result, 'body');
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log(err);
@@ -41,8 +49,7 @@ module.exports = {
     (req, res) => (signupStaff.post(req.body))
     .then((result) => {
       console.log(result, 'body');
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log(err);
@@ -50,25 +57,11 @@ module.exports = {
     }),
   },
 
-  dashboard: {
-    get:
-    (req, res) => (dashboard.get(req))
-    .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
-    })
-    .catch((err) => {
-      console.log(err.stack);
-      res.status(400).send(err);
-    }),
-  },
-
   space: {
     get:
     (req, res) => (space.get(req))
     .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       if (err === 'unauthorized') {
@@ -78,16 +71,17 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (!req.body.name || !req.body.address || !req.body.max_desks);
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(space.post(req));
-      })
+      const dataIncomplete = (!req.body.name || !req.body.address || !req.body.max_desks);
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return space.post(req)
       .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
+        if (result === undefined) {
+          res.status(400).send('unauthorized');
+        } else {
+          res.json(result);
+        }
       })
       .catch((err) => {
         console.log(err.stack);
@@ -103,8 +97,7 @@ module.exports = {
     put:
     (req, res) => (staffAuth.put(req))
     .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log(err.stack);
@@ -119,8 +112,11 @@ module.exports = {
     get:
     (req, res) => (lead.get(req))
     .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
+      console.log('RESULT', result)
+      if (result.length) {
+        res.json(result);
+      }
+      res.status(300).send('unauthorized access');
     })
     .catch((err) => {
       console.log(err.stack);
@@ -131,22 +127,19 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (
-          !req.body.date
-          || !req.body.space_id
-          || !req.body.email
-          || !req.body.type
-          || !req.body.name
-        );
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(lead.post(req));
-      })
+      const dataIncomplete = (
+        !req.body.date
+        || !req.body.space_id
+        || !req.body.email
+        || !req.body.type
+        || !req.body.name
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return lead.post(req)
       .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
+        res.json(result);
       })
       .catch((err) => {
         console.log(err.stack);
@@ -158,55 +151,51 @@ module.exports = {
     },
   },
 
-  room: {
-    get:
-    (req, res) => (room.get(req))
-    .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
-    })
-    .catch((err) => {
-      console.log(err.stack);
-      if (err === 'unauthorized') {
-        res.send(err).status(401);
-      }
-      res.send(err).status(400);
-    }),
-    post:
-    (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (
-          !req.body.name
-          || !req.body.cost
-          || !req.body.max_size
-          || !req.body.space_id
-        );
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(room.post(req));
-      })
-      .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err === 'unauthorized') {
-          res.send(err).status(401);
-        }
-        res.send(err).status(400);
-      });
-    },
-  },
+  // room: {
+  //   get:
+  //   (req, res) => (room.get(req))
+  //   .then((result) => {
+  //     res.json(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err.stack);
+  //     if (err === 'unauthorized') {
+  //       res.send(err).status(401);
+  //     }
+  //     res.send(err).status(400);
+  //   }),
+  //   post:
+  //   (req, res) => {
+  //     return new Promise((resolve, reject) => {
+  //       const dataIncomplete = (
+  //         !req.body.name
+  //         || !req.body.cost
+  //         || !req.body.max_size
+  //         || !req.body.space_id
+  //       );
+  //       if (dataIncomplete) {
+  //         return reject('post data incomplete');
+  //       }
+  //       return resolve(room.post(req));
+  //     })
+  //     .then((result) => {
+  //       res.json(result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       if (err === 'unauthorized') {
+  //         res.send(err).status(401);
+  //       }
+  //       res.send(err).status(400);
+  //     });
+  //   },
+  // },
 
   member: {
     get:
     (req, res) => (member.get(req))
     .then((result) => {
-      console.log('?final?', result)
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log(err);
@@ -214,22 +203,23 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (
-          !req.body.space_id
-          || !req.body.name
-          || !req.body.email
-          || !req.body.mobile
-          || !req.body.joined_date
-        );
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(member.post(req));
-      })
+      const dataIncomplete = (
+        !req.body.space_id
+        || !req.body.name
+        || !req.body.email
+        || !req.body.mobile
+        || !req.body.joined_date
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return member.post(req)
       .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
+        console.log('RESULT', result)
+        if (result) {
+          res.json(result);
+        }
+        res.status(302).send('no access')
       })
       .catch((err) => {
         console.log(err.stack);
@@ -238,51 +228,48 @@ module.exports = {
     },
   },
 
-  reservation: {
-    get:
-    (req, res) => (reservation.get(req))
-    .then((result) => {
-      const body = JSON.stringify(result);
-      res.json(body);
-    })
-    .catch((err) => {
-      console.log(err.stack);
-      res.status(400).send(err);
-    }),
-    post:
-    (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (
-          !req.body.room_id
-          || !req.body.date
-          || !req.body.start_time
-          || !req.body.end_time
-          || !req.body.duration
-          || !req.body.ispaid
-        );
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(reservation.post(req));
-      })
-      .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
-      })
-      .catch((err) => {
-        console.log(err.stack);
-        res.status(400).send(err);
-      });
-    },
-  },
+  // reservation: {
+  //   get:
+  //   (req, res) => (reservation.get(req))
+  //   .then((result) => {
+  //     res.json(result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err.stack);
+  //     res.status(400).send(err);
+  //   }),
+  //   post:
+  //   (req, res) => {
+  //     return new Promise((resolve, reject) => {
+  //       const dataIncomplete = (
+  //         !req.body.room_id
+  //         || !req.body.date
+  //         || !req.body.start_time
+  //         || !req.body.end_time
+  //         || !req.body.duration
+  //         || !req.body.ispaid
+  //       );
+  //       if (dataIncomplete) {
+  //         return reject('post data incomplete');
+  //       }
+  //       return resolve(reservation.post(req));
+  //     })
+  //     .then((result) => {
+  //       res.json(result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.stack);
+  //       res.status(400).send(err);
+  //     });
+  //   },
+  // },
 
   billplan: {
     get:
     (req, res) => (billing.get(req))
     .then((result) => {
       console.log(result, 'body');
-      const body = JSON.stringify(result);
-      res.json(body);
+      res.json(result);
     })
     .catch((err) => {
       console.log(err);
@@ -290,22 +277,19 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      return new Promise((resolve, reject) => {
-        const dataIncomplete = (
-          !req.body.space_id
-          || !req.body.name
-          || !req.body.cost
-          || !req.body.duration
-          || req.body.isdaily === undefined
-        );
-        if (dataIncomplete) {
-          return reject('post data incomplete');
-        }
-        return resolve(billing.post(req));
-      })
+      const dataIncomplete = (
+        !req.body.space_id
+        || !req.body.name
+        || !req.body.cost
+        || !req.body.duration
+        || req.body.isdaily === undefined
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return billing.post(req)
       .then((result) => {
-        const body = JSON.stringify(result);
-        res.json(body);
+        res.json(result);
       })
       .catch((err) => {
         console.log(err.stack);

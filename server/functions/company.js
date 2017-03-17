@@ -7,20 +7,18 @@ module.exports = {
       Company
       .where({ name })
       .fetch()
-      .then((result) => {
-        return resolve(result);
-      });
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
 
-  checkCompanySpaceByID: (companyid) => {
+  getCompanySpaceInfoByCompanyId: (companyid) => {
     return new Promise((resolve, reject) => {
       Company
       .where({ id: companyid })
       .fetch({ withRelated: ['space'] })
-      .then((result) => {
-        return resolve(result);
-      });
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
 
@@ -33,9 +31,7 @@ module.exports = {
         const resultJSON = result.toJSON();
         return resolve(resultJSON.company_id);
       })
-      .catch((err) => {
-        return reject('unahthorized, user has no company');
-      })
+      .catch(err => (reject('unahthorized, user has no company')));
     });
   },
 
@@ -43,9 +39,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       return new Company({ name })
       .save()
-      .then((result) => {
-        return resolve(result);
-      });
+      .then(result => (resolve(result)))
+      .catch(err => (reject(err)));
     });
   },
 };
