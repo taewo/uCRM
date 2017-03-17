@@ -50,6 +50,7 @@ const App = () => (
           </Route>
           <Route path="report" component={smartComponents.Report}>
             <Route path="churn" component={smartComponents.ChurnPage} />
+            <Route path="lead" component={smartComponents.LeadPage} />
           </Route>
         </Route>
       </Route>

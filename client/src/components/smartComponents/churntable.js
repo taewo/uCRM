@@ -33,12 +33,12 @@ class ChurnTable extends Component {
   }
 
   transformData() {
-    const dataset = []
+    const dataset = [];
     if (this.props.type === '비교분석' || this.props.type === '이번달' || this.props.type === '지난달') {
       if (JSON.stringify(this.props.data) !== '{}') {
-        let total = { index: '총합', ThisMonth: 0, ThisPercentage: '-', LastMonth: 0, LastPercentage: '-', change: '-' }
+        let total = { index: '총합', ThisMonth: 0, ThisPercentage: '-', LastMonth: 0, LastPercentage: '-', change: '-' };
         this.props.data.forEach((rows) => {
-          let newRow = Object.create(rows)
+          let newRow = Object.assign({}, rows);
           total.ThisMonth += newRow.ThisMonth;
           total.LastMonth += newRow.LastMonth;
           newRow.index = this.state.reason_mapper[newRow.index];
@@ -51,7 +51,7 @@ class ChurnTable extends Component {
     } else if (this.props.type === '이탈흐름분석') {
       let churnSum = 0;
       this.props.data.forEach((rows) => {
-        const newRow = Object.create(rows);
+        const newRow = Object.assign({}, rows);
         churnSum += rows.Churns;
         newRow.Month += '월';
         dataset.push(newRow);
@@ -63,10 +63,10 @@ class ChurnTable extends Component {
 
 
   render() {
-    const charts = [];
+    const tables = [];
     const tableDataSet = this.transformData();
     if (this.props.type === '비교분석') {
-      charts.push(
+      tables.push(
         <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 이탈</TableHeaderColumn>
@@ -77,7 +77,7 @@ class ChurnTable extends Component {
         </BootstrapTable>
       );
     } else if (this.props.type === '이번달') {
-      charts.push(
+      tables.push(
         <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 이탈</TableHeaderColumn>
@@ -85,7 +85,7 @@ class ChurnTable extends Component {
         </BootstrapTable>
       );
     } else if (this.props.type === '지난달') {
-      charts.push(
+      tables.push(
         <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="LastMonth">지난달 이탈</TableHeaderColumn>
@@ -93,7 +93,7 @@ class ChurnTable extends Component {
         </BootstrapTable>
       );
     } else if (this.props.type === '이탈흐름분석') {
-      charts.push(
+      tables.push(
         <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
           <TableHeaderColumn dataField="Month" isKey>해당 월</TableHeaderColumn>
           <TableHeaderColumn dataField="Churns">이탈 수</TableHeaderColumn>
@@ -102,7 +102,7 @@ class ChurnTable extends Component {
     }
     return (
       <div>
-        { charts }
+        { tables }
       </div>
     );
   }
