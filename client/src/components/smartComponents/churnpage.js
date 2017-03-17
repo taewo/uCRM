@@ -3,30 +3,37 @@ import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import ChurnReport from './churnreport';
+import ChurnTable from './churntable';
+
 
 class ChurnPage extends Component {
 
   constructor(props) {
     super(props);
-    this.handleTabClick = this.handleTabClick.bind(this);
     this.state = {
-      data: {},
-      type: 0,
+      thisMonthData: {},
+      lastMonthData: {},
+      comparisonData: {},
+      flowChartData: {},
       type_mapper: {
         0: '비교분석',
         1: '이번달',
         2: '지난달',
         3: '이탈흐름분석',
       },
+      type: 0,
     };
+    this.handleTabClick = this.handleTabClick.bind(this);
   }
 
   componentDidMount() {
-    this.handleTabClick(0);
+    this.getData(0);
+    this.getData(1);
+    this.getData(2);
+    this.getData(3);
   }
 
-  handleTabClick(type) {
-    console.log('type', type);
+  getData(type) {
     const API_URL = 'http://localhost:8000/api';
     let targeturl = `${API_URL}/churn/flow/?format=json`;
     if (type === 0) {
@@ -53,11 +60,29 @@ class ChurnPage extends Component {
       headers: instance.headers,
     })
     .then((res) => {
-      this.setState({
-        data: res.data,
-        type,
-      });
-      console.log(this)
+      if (type === 0) {
+        this.setState({
+          comparisonData: res.data,
+        });
+      } else if (type === 1) {
+        this.setState({
+          thisMonthData: res.data,
+        });
+      } else if (type === 2) {
+        this.setState({
+          lastMonthData: res.data,
+        });
+      } else if (type === 3) {
+        this.setState({
+          flowChartData: res.data,
+        });
+      }
+    });
+  }
+
+  handleTabClick(value) {
+    this.setState({
+      type: value,
     });
   }
 
@@ -73,16 +98,20 @@ class ChurnPage extends Component {
             <Tab>이탈흐름분석</Tab>
           </TabList>
           <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.data} type={this.state.type_mapper[this.state.type]} wait={500} />
+            <ChurnReport className="ChurnReport" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
+            <ChurnTable className="ChurnTable" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
           </TabPanel>
           <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.data} type={this.state.type_mapper[this.state.type]} wait={500} />
+            <ChurnReport className="ChurnReport" data={this.state.thisMonthData} type={this.state.type_mapper[this.state.type]} />
+            <ChurnTable className="ChurnTable" data={this.state.thisMonthData} type={this.state.type_mapper[this.state.type]} />
           </TabPanel>
           <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.data} type={this.state.type_mapper[this.state.type]} wait={500} />
+            <ChurnReport className="ChurnReport" data={this.state.lastMonthData} type={this.state.type_mapper[this.state.type]} />
+            <ChurnTable className="ChurnTable" data={this.state.lastMonthData} type={this.state.type_mapper[this.state.type]} />
           </TabPanel>
           <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.data} type={this.state.type_mapper[this.state.type]} wait={500} />
+            <ChurnReport className="ChurnReport" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
+            <ChurnTable className="ChurnTable" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
           </TabPanel>
         </Tabs>
       </div>
