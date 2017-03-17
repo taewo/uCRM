@@ -27,6 +27,7 @@ const App = () => (
         <Route path="signup" component={smartComponents.SignUp} />
         <Route path="login" component={smartComponents.Login} />
         <Route path="space" component={smartComponents.LogInSpace} />
+        <Route path="selectspace" component={smartComponents.SelectSpace} />
         <Route path="admin" component={smartComponents.Admin}>
           <Route path="manage" component={smartComponents.Manage}>
             <Route path="dashboard" component={smartComponents.Dashboard} />
@@ -46,6 +47,9 @@ const App = () => (
               <IndexRoute component={smartComponents.Lead} />
               <Route path="add" component={smartComponents.AddLead} />
             </Route>
+          </Route>
+          <Route path="report" component={smartComponents.Report}>
+            <Route path="churn" component={smartComponents.ChurnPage} />
           </Route>
         </Route>
       </Route>

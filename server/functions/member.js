@@ -7,8 +7,7 @@ module.exports = {
       Member.where({ space_id: spaceid })
       .fetchAll()
       .then((result) => {
-        console.log('members for this space_id=',spaceid, result)
-        return resolve(result);
+        return resolve(result.toJSON());
       })
       .catch((err) => {
         return reject('the space does not exist');

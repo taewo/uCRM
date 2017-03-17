@@ -10,7 +10,8 @@ module.exports = {
         } else {
           return resolve(result);
         }
-      });
+      })
+      .catch(err => (reject(err)));
     });
   },
   post: (req) => {
@@ -19,9 +20,7 @@ module.exports = {
       .then((result) => {
         return resolve(result);
       })
-      .catch((err) => {
-        return reject(err);
-      })
+      .catch(err => (reject(err)));
     });
   },
 };
