@@ -26,9 +26,6 @@ router.route('/lead')
 .get(controller.lead.get)
 .post(controller.lead.post);
 
-router.route('/room')
-.get(controller.room.get)
-.post(controller.room.post);
 
 router.route('/member')
 .get(controller.member.get)
@@ -40,6 +37,10 @@ router.route('/staff/permit')
 router.route('/billplan')
 .get(controller.billplan.get)
 .post(controller.billplan.post);
+
+// router.route('/room')
+// .get(controller.room.get)
+// .post(controller.room.post);
 
 // router.route('/room/reservation')
 // .get(controller.reservation.get)
