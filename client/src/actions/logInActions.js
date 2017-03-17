@@ -28,7 +28,7 @@ export function logInConfirm() {
     .then((res) => {
       console.log(2222)
       return new Promise((resolve, reject) => {
-        console.log('res',res.data);
+        console.log('res1',res.data);
         dispatch(isLogIn(true));
         const userType = res.data.type;
         const userToken = res.data.token;
@@ -40,7 +40,6 @@ export function logInConfirm() {
         if (localStorage.getItem('userToken')) {
           return reject('alredy logIn');
         }
-
         localStorage.setItem('userType', userType);
         localStorage.setItem('userToken', userToken);
         localStorage.setItem('userSpaceListId', userSpaceListId);

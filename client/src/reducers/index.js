@@ -4,8 +4,10 @@ import { routerReducer } from 'react-router-redux';
 import signUpReducer from './signUpReducer';
 import logInReducer from './logInReducer';
 import dashboardReducer from './dashboardReducer';
+import leadReducer from './leadReducer';
 
 const reducers = combineReducers({
+  leadReducer,
   signUpReducer,
   logInReducer,
   dashboardReducer,

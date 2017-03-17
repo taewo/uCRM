@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import { tokenChecker, API_URL } from '../../config';
+import { browserHistory } from 'react-router';
 
 class AddLead extends Component {
   constructor(props){
@@ -17,39 +18,30 @@ class AddLead extends Component {
   }
 
   submitData(e) {
-    const addDate = this.state.today;
-    const data = e;
-    data.date = addDate;
-    data.space_id = 5;
-    console.log(111, data);
     const instance = {
       headers: {
         token: localStorage.getItem('userToken'),
       },
     };
-  //   "space_id": 13,
-  // "date": "2017-01-01",
-  // "name": "ygdb",
-  // "email": "yg@gmail.com",
-  // "mobile": "010-0000-0000",
-  // "note": "this customer is ugly",
-  // "type": "email"
     axios({
       method: 'post',
       url: `${API_URL}/lead`,
       // req:
-      // date: data.date,
-      // space_id: data.space_id,
-      // name: data.name,
-      // email: data.email,
-      // mobile: data.mobile,
-      // note: data.note,
-      // type: data.type,
-      // headers: instance.headers,
+      data: {
+        date: this.state.today,
+        space_id: localStorage.getItem('userSpaceListId'),
+        name: e.name,
+        email: e.email,
+        mobile: e.mobile,
+        note: e.note,
+        type: e.type,
+      },
+      headers: instance.headers,
     })
     .then((res) => {
       console.log(11);
       console.log('res', res);
+      browserHistory.push('/admin/manage/lead');
     })
     .catch((err) => {
       console.log(222);
