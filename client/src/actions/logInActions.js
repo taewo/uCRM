@@ -27,8 +27,10 @@ export function logInConfirm() {
     })
     .then((res) => {
       return new Promise((resolve, reject) => {
-        dispatch(isLogIn(true));
 
+        console.log('res1',res.data);
+
+        dispatch(isLogIn(true));
         const userType = res.data.type;
         const userToken = res.data.token;
 
@@ -54,6 +56,7 @@ export function logInConfirm() {
           localStorage.setItem('userSpaceList', userSpaceList);
           return resolve(browserHistory.push('/selectspace'));
         }
+
       });
     })
     .catch((err) => {

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import { tokenChecker, API_URL } from '../../config';
+import { browserHistory } from 'react-router';
 
 class AddLead extends Component {
   constructor(props){
     super(props);
     this.state = {
-      today: new Date(),
+      today: new Date().toISOString().substring(0, 10),
     }
     this.submitData = this.submitData.bind(this);
   }
@@ -17,10 +18,6 @@ class AddLead extends Component {
   }
 
   submitData(e) {
-    const date = JSON.stringify(this.state.today)
-    const data = e;
-    data.date = date
-    console.log(111,data);
     const instance = {
       headers: {
         token: localStorage.getItem('userToken'),
@@ -29,14 +26,27 @@ class AddLead extends Component {
     axios({
       method: 'post',
       url: `${API_URL}/lead`,
-      headers: instance.headers
+      // req:
+      data: {
+        date: this.state.today,
+        space_id: localStorage.getItem('userSpaceListId'),
+        name: e.name,
+        email: e.email,
+        mobile: e.mobile,
+        note: e.note,
+        type: e.type,
+      },
+      headers: instance.headers,
     })
     .then((res) => {
-      console.log('res',res)
+      console.log(11);
+      console.log('res', res);
+      browserHistory.push('/admin/manage/lead');
     })
     .catch((err) => {
-      console.log('err',err);
-    })
+      console.log(222);
+      console.log('err', err);
+    });
   }
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props

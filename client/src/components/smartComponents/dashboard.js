@@ -1,20 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { AllMember, CurrentMember, LatestActivity, RoomReservation } from '../dummyComponents/onDashboard';
 import * as dashboardActions from '../../actions/dashboardActions';
 
-const propTypes = {
-};
-
-const defaultProps = {
-};
-
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.dashboardShow();
   }
@@ -41,8 +31,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dashboardShow: () => { dispatch(dashboardActions.dashboardShow()); }
 });
-
-Dashboard.propTypes = propTypes;
-Dashboard.defaultProps = defaultProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
