@@ -16,33 +16,23 @@ class ChurnReport extends Component {
       },
       colors: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395',
         '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262', '#5574A6', '#3B3EAC'],
-      hidden: 'hidden',
+      type: this.props.type,
     };
-  }
-
-  componentWillMount() {
-    setTimeout(() => {
-      this.show();
-    }, this.props.wait);
   }
 
   componentDidMount() {
     console.log('child did mount');
   }
 
-  show() {
-    this.setState({ hidden: '' });
-  }
-
   createDataSet() {
     const nextChartData = [];
-    if (this.props.type === '이번달' || this.props.type === '지난달') {
+    if (this.state.type === '이번달' || this.state.type === '지난달') {
       nextChartData.push({
         type: 'Doughnut',
-        data: this.createSingleDataSet(this.props.type),
-        title: `${this.props.type} 이탈율 분석`
+        data: this.createSingleDataSet(this.state.type),
+        title: `${this.state.type} 이탈율 분석`
       });
-    } else if (this.props.type === '이탈흐름분석') {
+    } else if (this.state.type === '이탈흐름분석') {
       nextChartData.push({
         type: 'Line',
         data: this.createFlowDataSet(),
@@ -64,7 +54,6 @@ class ChurnReport extends Component {
   }
 
   createSingleDataSet(type) {
-    console.log(this.props);
     const data = {
       labels: [],
       datasets: [{
@@ -105,7 +94,6 @@ class ChurnReport extends Component {
   }
 
   createFlowDataSet() {
-    console.log(this.props);
     const data = {
       labels: [],
       datasets: [{
@@ -145,10 +133,7 @@ class ChurnReport extends Component {
   render() {
     const chartDataList = this.createDataSet();
     const charts = [];
-    console.log(chartDataList);
     chartDataList.forEach((chart) => {
-      console.log(chart.data.datasets[0].data);
-      console.log(chart.data.datasets[0].data.length);
       let allZero = true;
       chart.data.datasets[0].data.forEach((data) => {
         if (data !== 0) allZero = false;
@@ -158,29 +143,38 @@ class ChurnReport extends Component {
           <div>
             <h2>{chart.title}</h2>
             <h3>데이터가 충분치 않습니다</h3>
+            <br />
+            <hr />
           </div>
         );
       } else {
         if (chart.type === 'Doughnut') {
           charts.push(
-            <div>
+            <div className="Chart">
               <h2>{chart.title}</h2>
-              <Doughnut data={chart.data} />
+              <Doughnut
+                data={chart.data}
+              />
+              <br />
+              <hr />
             </div>
           );
         } else if (chart.type === 'Line') {
           charts.push(
             <div>
               <h2>{chart.title}</h2>
-              <Line data={chart.data} />
+              <Line
+                data={chart.data}
+              />
+              <br />
+              <hr />
             </div>
           );
         }
       }
     });
-    console.log(charts);
     return (
-      <div className={this.state.hidden}>
+      <div>
         { charts }
       </div>
     );

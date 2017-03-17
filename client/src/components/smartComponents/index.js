@@ -19,3 +19,4 @@ export { default as SelectSpace } from './selectSpace';
 export { default as Report } from './report';
 export { default as ChurnPage } from './churnpage';
 export { default as ChurnReport } from './churnreport';
+export { default as ChurnTable } from './churntable';
