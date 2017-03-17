@@ -18,12 +18,10 @@ module.exports = {
           return resolve(true);
         }
       })
-      .catch((err) => {
-        console.log('checkId failed');
-        return reject(err);
-      });
+      .catch(err => (reject(err)));
     });
   },
+
   getUser: (userid) => {
     return new Promise((resolve, reject) => {
       const ifAdmin = Admin.checkExistence(userid);
@@ -42,9 +40,7 @@ module.exports = {
           return resolve(users[1]);
         }
       })
-      .catch((err) => {
-        return reject('user is neither admin nor staff');
-      })
+      .catch(err => (reject('user is neither admin nor staff')));
     });
-  }
+  },
 };

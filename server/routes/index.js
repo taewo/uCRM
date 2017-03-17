@@ -1,15 +1,13 @@
 const express = require('express');
-const passport = require('passport');
 
 const router = express.Router();
 const controller = require('../controller/index');
-const auth = require('../middleware/token');
-
-require('../config/passport')(passport);
+const Token = require('../middleware/token');
 
 router.use((req, res, next) => {
-  auth.checkToken(req.headers.token)
+  Token.checkNExtendedToken(req.headers.token)
   .then((result) => {
+    console.log('RESULT', result)
     next();
   })
   .catch((err) => {
@@ -46,6 +44,5 @@ router.route('/staff/permit')
 router.route('/billplan')
 .get(controller.billplan.get)
 .post(controller.billplan.post);
-
 
 module.exports = router;

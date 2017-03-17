@@ -65,7 +65,6 @@ app.post('/api/login/', (req, res) => {
   } else {
     auth.login(req)
     .then((result) => {
-      console.log('final rseult', result)
       delete result.expiredat;
       res.set({
         Token: result.token,
