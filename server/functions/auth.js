@@ -71,7 +71,7 @@ module.exports = {
     const {
       token
     } = req.headers;
-    const spaceid = parseInt(req.query.space_id);
+    const spaceid = parseInt(req.query.space_id || req.body.space_id);
 
     return Token.getUserByToken(token)
     .then((user) => {

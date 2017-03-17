@@ -6,7 +6,7 @@ module.exports = {
       Lead
       .where({ space_id: spaceid })
       .fetchAll()
-      .then(result => (resolve(result)))
+      .then(result => (resolve(result.toJSON())))
       .catch(err => (reject(err)));
     });
   },

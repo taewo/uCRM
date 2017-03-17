@@ -34,15 +34,15 @@ router.route('/member')
 .get(controller.member.get)
 .post(controller.member.post);
 
-router.route('/room/reservation')
-.get(controller.reservation.get)
-.post(controller.reservation.post);
-
 router.route('/staff/permit')
 .put(controller.staff_auth.put);
 
 router.route('/billplan')
 .get(controller.billplan.get)
 .post(controller.billplan.post);
+
+// router.route('/room/reservation')
+// .get(controller.reservation.get)
+// .post(controller.reservation.post);
 
 module.exports = router;
