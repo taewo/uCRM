@@ -20,9 +20,15 @@ export { default as Report } from './report';
 export { default as ChurnPage } from './churnpage';
 export { default as ChurnReport } from './churnreport';
 export { default as ChurnTable } from './churntable';
+
 export { default as Setting } from './setting';
 export { default as BillPlan } from './billPlan';
 export { default as Basic } from './basic';
 export { default as Space } from './space';
 export { default as AddBillPlan } from './addBillPlan';
 export { default as AddSpace } from './addSpace';
+
+export { default as LeadPage } from './leadpage';
+export { default as LeadReport } from './leadreport';
+export { default as LeadTable } from './leadtable';
+
