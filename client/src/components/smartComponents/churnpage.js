@@ -11,10 +11,10 @@ class ChurnPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisMonthData: {},
-      lastMonthData: {},
-      comparisonData: {},
-      flowChartData: {},
+      thisMonthData: [],
+      lastMonthData: [],
+      comparisonData: [],
+      flowChartData: [],
       type_mapper: {
         0: '비교분석',
         1: '이번달',

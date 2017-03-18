@@ -34,8 +34,8 @@ class ChurnTable extends Component {
 
   transformData() {
     const dataset = [];
-    if (this.props.type === '비교분석' || this.props.type === '이번달' || this.props.type === '지난달') {
-      if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
+      if (this.props.type === '비교분석' || this.props.type === '이번달' || this.props.type === '지난달') {
         let total = { index: '총합', ThisMonth: 0, ThisPercentage: '-', LastMonth: 0, LastPercentage: '-', change: '-' };
         this.props.data.forEach((rows) => {
           let newRow = Object.assign({}, rows);
@@ -47,16 +47,16 @@ class ChurnTable extends Component {
         });
         total = this.getDelta(total);
         dataset.push(total);
+      } else if (this.props.type === '이탈흐름분석') {
+        let churnSum = 0;
+        this.props.data.forEach((rows) => {
+          const newRow = Object.assign({}, rows);
+          churnSum += rows.Churns;
+          newRow.Month += '월';
+          dataset.push(newRow);
+        });
+        dataset.push({ Month: '총합', Churns: churnSum });
       }
-    } else if (this.props.type === '이탈흐름분석') {
-      let churnSum = 0;
-      this.props.data.forEach((rows) => {
-        const newRow = Object.assign({}, rows);
-        churnSum += rows.Churns;
-        newRow.Month += '월';
-        dataset.push(newRow);
-      });
-      dataset.push({ Month: '총합', Churns: churnSum });
     }
     return dataset;
   }

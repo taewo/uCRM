@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { MiddlebarChurn, MiddlebarReportLead } from '../dummyComponents/onReport';
+import { MiddlebarChurn, MiddlebarReportLead, MiddlebarReportSpace } from '../dummyComponents/onReport';
 
 const propTypes = {
 };
@@ -19,6 +19,7 @@ class Report extends Component {
       <div className="Report">
         <MiddlebarChurn />
         <MiddlebarReportLead />
+        <MiddlebarReportSpace />
         <br /><br />
         {this.props.children}
       </div>

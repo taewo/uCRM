@@ -33,8 +33,8 @@ class LeadTable extends Component {
 
   transformData() {
     const dataset = [];
-    if (this.props.type === '요약' || this.props.type === '채널별비교') {
-      if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
+      if (this.props.type === '요약' || this.props.type === '채널별비교') {
         let total = { Channels: '총합',
           ThisMonth: 0,
           ThisConversion: 0,
@@ -61,25 +61,25 @@ class LeadTable extends Component {
           console.log(newRow);
           dataset.push(newRow);
         });
-        total.ThisConversionPercentage = Math.round((total.ThisConversion / total.ThisMonth) * 100)
-        total.LastConversionPercentage = Math.round((total.LastConversion / total.LastMonth) * 100)
+        total.ThisConversionPercentage = Math.round((total.ThisConversion / total.ThisMonth) * 100);
+        total.LastConversionPercentage = Math.round((total.LastConversion / total.LastMonth) * 100);
         total.countchange = this.getDelta(total.ThisMonth, total.LastMonth);
         total.conversionchange = this.getDelta(total.ThisConversion, total.LastConversion);
         total.conversionratechange = this.getDelta(total.ThisConversionPercentage, total.LastConversionPercentage);
         dataset.push(total);
+      } else if (this.props.type === '잠재고객흐름분석') {
+        let leadSum = 0;
+        let conversionSum = 0;
+        this.props.data.forEach((rows) => {
+          const newRow = Object.assign({}, rows);
+          leadSum += rows.Leads;
+          conversionSum += rows.ActualConversion;
+          newRow.ConversionPercentage = Math.round(newRow.ConversionPercentage);
+          newRow.Month += '월';
+          dataset.push(newRow);
+        });
+        dataset.push({ Month: '총합', Leads: leadSum, ActualConversion: conversionSum, ConversionPercentage: '-' });
       }
-    } else if (this.props.type === '잠재고객흐름분석') {
-      let leadSum = 0;
-      let conversionSum = 0;
-      this.props.data.forEach((rows) => {
-        const newRow = Object.assign({}, rows);
-        leadSum += rows.Leads;
-        conversionSum += rows.ActualConversion;
-        newRow.ConversionPercentage = Math.round(newRow.ConversionPercentage);
-        newRow.Month += '월';
-        dataset.push(newRow);
-      });
-      dataset.push({ Month: '총합', Leads: leadSum, ActualConversion: conversionSum, ConversionPercentage: '-' });
     }
     return dataset;
   }

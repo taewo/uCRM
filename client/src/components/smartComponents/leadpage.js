@@ -11,8 +11,8 @@ class LeadPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailData: {},
-      flowChartData: {},
+      detailData: [],
+      flowChartData: [],
       type_mapper: {
         0: '요약',
         1: '채널별비교',

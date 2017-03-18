@@ -61,32 +61,22 @@ class ChurnReport extends Component {
         backgroundColor: [],
         hoverBackgroundColor: [],
       }],
-      options: {
-        title: {
-          display: true,
-          text: `${type} 이탈율 분석`,
-        },
-      },
     };
-    let count = 0;
     if (type === '이번달') {
-      if (JSON.stringify(this.props.data) !== '{}') {
-        this.props.data.forEach((churnReason) => {
+      if (this.props.data.length) {
+        this.props.data.forEach((churnReason, index) => {
           data.labels.push(this.state.reason_mapper[churnReason.index]);
           data.datasets[0].data.push(churnReason.ThisPercentage);
-          data.datasets[0].backgroundColor.push(this.state.colors[count]);
-          data.datasets[0].hoverBackgroundColor.push(this.state.colors[count]);
-          count += 1;
+          data.datasets[0].backgroundColor.push(this.state.colors[index]);
+          data.datasets[0].hoverBackgroundColor.push(this.state.colors[index]);
         });
       }
     } else if (type === '지난달') {
-      if (JSON.stringify(this.props.data) !== '{}') {
-        this.props.data.forEach((churnReason) => {
+      if (this.props.data.length) {
+        this.props.data.forEach((churnReason, index) => {
           data.labels.push(this.state.reason_mapper[churnReason.index]);
           data.datasets[0].data.push(churnReason.LastPercentage);
-          data.datasets[0].backgroundColor.push(this.state.colors[count]);
-          data.datasets[0].hoverBackgroundColor.push(this.state.colors[count]);
-          count += 1;
+          data.datasets[0].backgroundColor.push(this.state.colors[index]);
         });
       }
     }
@@ -119,12 +109,10 @@ class ChurnReport extends Component {
       },
       ],
     };
-    if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
       this.props.data.forEach((churnData) => {
         data.labels.push(churnData.Month + '월');
         data.datasets[0].data.push(churnData.Churns);
-        // data.datasets[0].backgroundColor.push(this.state.colors[count]);
-        // data.datasets[0].hoverBackgroundColor.push(this.state.colors[count]);
       });
     }
     return data;
