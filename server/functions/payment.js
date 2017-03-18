@@ -1,9 +1,9 @@
 const Payment = require('../db/payment');
 
 module.exports = {
-  getPayment: (spaceid) => {
+  getPayment: (memberid) => {
     return Payment
-    .where({ space_id: spaceid })
+    .where({ member_id: memberid })
     .fetchAll()
     .then((result) => {
       if (result) {
@@ -17,14 +17,11 @@ module.exports = {
 
   addNewPayment: (body) => {
     return Payment
-    .where({
-      space_id: body.space_id,
-      name: body.name,
-    })
+    .where(body)
     .fetch()
     .then((result) => {
       if (result) {
-        return Promise.reject('Error: the same bill plan name already exist');
+        return Promise.reject('Error: the same payment already exist');
       } else {
         return new Payment(body)
         .save()
