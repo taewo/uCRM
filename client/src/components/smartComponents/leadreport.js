@@ -63,14 +63,19 @@ class LeadReport extends Component {
         phone: '전화 문의',
         tour: '직접 방문',
       },
-      colors: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395',
-        '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262', '#5574A6', '#3B3EAC'],
+      colors: ['rgba(51, 102, 204, 1)', 'rgba(220, 57, 18, 1)', 'rgba(255, 153, 0, 1)', 'rgba(16, 150, 24, 1)', 'rgba(153, 0, 153, 1)', 'rgba(59, 62, 172, 1)'],
       type: this.props.type,
     };
   }
 
   componentDidMount() {
     console.log('child did mount');
+  }
+
+  makeOpaque(color, degree) {
+    let Opaque = color;
+    Opaque = Opaque.substring(0, Opaque.length - 2) + degree + ')';
+    return Opaque;
   }
 
   createDataSet() {
@@ -107,36 +112,36 @@ class LeadReport extends Component {
         type: 'line',
         data: [],
         fill: false,
-        borderColor: this.state.colors[1],
+        borderColor: this.makeOpaque(this.state.colors[1], 0.9),
         backgroundColor: this.state.colors[1],
         pointBorderColor: this.state.colors[1],
         pointBackgroundColor: this.state.colors[1],
         pointHoverBackgroundColor: this.state.colors[1],
         pointHoverBorderColor: this.state.colors[1],
-        yAxisID: 'y-axis-2',
+        yAxisID: 'y-axis-1',
       }, {
         type: 'bar',
         label: '방문 / 문의',
         data: [],
         fill: false,
-        backgroundColor: this.state.colors[2],
-        borderColor: this.state.colors[2],
+        backgroundColor: this.makeOpaque(this.state.colors[2], 0.8),
+        borderColor: this.makeOpaque(this.state.colors[2], 0.8),
         hoverBackgroundColor: this.state.colors[2],
         hoverBorderColor: this.state.colors[2],
-        yAxisID: 'y-axis-1',
+        yAxisID: 'y-axis-2',
       }, {
         type: 'bar',
         label: '전환',
         data: [],
         fill: false,
-        backgroundColor: this.state.colors[3],
-        borderColor: this.state.colors[3],
+        backgroundColor: this.makeOpaque(this.state.colors[3], 0.8),
+        borderColor: this.makeOpaque(this.state.colors[3], 0.8),
         hoverBackgroundColor: this.state.colors[3],
         hoverBorderColor: this.state.colors[3],
-        yAxisID: 'y-axis-1',
+        yAxisID: 'y-axis-2',
       }],
     };
-    if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
       this.props.data.forEach((channel) => {
         data.labels.push(this.state.channel_mapper[channel.Channels]);
         data.datasets[0].data.push(channel.ThisConversionPercentage);
@@ -155,12 +160,12 @@ class LeadReport extends Component {
 
       ]
     };
-    if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
       this.props.data.forEach((channel, index) => {
         data.datasets.push(
           {
             label: this.state.channel_mapper[channel.Channels],
-            backgroundColor: this.state.colors[index],
+            backgroundColor: this.makeOpaque(this.state.colors[index], 0.5),
             borderColor: this.state.colors[index],
             pointBackgroundColor: this.state.colors[index],
             pointBorderColor: '#fff',
@@ -222,7 +227,7 @@ class LeadReport extends Component {
       }
       ],
     };
-    if (JSON.stringify(this.props.data) !== '{}') {
+    if (this.props.data.length) {
       this.props.data.forEach((monthlyLead) => {
         data.labels.push(monthlyLead.Month + '월');
         data.datasets[0].data.push(monthlyLead.Leads);
