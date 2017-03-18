@@ -37,6 +37,10 @@ router.route('/billplan')
 .get(controller.billplan.get)
 .post(controller.billplan.post);
 
+router.route('/payment')
+.get(controller.payment.get)
+.post(controller.payment.post);
+
 // router.route('/room')
 // .get(controller.room.get)
 // .post(controller.room.post);

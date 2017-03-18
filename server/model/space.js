@@ -15,7 +15,8 @@ module.exports = {
           return spaceList;
         });
       });
-    });
+    })
+    .catch(err => (Promise.reject(err)));
   },
   post: (req) => {
     return Token.getUserByToken(req.headers.token)
@@ -26,7 +27,7 @@ module.exports = {
           .then((flagIfSpaceExist) => {
             console.log('duplicate?', flagIfSpaceExist);
             if (flagIfSpaceExist) {
-              throw new Error('the space already exist');
+              return Promise.reject('the space already exist');
             } else {
               return Space.addNewSpace(req.body)
               .then((newSpace) => {
@@ -35,11 +36,12 @@ module.exports = {
             }
           });
         } else if (user.type === 'staff') {
-          throw new Error('staff is not authorized to create a new space');
+          return Promise.reject('staff is not authorized to create a new space');
         }
       } else {
-        throw new Error('Error: you have no access to this space');
+        return Promise.reject('Error: invlaid token');
       }
-    });
+    })
+    .catch(err => (Promise.reject(err)));
   },
 };
