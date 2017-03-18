@@ -7,7 +7,7 @@ import { tokenChecker } from '../../config';
 class Admin extends Component {
 
   componentDidMount() {
-    // tokenChecker();
+    tokenChecker();
   }
 
   render() {
