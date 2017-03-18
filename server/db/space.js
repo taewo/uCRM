@@ -7,7 +7,7 @@ require('./staff');
 require('./room');
 require('./expense');
 require('./activity');
-require('./billingplan');
+require('./billplan');
 
 const Space = Bookshelf.Model.extend({
   tableName: 'space',
@@ -34,7 +34,7 @@ const Space = Bookshelf.Model.extend({
     return this.hasMany('Activity');
   },
   activity: function() {
-    return this.hasMany('BillingPlan');
+    return this.hasMany('BillPlan');
   },
 });
 
