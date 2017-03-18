@@ -1,3 +1,5 @@
+const Member = require('../db/member');
+
 const Admin = require('../functions/admin');
 const Staff = require('../functions/staff');
 const Token = require('../functions/token');
@@ -80,8 +82,7 @@ module.exports = {
         .then((companyId) => {
           return Space.getAllSpacesByCompanyId(companyId)
           .then((spaceList) => {
-            const hasSpace = spaceList.some(space => (space.id === spaceid));
-            return hasSpace;
+            return spaceList.some(space => (space.id === spaceid));
           });
         });
       } else if (user.type === 'staff') {
@@ -91,8 +92,40 @@ module.exports = {
           return false;
         }
       } else {
-        throw new Error('unahthorized user');
+        return Promise.reject('unahthorized user');
       }
     });
   },
+
+  checkIfUserHasMember: (req) => {
+    const token = req.headers.token;
+    const memberid = req.query.member_id || req.body.member_id;
+    return Token.getUserByToken(token)
+    .then((user) => {
+      if (user.type === 'comp') {
+        return Company.getCompanyIdByUserId(user.userid)
+        .then((companyId) => {
+          return Space.getAllSpacesByCompanyId(companyId)
+          .then((spaceList) => {
+            return Member
+            .where({ id: memberid})
+            .fetch()
+            .then((member) => {
+              console.log('MEMBER', member.toJSON())
+              if (member) {
+                console.log('CONDITION PASSED')
+                return spaceList.some(space => (space.id === member.toJSON().space_id));
+              }
+              return Promise.reject('Error: the member does not exist');
+            });
+          });
+        });
+      } else if (user.type === 'staff') {
+        // do stuff for staff
+      } else {
+        return Promise.reject('unahthorized user');
+      }
+    })
+    .catch(err => (Promise.reject(err)));
+  }
 };

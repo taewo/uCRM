@@ -113,20 +113,23 @@ module.exports = {
     });
   },
 
-  addNewSpace: (body) => {
-    return new Promise((resolve, reject) => {
-      return new Space({
-        company_id: body.company_id,
-        name: body.name,
-        address: body.address,
-        max_desks: body.max_desks,
-      })
-      .save()
-      .then((newSpace) => {
-        return resolve(newSpace);
-      })
-    });
-  },
+  addNewSpace: ({
+    company_id,
+    name,
+    address,
+    max_desks,
+  } = {}) => new Promise((resolve, reject) => {
+    return new Space({
+      company_id,
+      name,
+      address,
+      max_desks,
+    })
+    .save()
+    .then((newSpace) => {
+      return resolve(newSpace);
+    })
+  }),
 
   checkDuplicateSpace: (body) => {
     return new Promise((resolve, reject) => {
@@ -142,5 +145,15 @@ module.exports = {
         return reject(err);
       });
     });
+  },
+
+  getSpaceIdByMemberId: (memberid) => {
+    console.log('MEMBERID', memberid)
+    return Member
+    .where({ id: memberid })
+    .fetch()
+    .then((result) => {
+      return result.toJSON().space_id;
+    })
   },
 };
