@@ -288,12 +288,20 @@ module.exports = {
       }
       return billplan.post(req)
       .then((result) => {
-        res.json(result);
+        if (result) {
+          res.json(result);
+        } else {
+          res.status(400).send(err);
+        }
       })
       .catch((err) => {
-        console.log(err.stack);
+        console.log('err', err)
         res.status(400).send(err);
-      });
+      })
+      // .catch((err) => {
+      //   console.log(err.stack);
+      //   res.status(400).send(err);
+      // });
     },
   },
 };

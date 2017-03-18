@@ -11,7 +11,10 @@ module.exports = {
     });
   },
   post: (req) => {
-    BillPlan.addNewBillPlan(req.body)
-    .then(result => (result));
+    return BillPlan.addNewBillPlan(req.body)
+    .then(result => (result))
+    .catch((err) => {
+      return Promise.reject(err);
+    });
   },
 };
