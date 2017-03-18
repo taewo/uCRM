@@ -27,36 +27,33 @@ export function logInConfirm() {
     })
     .then((res) => {
       return new Promise((resolve, reject) => {
-
-        console.log('res1',res.data);
-
         dispatch(isLogIn(true));
         const userType = res.data.type;
         const userToken = res.data.token;
+        const userCompanyId = res.data.company_id;
+        console.log(res.data.company_id);
 
-        if (res.data.space_list.length === 2) {
+        localStorage.setItem('userCompanyId', userCompanyId);
+
+        if (res.data.space_list.length === 0) {
           if (localStorage.getItem('userToken')) {
-            return reject('alredy logIn');
+            return reject('11 alredy logIn');
           }
           localStorage.setItem('userToken', userToken);
           return resolve(browserHistory.push('/space'))
 
         } else {
-          console.log(res.data.space_list);
-          const userSpaceListJson = JSON.parse(res.data.space_list);
-          const userSpaceListId = userSpaceListJson[0].id;
-          const userSpaceList = res.data.space_list;
+          const userSpaceList = JSON.stringify(res.data.space_list);
+
+          console.log(typeof userSpaceList);
           console.log(userSpaceList);
           if (localStorage.getItem('userToken')) {
             return reject('alredy logIn');
           }
-
-          localStorage.setItem('userType', userType);
           localStorage.setItem('userToken', userToken);
           localStorage.setItem('userSpaceList', userSpaceList);
           return resolve(browserHistory.push('/selectspace'));
         }
-
       });
     })
     .catch((err) => {
