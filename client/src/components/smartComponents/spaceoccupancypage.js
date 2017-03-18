@@ -50,7 +50,7 @@ class SpaceOccupancyPage extends Component {
     return axios({
       method: 'get',
       url: targeturl,
-      params: { space_id: 3 },
+      params: { space_id: localStorage.getItem('userSpaceListId') },
       headers: instance.headers,
     })
     .then((res) => {
