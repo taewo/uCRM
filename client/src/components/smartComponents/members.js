@@ -2,47 +2,35 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import axios from 'axios';
+import update from 'react-addons-update'
+
+import * as membersActions from '../../actions/membersActions';
 
 class Members extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.showMembers = this.showMembers.bind(this);
-  }
-
   componentDidMount() {
-    this.showMembers();
-  }
-
-  showMembers() {
-    const instance = {
-      headers: {
-        token: localStorage.getItem('userToken'),
-      },
-    };
-    const API_URL = 'http://localhost:4000/api';
-    return axios({
-      method: 'get',
-      url: `${API_URL}/member`,
-      params: { space_id: localStorage.getItem('userSpaceListId') },
-      headers: instance.headers,
-    })
-    .then((res) => {
-      const memberJson = JSON.parse(res.data);
-      console.log(memberJson);
-      const memberData = [];
-      memberData.push(memberJson);
-      // const memberList = memberData[0].map((data, i) => {
-      //   return (<div key={i} id={data.id}>{data}</div> )
-      // });
-      return ;;
-    });
+    this.props.membersShow();
   }
 
   render() {
-
+    const {
+      members,
+    } = this.props;
+    console.log(this.props.members);
+    // const memberList = this.props.members.map((member) => {
+    //   const {
+    //     email,
+    //     end_date,
+    //     end_reason,
+    //     gender,
+    //     joined_date,
+    //     mobile,
+    //     name,
+    //   } = member;
+    //   return (
+    //     <div>
+    //       이름: {name}
+    //     </div>);
+    // });
     return (
       <div>
         <Link to={'/admin/manage/members/add'}>
@@ -51,11 +39,31 @@ class Members extends Component {
         <br />
         <div>
           memberList
-          {this.showMembers}
+        </div>
+        <div>
+          <button onClick={ this.handleBtnClick }>Sort Product Name</button>
+          <BootstrapTable ref='table' data={ members }>
+            <TableHeaderColumn dataField='name' isKey={ true } dataSort={ true }>name ID</TableHeaderColumn>
+            <TableHeaderColumn dataField='joined_date' dataSort={ true }>joined_date</TableHeaderColumn>
+            <TableHeaderColumn dataField='end_date' dataSort={ true }>end_date</TableHeaderColumn>
+            <TableHeaderColumn dataField='end_reason' dataSort={ true }>end_reason</TableHeaderColumn>
+            <TableHeaderColumn dataField='mobile' dataSort={ true }>mobile</TableHeaderColumn>
+            <TableHeaderColumn dataField='email' dataSort={ true }>email</TableHeaderColumn>
+            <TableHeaderColumn dataField='gender' dataSort={ true }>gender</TableHeaderColumn>
+
+          </BootstrapTable>
         </div>
       </div>
     );
   }
 }
 
-export default (Members);
+const mapStateToProps = state => ({
+  members: state.membersReducer.members,
+});
+
+const mapDispatchToProps = dispatch => ({
+  membersShow: () => { dispatch(membersActions.membersShow()); },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Members);
