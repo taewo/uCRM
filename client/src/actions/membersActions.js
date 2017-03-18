@@ -1,7 +1,6 @@
 // import axios from 'axios';
 // import { browserHistory } from 'react-router';
 import * as types from './types';
-import data from '../../data.json';
 
 export const dashboardAllMember = allMember => ({
   type: types.DASHBOARD_ALLMEMBER_SHOW,

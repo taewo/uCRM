@@ -8,6 +8,7 @@ import { tokenChecker, API_URL } from '../../config';
 const renderMembers = ({ fields }) => (
   <ul>
     <button type="button" onClick={() => {
+        console.log(1);
       const instance = {
         headers: {
           token: localStorage.getItem('userToken'),
@@ -71,18 +72,24 @@ class LogInSpace extends Component {
         token: localStorage.getItem('userToken'),
       },
     };
+    const userCompanyId = localStorage.getItem('userCompanyId');
     const data = Object.assign({}, e);
-    const spaceData = data.space;
-
+    const spaceData = data.space[0];
+    console.log(spaceData);
     axios({
       method: 'post',
       url: `${API_URL}/space`,
       headers: instance.headers,
-      data: spaceData,
+      data: {
+        name: spaceData.Name,
+        address: spaceData.Address,
+        max_desks: spaceData.Max_desks,
+        company_id: userCompanyId,
+      },
     })
     .then((res) => {
       console.log('res', res);
-      // browserHistory.push('/admin')
+      browserHistory.push('/admin')
     })
   }
 
