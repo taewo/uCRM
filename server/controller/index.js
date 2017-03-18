@@ -71,7 +71,12 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      const dataIncomplete = (!req.body.name || !req.body.address || !req.body.max_desks);
+      const dataIncomplete = (
+        !req.body.name
+        || !req.body.company_id
+        || !req.body.address
+        || !req.body.max_desks
+      );
       if (dataIncomplete) {
         res.status(400).send('post data incomplete');
       }
@@ -84,10 +89,6 @@ module.exports = {
         }
       })
       .catch((err) => {
-        console.log(err.stack);
-        if (err === 'unauthorized') {
-          res.status(401).send(err);
-        }
         res.status(400).send(err);
       });
     },
@@ -288,20 +289,45 @@ module.exports = {
       }
       return billplan.post(req)
       .then((result) => {
-        if (result) {
-          res.json(result);
-        } else {
-          res.status(400).send(err);
-        }
+        res.json(result);
       })
       .catch((err) => {
-        console.log('err', err)
+        console.log('hahaha')
         res.status(400).send(err);
+      });
+    },
+  },
+
+  payment: {
+    get:
+    (req, res) => (payment.get(req))
+    .then((result) => {
+      console.log('bill plan list for', req.query.space_id, result);
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      const dataIncomplete = (
+        !req.body.space_id
+        || !req.body.member_id
+        || !req.body.cost
+        || !req.body.duration
+        || req.body.isdaily === undefined
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return payment.post(req)
+      .then((result) => {
+        res.json(result);
       })
-      // .catch((err) => {
-      //   console.log(err.stack);
-      //   res.status(400).send(err);
-      // });
+      .catch((err) => {
+        res.status(400).send(err);
+      });
     },
   },
 };

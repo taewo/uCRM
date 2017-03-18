@@ -9,31 +9,28 @@ const company = require('./company');
 module.exports = {
 
   getMemberList: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Space.where({ id: spaceid })
-      .fetch({ withRelated: ['member'] })
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.related('member').toJSON());
-      })
-      .catch(err => (reject('failed to get member list')));
-    });
+    return Space
+    .where({ id: spaceid })
+    .fetch({ withRelated: ['member'] })
+    .then((result) => {
+      if (!result) {
+        return [];
+      }
+      return result.related('member').toJSON();
+    })
+    .catch(err => (Promise.reject('failed to get member list')));
   },
 
   getReservedList: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Room.where({ space_id: spaceid })
-      .fetch({ withRelated: ['reservation'] })
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.related('reservation').toJSON());
-      })
-      .catch(err => (reject(err)));
-    });
+    return Room.where({ space_id: spaceid })
+    .fetch({ withRelated: ['reservation'] })
+    .then((result) => {
+      if (!result) {
+        return [];
+      }
+      return result.related('reservation').toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
   getUnpaidSum: (spaceid) => {
