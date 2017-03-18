@@ -2,12 +2,12 @@ const dashboard = require('../model/dashboard');
 const space = require('../model/space');
 const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
-const room = require('../model/room');
 const member = require('../model/member');
 const signupAdmin = require('../model/signup_admin');
 const signupStaff = require('../model/signup_staff');
+const billplan = require('../model/billplan');
+// const room = require('../model/room');
 // const reservation = require('../model/reservation');
-const billing = require('../model/billing');
 
 module.exports = {
   dashboard: {
@@ -215,7 +215,6 @@ module.exports = {
       }
       return member.post(req)
       .then((result) => {
-        console.log('RESULT', result)
         if (result) {
           res.json(result);
         }
@@ -266,9 +265,9 @@ module.exports = {
 
   billplan: {
     get:
-    (req, res) => (billing.get(req))
+    (req, res) => (billplan.get(req))
     .then((result) => {
-      console.log(result, 'body');
+      console.log('bill plan list for', req.query.space_id, result);
       res.json(result);
     })
     .catch((err) => {
@@ -287,7 +286,7 @@ module.exports = {
       if (dataIncomplete) {
         res.status(400).send('post data incomplete');
       }
-      return billing.post(req)
+      return billplan.post(req)
       .then((result) => {
         res.json(result);
       })

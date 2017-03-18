@@ -7,7 +7,6 @@ const Token = require('../middleware/token');
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
   .then((result) => {
-    console.log('RESULT', result)
     next();
   })
   .catch((err) => {

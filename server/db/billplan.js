@@ -3,7 +3,7 @@ const Bookshelf = require('./bookshelf');
 require('./space');
 require('./payment');
 
-const BillingPlan = Bookshelf.Model.extend({
+const BillPlan = Bookshelf.Model.extend({
   tableName: 'billingplan',
 
   space: function() {
@@ -14,4 +14,4 @@ const BillingPlan = Bookshelf.Model.extend({
   },
 });
 
-module.exports = Bookshelf.model('BillingPlan', BillingPlan);
+module.exports = Bookshelf.model('BillPlan', BillPlan);
