@@ -44,8 +44,8 @@ export function dashboardShow() {
       headers: instance.headers,
     })
     .then((res) => {
-      console.log(res);
-      const data = JSON.parse(res.data);
+      console.log(res.data);
+      const data = res.data;
       const dataMemberList = data.memberList;
       const dataMemberListLength = dataMemberList.length;
       let countCurrentMember = 0;

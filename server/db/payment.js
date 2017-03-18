@@ -1,13 +1,13 @@
 const Bookshelf = require('./bookshelf');
 
-require('./billingplan');
+require('./billplan');
 require('./member');
 
 const Payment = Bookshelf.Model.extend({
   tableName: 'payment',
 
-  billingplan: function() {
-    return this.belongsTo('BillingPlan');
+  billplan: function() {
+    return this.belongsTo('BillPlan');
   },
   member: function() {
     return this.belongsTo('Member');

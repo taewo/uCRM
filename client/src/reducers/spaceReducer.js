@@ -5,19 +5,17 @@ const initialState = {
   axiosGetData: false,
 };
 
-const leadReducer = (state = initialState, action) => {
+const spaceReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.LEAD_DATA:
+    case types.SPACE_DATA:
       return Object.assign({}, state, {
         data: action.data,
       });
-    case types.LEAD_AXIOS_DATA_GET:
+    case types.SPACE_AXIOS_DATA_GET:
       return Object.assign({}, state, {
         axiosGetData: action.axiosGetData,
       });
     default:
       return state;
   }
-};
-
-export default leadReducer;
+}

@@ -5,8 +5,10 @@ import signUpReducer from './signUpReducer';
 import logInReducer from './logInReducer';
 import dashboardReducer from './dashboardReducer';
 import leadReducer from './leadReducer';
+import spaceReducer from './spaceReducer';
 
 const reducers = combineReducers({
+  spaceReducer,
   leadReducer,
   signUpReducer,
   logInReducer,

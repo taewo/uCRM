@@ -5,9 +5,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const index = require('./routes/index');
 const controller = require('./controller/index');
-const auth = require('./middleware/token');
+const auth = require('./functions/token');
+const Auth = require('./middleware/token');
 
 const app = express();
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -63,7 +65,7 @@ app.post('/api/login/', (req, res) => {
   if (formIncomplete) {
     res.status(400).send('login form incomplete');
   } else {
-    auth.login(req)
+    Auth.login(req)
     .then((result) => {
       delete result.expiredat;
       res.set({

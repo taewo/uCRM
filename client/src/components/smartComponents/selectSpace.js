@@ -11,11 +11,11 @@ class SelectSpace extends Component {
     const showId = data.map((data) => {
       return <div
         onClick={() => {
-          localStorage.setItem('userSpaceListId', data.id);
+          localStorage.setItem('userSpaceListId', data.space_id);
           browserHistory.push('/admin/manage/dashboard');
         }}
       >
-        select: {data.id}
+        select: {data.name}
       </div>;
     });
 

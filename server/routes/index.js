@@ -7,7 +7,6 @@ const Token = require('../middleware/token');
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
   .then((result) => {
-    console.log('RESULT', result)
     next();
   })
   .catch((err) => {
@@ -37,6 +36,10 @@ router.route('/staff/permit')
 router.route('/billplan')
 .get(controller.billplan.get)
 .post(controller.billplan.post);
+
+router.route('/payment')
+.get(controller.payment.get)
+.post(controller.payment.post);
 
 // router.route('/room')
 // .get(controller.room.get)

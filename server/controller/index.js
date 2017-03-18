@@ -2,12 +2,12 @@ const dashboard = require('../model/dashboard');
 const space = require('../model/space');
 const staffAuth = require('../model/staff_auth');
 const lead = require('../model/lead');
-const room = require('../model/room');
 const member = require('../model/member');
 const signupAdmin = require('../model/signup_admin');
 const signupStaff = require('../model/signup_staff');
+const billplan = require('../model/billplan');
+// const room = require('../model/room');
 // const reservation = require('../model/reservation');
-const billing = require('../model/billing');
 
 module.exports = {
   dashboard: {
@@ -71,7 +71,12 @@ module.exports = {
     }),
     post:
     (req, res) => {
-      const dataIncomplete = (!req.body.name || !req.body.address || !req.body.max_desks);
+      const dataIncomplete = (
+        !req.body.name
+        || !req.body.company_id
+        || !req.body.address
+        || !req.body.max_desks
+      );
       if (dataIncomplete) {
         res.status(400).send('post data incomplete');
       }
@@ -84,10 +89,6 @@ module.exports = {
         }
       })
       .catch((err) => {
-        console.log(err.stack);
-        if (err === 'unauthorized') {
-          res.status(401).send(err);
-        }
         res.status(400).send(err);
       });
     },
@@ -215,7 +216,6 @@ module.exports = {
       }
       return member.post(req)
       .then((result) => {
-        console.log('RESULT', result)
         if (result) {
           res.json(result);
         }
@@ -266,9 +266,9 @@ module.exports = {
 
   billplan: {
     get:
-    (req, res) => (billing.get(req))
+    (req, res) => (billplan.get(req))
     .then((result) => {
-      console.log(result, 'body');
+      console.log('bill plan list for', req.query.space_id, result);
       res.json(result);
     })
     .catch((err) => {
@@ -287,12 +287,45 @@ module.exports = {
       if (dataIncomplete) {
         res.status(400).send('post data incomplete');
       }
-      return billing.post(req)
+      return billplan.post(req)
       .then((result) => {
         res.json(result);
       })
       .catch((err) => {
-        console.log(err.stack);
+        console.log('hahaha')
+        res.status(400).send(err);
+      });
+    },
+  },
+
+  payment: {
+    get:
+    (req, res) => (payment.get(req))
+    .then((result) => {
+      console.log('bill plan list for', req.query.space_id, result);
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      const dataIncomplete = (
+        !req.body.space_id
+        || !req.body.member_id
+        || !req.body.cost
+        || !req.body.duration
+        || req.body.isdaily === undefined
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return payment.post(req)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
         res.status(400).send(err);
       });
     },

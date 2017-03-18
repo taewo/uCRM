@@ -21,3 +21,6 @@ export const IS_DASHBOARD_SHOW = 'IS_DASHBOARD_SHOW';
 // LEAD
 export const LEAD_DATA = 'LEAD_DATA';
 export const LEAD_AXIOS_DATA_GET = 'LEAD_AXIOS_DATA_GET';
+// SPACE
+export const SPACE_DATA = 'SPACE_DATA';
+export const SPACE_AXIOS_DATA_GET = 'SPACE_AXIOS_DATA_GET';

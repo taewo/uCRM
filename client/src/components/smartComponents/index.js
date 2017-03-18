@@ -12,7 +12,6 @@ export { default as Invoices } from './invoices';
 export { default as AddInvoices } from './addInvoices';
 export { default as Room } from './room';
 export { default as AddRoom } from './addRoom';
-export { default as LogInSpace } from './logInSpace';
 export { default as Lead } from './lead';
 export { default as AddLead } from './addLead';
 export { default as SelectSpace } from './selectSpace';
