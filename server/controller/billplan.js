@@ -4,13 +4,12 @@ module.exports = {
   get:
   (req, res) => (billplan.get(req))
   .then((result) => {
-    console.log('bill plan list for', req.query.space_id, result);
     res.json(result);
   })
   .catch((err) => {
-    console.log(err);
     res.status(400).send(err);
   }),
+
   post:
   (req, res) => {
     const dataIncomplete = (
@@ -28,7 +27,6 @@ module.exports = {
       res.json(result);
     })
     .catch((err) => {
-      console.log('hahaha')
       res.status(400).send(err);
     });
   },

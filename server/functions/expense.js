@@ -5,11 +5,9 @@ module.exports = {
     return Expense
     .where({ space_id: spaceid })
     .fetchAll()
-    .then((result) => {
-      console.log('RESULT', result.toJSON())
-      if (result) {
-        console.log('CONDITION PASSED')
-        return result.toJSON()
+    .then((expenseRecords) => {
+      if (expenseRecords) {
+        return expenseRecords.toJSON()
       } else {
         return [];
       }
@@ -18,19 +16,18 @@ module.exports = {
   },
 
   addNewExpense: (body) => {
+    console.log('req.bydo', body)
+    body.isapproved = 0;
     return Expense
-    .where({
-      space_id: body.space_id,
-      name: body.name,
-    })
+    .where(body)
     .fetch()
-    .then((result) => {
-      if (result) {
-        return Promise.reject('Error: the same bill plan name already exist');
+    .then((expenseExist) => {
+      if (expenseExist) {
+        return Promise.reject('Error: the same expense record already exist');
       } else {
         return new Expense(body)
         .save()
-        .then(result => (result.toJSON()));
+        .then(newExpense => (newExpense.toJSON()));
       }
     })
     .catch(err => (Promise.reject(err)));
