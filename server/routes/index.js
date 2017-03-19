@@ -41,6 +41,10 @@ router.route('/payment')
 .get(controller.payment.get)
 .post(controller.payment.post);
 
+router.route('/expense')
+.get(controller.expense.get)
+.post(controller.expense.post);
+
 // router.route('/room')
 // .get(controller.room.get)
 // .post(controller.room.post);

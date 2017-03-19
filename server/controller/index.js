@@ -7,6 +7,7 @@ const signupAdmin = require('../model/signup_admin');
 const signupStaff = require('../model/signup_staff');
 const billplan = require('../model/billplan');
 const payment = require('../model/payment');
+const expense = require('../model/expense');
 // const room = require('../model/room');
 // const reservation = require('../model/reservation');
 
@@ -331,6 +332,49 @@ module.exports = {
         res.status(400).send('post data incomplete');
       }
       return payment.post(req)
+      .then((result) => {
+        console.log('RESULT', result)
+        res.json(result);
+      })
+      .catch((err) => {
+        console.log('err', err)
+        res.status(400).send(err);
+      });
+    },
+  },
+
+  expense: {
+    get:
+    (req, res) => (expense.get(req))
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).send(err);
+    }),
+    post:
+    (req, res) => {
+      const {
+        space_id,
+        member_id,
+        bill_plan_id,
+        start_date,
+        end_date,
+        payment_method,
+      } = req.body;
+      const dataIncomplete = (
+        !space_id
+        || !member_id
+        || !bill_plan_id
+        || !start_date
+        || !end_date
+        || !payment_method
+      );
+      if (dataIncomplete) {
+        res.status(400).send('post data incomplete');
+      }
+      return expense.post(req)
       .then((result) => {
         console.log('RESULT', result)
         res.json(result);
