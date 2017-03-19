@@ -2,7 +2,7 @@ const Payment = require('../functions/payment');
 const Auth = require('../functions/auth');
 
 module.exports = {
-  get: (req) => {
+  get(req) {
     return Auth.checkIfUserHasMember(req)
     .then((hasMember) => {
       if (hasMember) {
@@ -19,7 +19,8 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
-  post: (req) => {
+
+  post(req) {
     return Auth.checkIfUserHasMember(req)
     .then((hasMember) => {
       console.log('HASMEMBER', hasMember)

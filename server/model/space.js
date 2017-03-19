@@ -3,31 +3,27 @@ const Company = require('../functions/company');
 const Token = require('../functions/token');
 
 module.exports = {
-  get: (req) => {
+  get(req) {
     return Token.getUserByToken(req.headers.token)
-    .then((user) => {
-      console.log('USER', user)
-      return Company.getCompanyIdByUserId(user.userid)
-      .then((companyId) => {
-        return Space.getAllSpacesByCompanyId(companyId)
-        .then((spaceList) => {
-          console.log('SPACELIST', spaceList)
-          return spaceList;
-        });
-      });
-    })
+    .then(user => (
+      Company.getCompanyIdByUserId(user.userid)
+      .then(companyId => (
+        Space.getAllSpacesByCompanyId(companyId)
+        .then(spaceList => (spaceList))
+      ))
+    ))
     .catch(err => (Promise.reject(err)));
   },
-  post: (req) => {
+
+  post(req) {
     return Token.getUserByToken(req.headers.token)
     .then((user) => {
       if (user) {
         if (user.type === 'comp') {
           return Space.checkDuplicateSpace(req.body)
           .then((flagIfSpaceExist) => {
-            console.log('duplicate?', flagIfSpaceExist);
             if (flagIfSpaceExist) {
-              return Promise.reject('the space already exist');
+              return Promise.reject('Error: requested space already exist');
             } else {
               return Space.addNewSpace(req.body)
               .then((newSpace) => {
@@ -39,7 +35,7 @@ module.exports = {
           return Promise.reject('staff is not authorized to create a new space');
         }
       } else {
-        return Promise.reject('Error: invlaid token');
+        return Promise.reject('Error: Authentication credentials were not provided.');
       }
     })
     .catch(err => (Promise.reject(err)));
