@@ -2,6 +2,7 @@ const Expense = require('../functions/expense');
 
 module.exports = {
   get: (req) => {
+    console.log('REQ', req.query)
     return Expense.getExpense(req.query.space_id)
     .then((result) => {
       if (result) {

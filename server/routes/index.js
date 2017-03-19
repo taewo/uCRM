@@ -1,7 +1,14 @@
 const express = require('express');
 
 const router = express.Router();
-const controller = require('../controller/index');
+const dashboard = require('../controller/dashboard');
+const space = require('../controller/space');
+const lead = require('../controller/lead');
+const member = require('../controller/member');
+const payment = require('../controller/payment');
+const expense = require('../controller/expense');
+const utility = require('../controller/utility');
+const billplan = require('../controller/billplan');
 const Token = require('../middleware/token');
 
 router.use((req, res, next) => {
@@ -15,42 +22,41 @@ router.use((req, res, next) => {
 });
 
 router.route('/dashboard')
-.get(controller.dashboard.get);
+.get(dashboard.get);
 
 router.route('/space')
-.get(controller.space.get)
-.post(controller.space.post);
+.get(space.get)
+.post(space.post);
 
 router.route('/lead')
-.get(controller.lead.get)
-.post(controller.lead.post);
-
+.get(lead.get)
+.post(lead.post);
 
 router.route('/member')
-.get(controller.member.get)
-.post(controller.member.post);
+.get(member.get)
+.post(member.post);
 
 router.route('/staff/permit')
-.put(controller.staff_auth.put);
+.put(utility.staff_auth.put);
 
 router.route('/billplan')
-.get(controller.billplan.get)
-.post(controller.billplan.post);
+.get(billplan.get)
+.post(billplan.post);
 
 router.route('/payment')
-.get(controller.payment.get)
-.post(controller.payment.post);
+.get(payment.get)
+.post(payment.post);
 
 router.route('/expense')
-.get(controller.expense.get)
-.post(controller.expense.post);
+.get(expense.get)
+.post(expense.post);
 
 // router.route('/room')
-// .get(controller.room.get)
-// .post(controller.room.post);
+// .get(room.get)
+// .post(room.post);
 
 // router.route('/room/reservation')
-// .get(controller.reservation.get)
-// .post(controller.reservation.post);
+// .get(reservation.get)
+// .post(reservation.post);
 
 module.exports = router;

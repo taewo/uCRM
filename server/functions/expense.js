@@ -6,7 +6,9 @@ module.exports = {
     .where({ space_id: spaceid })
     .fetchAll()
     .then((result) => {
+      console.log('RESULT', result.toJSON())
       if (result) {
+        console.log('CONDITION PASSED')
         return result.toJSON()
       } else {
         return [];
