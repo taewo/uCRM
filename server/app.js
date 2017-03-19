@@ -4,12 +4,11 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const index = require('./routes/index');
-const controller = require('./controller/index');
+const controller = require('./controller/utility');
 const auth = require('./functions/token');
 const Auth = require('./middleware/token');
 
 const app = express();
-
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -25,12 +24,20 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.post('/api/signup/admin/', (req, res) => {
   console.log('req.body', req.body);
-  const formIncomplete = !req.body.companyname
-    || !req.body.userid
-    || !req.body.password
-    || !req.body.name
-    || !req.body.mobile
-    || !req.body.email;
+  const {
+    companyname,
+    userid,
+    password,
+    name,
+    mobile,
+    email,
+  } = req.body;
+  const formIncomplete = !companyname
+    || !userid
+    || !password
+    || !name
+    || !mobile
+    || !email;
 
   if (formIncomplete) {
     res.status(400).send('admin form incomplete');
@@ -90,7 +97,6 @@ app.get('/api/logout', (req, res) => {
   });
 });
 
-// ask Namse api 가 아닌데도 다 낚아 채버림.....위에 코드들 다 실행 안됌
 app.use('/api', index);
 
 app.use((req, res, next) => {

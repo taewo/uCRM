@@ -16,7 +16,6 @@ module.exports = {
   },
 
   addNewExpense: (body) => {
-    console.log('req.bydo', body)
     body.isapproved = 0;
     return Expense
     .where(body)
@@ -24,11 +23,10 @@ module.exports = {
     .then((expenseExist) => {
       if (expenseExist) {
         return Promise.reject('Error: the same expense record already exist');
-      } else {
-        return new Expense(body)
-        .save()
-        .then(newExpense => (newExpense.toJSON()));
       }
+      return new Expense(body)
+      .save()
+      .then(newExpense => (newExpense.toJSON()));
     })
     .catch(err => (Promise.reject(err)));
   },

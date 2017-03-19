@@ -3,7 +3,7 @@ const Lead = require('../functions/lead');
 const Auth = require('../functions/auth');
 
 module.exports = {
-  get: (req) => {
+  get(req) {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
       if (access) {
@@ -21,7 +21,7 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  post: (req) => {
+  post(req) {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
       if (access) {
