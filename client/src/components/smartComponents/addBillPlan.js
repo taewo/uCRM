@@ -20,7 +20,7 @@ class AddBillPlan extends Component {
       url: `${API_URL}/billplan`,
       headers: token,
       data: {
-        space_id: e.space_id,
+        space_id: localStorage.getItem('userSpaceListId'),
         name: e.name,
         cost: e.cost,
         isdaily: e.isDaily,
@@ -44,12 +44,6 @@ class AddBillPlan extends Component {
         <br />
         <div>
           <form id="name" onSubmit={handleSubmit(this.submitData)}>
-            <div>
-              <label>Space Id</label>
-              <div>
-                <Field name="space_id" component="input" type="number" placeholder="Space_Id" />
-              </div>
-            </div>
             <div>
               <label>Name</label>
               <div>

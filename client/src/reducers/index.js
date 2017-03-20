@@ -6,9 +6,11 @@ import logInReducer from './logInReducer';
 import dashboardReducer from './dashboardReducer';
 import leadReducer from './leadReducer';
 import spaceReducer from './spaceReducer';
+import billPlanReducer from './billPlanReducer';
 import membersReducer from './membersReducer';
 
 const reducers = combineReducers({
+  billPlanReducer,
   spaceReducer,
   leadReducer,
   signUpReducer,

@@ -5,19 +5,19 @@ const initialState = {
   axiosGetData: false,
 };
 
-const spaceReducer = (state = initialState, action) => {
+const billPlanReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SPACE_DATA:
+    case types.BILLPLAN_DATA:
       return Object.assign({}, state, {
         data: action.data,
       });
-    case types.SPACE_AXIOS_DATA_GET:
+    case types.BILLPLAN_AXIOS_DATA_GET:
       return Object.assign({}, state, {
         axiosGetData: action.axiosGetData,
       });
     default:
       return state;
   }
-}
+};
 
-export default spaceReducer;
+export default billPlanReducer;
