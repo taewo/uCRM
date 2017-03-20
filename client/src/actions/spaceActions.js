@@ -13,9 +13,8 @@ export const spaceAxiosFinish = axiosGetData => ({
 })
 
 export function spaceShow() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('come in space page show');
-    const { data } = getState().spaceReducer;
     const token = {
       token: localStorage.getItem('userToken'),
     };
@@ -25,7 +24,8 @@ export function spaceShow() {
       headers: token,
     })
     .then((res) => {
-      console.log('res', res);
+      console.log('res.data', res.data);
+      dispatch(spaceData(res.data));
     })
     .catch((err) => {
       console.log('err', err);

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
+import * as billPlanActions from '../../actions/billPlanActions';
 
 class BillPlan extends Component {
+  componentWillMount() {
+    console.log('will mount');
+    this.props.billPlanShow();
+  }
   render() {
     return (
       <div>
@@ -15,4 +20,13 @@ class BillPlan extends Component {
   }
 }
 
-export default BillPlan;
+const mapStateToProps = state => ({
+  billPlanData : state.billPlanReducer.data,
+});
+
+const mapDispatchToProps = dispatch => ({
+  billPlanShow: () => { dispatch(billPlanActions.billPlanShow()); },
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(BillPlan);
