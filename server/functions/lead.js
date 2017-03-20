@@ -11,7 +11,7 @@ module.exports = {
 
   addNewLead(body) {
     body.conversion = 0;
-    new Lead(body)
+    return new Lead(body)
     .save()
     .then(result => (result))
     .catch(err => (Promise.reject(err)));
