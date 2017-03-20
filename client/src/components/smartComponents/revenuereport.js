@@ -1,27 +1,13 @@
-import React, { Component } from 'react';
-import { Line, Bar, Doughnut, HorizontalBar } from 'react-chartjs-2';
+import React from 'react';
+import ReportChart from './reportchart';
 
-class RevenueReport extends Component {
+class RevenueReport extends ReportChart {
 
   constructor(props) {
     super(props);
     this.state = {
-      colors: ['rgba(51, 102, 204, 1)', 'rgba(220, 57, 18, 1)', 'rgba(255, 153, 0, 1)', 'rgba(16, 150, 24, 1)', 'rgba(153, 0, 153, 1)',
-        'rgba(59, 62, 172, 1)', 'rgba(0, 153, 198, 1)', 'rgba(221, 68, 119, 1)', 'rgba(102, 170, 0, 1)', 'rgba(184, 46, 46, 1)',
-        'rgba(49, 99, 149, 1)', 'rgba(153, 68, 153, 1)', 'rgba(34, 170, 153, 1)', 'rgba(170, 170, 17, 1)', 'rgba(102, 51, 204, 1)',
-        'rgba(230, 115, 0, 1)', 'rgba(139, 7, 7, 1)', 'rgba(50, 146, 98, 1)', 'rgba(85, 116, 166, 1)', 'rgba(59, 62, 172, 1)'],
       type: this.props.type,
     };
-  }
-
-  componentDidMount() {
-    console.log('child did mount');
-  }
-
-  makeOpaque(color, degree) {
-    let Opaque = color;
-    Opaque = Opaque.substring(0, Opaque.length - 2) + degree + ')';
-    return Opaque;
   }
 
   createDataSet() {
@@ -66,39 +52,7 @@ class RevenueReport extends Component {
 
   createMixedDataSet() {
     console.log(this.props.data);
-    const data = {
-      labels: [],
-      datasets: [{
-        label: '순이익',
-        type: 'line',
-        data: [],
-        fill: false,
-        borderColor: this.makeOpaque(this.state.colors[1], 0.9),
-        backgroundColor: this.state.colors[1],
-        pointBorderColor: this.state.colors[1],
-        pointBackgroundColor: this.state.colors[1],
-        pointHoverBackgroundColor: this.state.colors[1],
-        pointHoverBorderColor: this.state.colors[1],
-      }, {
-        type: 'bar',
-        label: '총 수입',
-        data: [],
-        fill: false,
-        backgroundColor: this.makeOpaque(this.state.colors[2], 0.8),
-        borderColor: this.makeOpaque(this.state.colors[2], 0.8),
-        hoverBackgroundColor: this.state.colors[2],
-        hoverBorderColor: this.state.colors[2],
-      }, {
-        type: 'bar',
-        label: '총 비용',
-        data: [],
-        fill: false,
-        backgroundColor: this.makeOpaque(this.state.colors[3], 0.8),
-        borderColor: this.makeOpaque(this.state.colors[3], 0.8),
-        hoverBackgroundColor: this.state.colors[3],
-        hoverBorderColor: this.state.colors[3],
-      }],
-    };
+    const data = this.getMixedTemplate([{label: '순이익', type: 'line'}, {label: '총 수입', type: 'bar'}, {label: '총 비용', type: 'bar'}])
     if (this.props.data.length) {
       this.props.data.forEach((MonthlyData) => {
         data.labels.push(MonthlyData.Month);
@@ -112,20 +66,8 @@ class RevenueReport extends Component {
 
   createPlansNetRevenueComparisonDataSet() {
     console.log(this.props.data);
-    const data = {
-      labels: [],
-      datasets: [
-        {
-          label: '순이익',
-          backgroundColor: this.makeOpaque(this.state.colors[0], 0.4),
-          borderColor: this.state.colors[0],
-          borderWidth: 1,
-          hoverBackgroundColor: this.makeOpaque(this.state.colors[0], 0.4),
-          hoverBorderColor: this.state.colors[0],
-          data: []
-        }
-      ]
-    };
+    const data = this.getBarTemplate(['순이익']);
+    console.log(data);
     if (this.props.data.length) {
       this.props.data.forEach((BillingPlan) => {
         data.labels.push(BillingPlan.BillingPlan);
@@ -136,20 +78,13 @@ class RevenueReport extends Component {
   }
 
   createPlansNetRevenuePercentageDataSet() {
-    const data = {
-      labels: [],
-      datasets: [{
-        data: [],
-        backgroundColor: [],
-        hoverBackgroundColor: [],
-      }],
-    };
+    const data = this.getDoughnutTemplate();
     if (this.props.data.length) {
       this.props.data.forEach((BillingPlan, index) => {
         data.labels.push(BillingPlan.BillingPlan);
         data.datasets[0].data.push(Math.round(BillingPlan.real_cost_percentage));
-        data.datasets[0].backgroundColor.push(this.state.colors[index]);
-        data.datasets[0].hoverBackgroundColor.push(this.state.colors[index]);
+        data.datasets[0].backgroundColor.push(this.colors[index]);
+        data.datasets[0].hoverBackgroundColor.push(this.colors[index]);
       });
     }
     return data;
@@ -157,31 +92,7 @@ class RevenueReport extends Component {
 
   createFlowDataSet() {
     console.log(this.props.data);
-    const data = {
-      labels: [],
-      datasets: [{
-        label: '월당 순이익',
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: this.makeOpaque(this.state.colors[0], 0.4),
-        borderColor: this.state.colors[0],
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: this.state.colors[0],
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: this.state.colors[0],
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: [],
-      },
-      ],
-    };
+    const data = this.getLineTemplate(['월당 순이익']);
     if (this.props.data.length) {
       this.props.data.forEach((monthlyData) => {
         console.log(monthlyData)
@@ -194,80 +105,7 @@ class RevenueReport extends Component {
 
   render() {
     const chartDataList = this.createDataSet();
-    const charts = [];
-    const extendYtoZero = {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
-      },
-    };
-    console.log(chartDataList);
-    chartDataList.forEach((chart) => {
-      let allZero = true;
-      chart.data.datasets[0].data.forEach((data) => {
-        if (data !== 0) allZero = false;
-      });
-      if (allZero || !chart.data.datasets[0].data.length) {
-        charts.push(
-          <div>
-            <h3>{chart.title}</h3>
-            <h3>데이터가 충분치 않습니다</h3>
-            <br />
-            <hr />
-          </div>
-        );
-      } else {
-        if (chart.type === 'Doughnut') {
-          charts.push(
-            <div className="Chart">
-              <h3>{chart.title}</h3>
-              <Doughnut
-                data={chart.data}
-              />
-              <br />
-              <hr />
-            </div>
-          );
-        } else if (chart.type === 'Line') {
-          charts.push(
-            <div>
-              <h3>{chart.title}</h3>
-              <Line
-                data={chart.data}
-                options={extendYtoZero}
-              />
-              <br />
-              <hr />
-            </div>
-          );
-        } else if (chart.type === 'Mixed') {
-          charts.push(
-            <div>
-              <h3>{chart.title}</h3>
-              <Bar
-                data={chart.data}
-              />
-              <br />
-              <hr />
-            </div>
-          );
-        } else if (chart.type === 'HorizontalBar') {
-          charts.push(
-            <div>
-              <h3>{chart.title}</h3>
-              <HorizontalBar
-                data={chart.data}
-              />
-              <br />
-              <hr />
-            </div>
-          );
-        }
-      }
-    });
+    const charts = this.createCharts(chartDataList);
     return (
       <div>
         { charts }

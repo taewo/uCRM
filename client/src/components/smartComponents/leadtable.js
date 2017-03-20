@@ -1,30 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import ReportTable from './reporttable';
 
-class LeadTable extends Component {
-
-  getDelta(thisData, lastData) {
-    let delta = Math.round((thisData / lastData - 1) * 100);
-    let change;
-    if (!thisData || !lastData) {
-      delta = 100;
-    }
-    if ((thisData - lastData) > 0) {
-      change = delta + '% 증가';
-    } else if ((thisData - lastData) < 0) {
-      change = -delta + '% 감소';
-    } else {
-      change = '-';
-    }
-    return change;
-  }
+class LeadTable extends ReportTable {
 
   transformData() {
     const dataset = [];
     if (this.props.data.length) {
       if (this.props.type === '요약' || this.props.type === '채널별비교') {
-        let total = { Channels: '총합',
+        const total = { Channels: '총합',
           ThisMonth: 0,
           ThisConversion: 0,
           ThisConversionPercentage: '-',
