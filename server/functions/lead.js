@@ -39,6 +39,6 @@ module.exports = {
       return new Lead({ id: latestLeadId })
       .save({ conversion: 1 }, { patch: true });
     })
-    .catch(err => Promise.reject('Error: failed to toggle lead conversion flag'));
+    .catch(err => Promise.reject(err));
   },
 };

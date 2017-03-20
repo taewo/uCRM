@@ -31,9 +31,20 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  approveExpense(body) {
-    return Expense(body)
-    .where({ id: body.id })
-    .save
-  }
+  toggleExpenseApproval(req) {
+    return Expense
+    .where({ id: req.body.id})
+    .fetch()
+    .then((expenseRecord) => {
+      const toggleFlag = expenseRecord.toJSON().isapproved ? 0 : 1;
+      return Expense
+      .where({ id: req.body.id })
+      .save({ isapproved: toggleFlag }, {patch: true})
+      // .save({ isapproved: toggleFlag }, {method: 'update'})
+      .then((result) => {
+        return;
+      });
+    })
+    .catch(err => (Promise.reject(err)));
+  },
 };

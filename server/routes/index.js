@@ -54,7 +54,7 @@ router.route('/expense')
 router.route('/approve/staff')
 .post(approve.Staff.post);
 
-router.route('/approve/staff')
+router.route('/approve/expense')
 .post(approve.Expense.post);
 
 // router.route('/staff/permit')

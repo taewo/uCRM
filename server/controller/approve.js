@@ -9,26 +9,20 @@ module.exports = {
       res.json(result);
     })
     .catch((err) => {
-      console.log(err.stack);
-      if (err === 'unauthorized') {
-        res.status(401).send(err);
-      }
       res.status(400).send(err);
     }),
   },
 
   Expense: {
     post:
-    (req, res) => (expenseApprove.put(req))
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      console.log(err.stack);
-      if (err === 'unauthorized') {
-        res.status(401).send(err);
-      }
-      res.status(400).send(err);
-    }),
+    (req, res) => {
+      return expenseApprove.post(req)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+    },
   },
 };
