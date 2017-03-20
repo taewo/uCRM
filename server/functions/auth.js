@@ -9,7 +9,7 @@ const Space = require('../functions/space');
 const bcrypt = require('bcrypt');
 
 module.exports = {
-  checkId: (userid) => {
+  checkId(userid) {
     const checkAdmin = Admin.checkExistence(userid);
     const checkStaff = Staff.checkExistence(userid);
 
@@ -25,7 +25,7 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  checkIdPassword: (userid, password) => {
+  checkIdPassword(userid, password) {
     const checkAdmin = Admin.checkExistence(userid);
     const checkStaff = Staff.checkExistence(userid);
     return Promise.all([checkAdmin, checkStaff])
@@ -46,7 +46,7 @@ module.exports = {
     });
   },
 
-  getUserByUserId: (userid) => {
+  getUserByUserId(userid) {
     const ifAdmin = Admin.checkExistence(userid);
     const ifStaff = Staff.checkExistence(userid);
 
@@ -64,7 +64,7 @@ module.exports = {
     })
   },
 
-  checkIfUserHasSpace: (req) => {
+  checkIfUserHasSpace(req) {
     const {
       token
     } = req.headers;
@@ -92,7 +92,7 @@ module.exports = {
     });
   },
 
-  checkIfUserHasMember: (req) => {
+  checkIfUserHasMember(req) {
     const token = req.headers.token;
     const memberid = req.query.member_id || req.body.member_id;
     return Token.getUserByToken(token)

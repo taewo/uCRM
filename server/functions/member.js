@@ -1,16 +1,16 @@
 const Member = require('../db/member');
 
 module.exports = {
-  getAllMembers: spaceid => (
-    Member
+  getAllMembers(spaceid) {
+    return Member
     .where({ space_id: spaceid })
     .fetchAll()
     .then(result => (result.toJSON()))
-    .catch(err => (Promise.reject('Error: requested space does not exist')))
-  ),
+    .catch(err => (Promise.reject('Error: requested space does not exist')));
+  },
 
-  checkExistingMemberByEmail: email => (
-    Member
+  checkExistingMemberByEmail(email) {
+    return Member
     .where({ email })
     .fetch()
     .then((result) => {
@@ -19,11 +19,11 @@ module.exports = {
       }
       return true;
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  checkExistingMemberByMobile: mobile => (
-    Member
+  checkExistingMemberByMobile(mobile) {
+    return Member
     .where({ mobile })
     .fetch()
     .then((result) => {
@@ -32,10 +32,10 @@ module.exports = {
       }
       return true;
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  addNewMember: (body, spaceid) => {
+  addNewMember(body, spaceid) {
     body.space_id = spaceid;
     body.isactive = 1;
     return new Member(body)

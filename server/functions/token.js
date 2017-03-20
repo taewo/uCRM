@@ -31,7 +31,7 @@ module.exports = {
     return Token
     .where({ userid })
     .fetch()
-    .then(result => (result ? result.toJSON : null))
+    .then(result => (result ? result.toJSON() : null))
     .catch(err => (Promise.reject(err)));
   },
 

@@ -2,37 +2,37 @@ const Company = require('../db/company');
 const Admin = require('../db/admin');
 
 module.exports = {
-  checkExistence: name => (
-    Company
+  checkExistence(name) {
+    return Company
     .where({ name })
     .fetch()
     .then(result => (result))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getCompanySpaceInfoByCompanyId: companyid => (
-      Company
+  getCompanySpaceInfoByCompanyId(companyid) {
+    return Company
     .where({ id: companyid })
     .fetch({ withRelated: ['space'] })
     .then(result => (result))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getCompanyIdByUserId: userid => (
-    Admin
+  getCompanyIdByUserId(userid) {
+    return Admin
     .where({ userid })
     .fetch()
     .then((result) => {
       const resultJSON = result.toJSON();
       return resultJSON.company_id;
     })
-    .catch(err => (Promise.reject('Error: unahthorized company request.')))
-  ),
+    .catch(err => (Promise.reject('Error: unahthorized company request.')));
+  },
 
-  addNewCompany: name => (
-    new Company({ name })
+  addNewCompany(name) {
+    return new Company({ name })
     .save()
     .then(result => (result))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 };

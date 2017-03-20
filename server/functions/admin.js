@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 module.exports = {
-  checkExistence: userid => (
-    Admin
+  checkExistence(userid) {
+    return Admin
     .where({ userid })
     .fetch()
     .then((result) => {
@@ -14,10 +14,10 @@ module.exports = {
       }
       return false;
     })
-    .catch(err => (Promise.reject('Error: admin not found')))
-  ),
+    .catch(err => (Promise.reject('Error: admin not found')));
+  },
 
-  addNewAdmin: (body, companyid) => {
+  addNewAdmin(body, companyid) {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
         const adminInfo = {};

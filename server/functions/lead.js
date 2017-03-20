@@ -1,23 +1,23 @@
 const Lead = require('../db/lead');
 
 module.exports = {
-  getLead: spaceid => (
-    Lead
+  getLead(spaceid) {
+    return Lead
     .where({ space_id: spaceid })
     .fetchAll()
     .then(result => (result.toJSON()))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  addNewLead: (body) => {
+  addNewLead(body) {
     body.conversion = 0;
     new Lead(body)
     .save()
     .then(result => (result))
-    .catch(err => (Promise.reject(err)))
+    .catch(err => (Promise.reject(err)));
   },
 
-  toggleConvertedLead: (spaceid, email) => {
+  toggleConvertedLead(spaceid, email) {
     return Lead
     .where({
       space_id: spaceid,
