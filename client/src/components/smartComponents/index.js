@@ -33,3 +33,6 @@ export { default as LeadTable } from './leadtable';
 export { default as SpaceOccupancyPage } from './spaceoccupancypage';
 export { default as SpaceOccupancyReport } from './spaceoccupancyreport';
 export { default as SpaceOccupancyTable } from './spaceoccupancytable';
+export { default as RevenuePage } from './revenuepage';
+export { default as RevenueReport } from './revenuereport';
+export { default as RevenueTable } from './revenuetable';
