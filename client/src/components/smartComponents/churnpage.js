@@ -53,7 +53,6 @@ class ChurnPage extends Component {
         token: localStorage.getItem('userToken'),
       },
     };
-    console.log(localStorage.getItem('userSpaceListid'));
     return axios({
       method: 'get',
       url: targeturl,

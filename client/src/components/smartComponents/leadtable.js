@@ -4,17 +4,6 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 class LeadTable extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      channel_mapper: {
-        email: '이메일',
-        phone: '전화 문의',
-        tour: '직접 방문',
-      },
-    };
-  }
-
   getDelta(thisData, lastData) {
     let delta = Math.round((thisData / lastData - 1) * 100);
     let change;
@@ -47,18 +36,16 @@ class LeadTable extends Component {
           conversionratechange: 0,
         };
         this.props.data.forEach((rows) => {
-          console.log(rows)
           const newRow = Object.assign({}, rows);
           total.ThisMonth += newRow.ThisMonth;
           total.LastMonth += newRow.LastMonth;
-          total.ThisConversion += newRow.ThisMonth;
-          total.LastConversion += newRow.LastMonth;
+          total.ThisConversion += newRow.ThisConversion;
+          total.LastConversion += newRow.LastConversion;
+          newRow.ThisConversionPercentage = Math.round(newRow.ThisConversionPercentage);
+          newRow.LastConversionPercentage = Math.round(newRow.LastConversionPercentage);
           newRow.countchange = this.getDelta(newRow.ThisMonth, newRow.LastMonth);
           newRow.conversionchange = this.getDelta(newRow.ThisConversion, newRow.LastConversion);
           newRow.conversionratechange = this.getDelta(newRow.ThisConversionPercentage, newRow.LastConversionPercentage);
-          console.log(this.state.channel_mapper[newRow.Channels]);
-          newRow.Channels = this.state.channel_mapper[newRow.Channels];
-          console.log(newRow);
           dataset.push(newRow);
         });
         total.ThisConversionPercentage = Math.round((total.ThisConversion / total.ThisMonth) * 100);

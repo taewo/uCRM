@@ -11,7 +11,6 @@ class SpaceOccupancyTable extends Component {
         let OccupyingNumberSum = 0;
         let TotalOccupancyRateSum = 0;
         this.props.data.forEach((rows) => {
-          console.log(rows)
           const newRow = Object.assign({}, rows);
           newRow.BillingPlanOccupancyRate = Math.round(newRow.BillingPlanOccupancyRate);
           newRow.TotalOccupancyRate = Math.round(newRow.TotalOccupancyRate);
@@ -22,7 +21,6 @@ class SpaceOccupancyTable extends Component {
         dataset.push({ BillingPlan: '총합', OccupyingNumber: OccupyingNumberSum, BillingPlanOccupancyRate: '-', TotalOccupancyRate: TotalOccupancyRateSum });
       } else if (this.props.type === '최근이용률') {
         this.props.data.forEach((rows) => {
-          console.log(rows)
           const newRow = Object.assign({}, rows);
           newRow.OccupancyRate = Math.round(newRow.OccupancyRate);
           newRow.Weeks += '주차';
@@ -30,7 +28,6 @@ class SpaceOccupancyTable extends Component {
         });
       } else if (this.props.type === '이용률흐름분석') {
         this.props.data.forEach((rows) => {
-          console.log(rows)
           const newRow = Object.assign({}, rows);
           newRow.OccupancyRate = Math.round(newRow.OccupancyRate);
           newRow.Month += '월';

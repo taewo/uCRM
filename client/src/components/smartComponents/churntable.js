@@ -4,19 +4,6 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 class ChurnTable extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      reason_mapper: {
-        growth: '회사 성장',
-        moved: '회사 이전',
-        new_job: '이직',
-        financial_reason: '금전적 사유',
-        dissatisfaction: '불만족',
-      },
-    };
-  }
-
   getDelta(row) {
     let delta = Math.round((row.ThisMonth / row.LastMonth - 1) * 100);
     if (!row.ThisMonth || !row.LastMonth) {
@@ -41,7 +28,6 @@ class ChurnTable extends Component {
           let newRow = Object.assign({}, rows);
           total.ThisMonth += newRow.ThisMonth;
           total.LastMonth += newRow.LastMonth;
-          newRow.index = this.state.reason_mapper[newRow.index];
           newRow = this.getDelta(newRow);
           dataset.push(newRow);
         });

@@ -7,21 +7,22 @@ class ChurnReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reason_mapper: {
-        growth: '회사 성장',
-        moved: '회사 이전',
-        new_job: '이직',
-        financial_reason: '금전적 사유',
-        dissatisfaction: '불만족',
-      },
-      colors: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395',
-        '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262', '#5574A6', '#3B3EAC'],
+      colors: ['rgba(51, 102, 204, 1)', 'rgba(220, 57, 18, 1)', 'rgba(255, 153, 0, 1)', 'rgba(16, 150, 24, 1)', 'rgba(153, 0, 153, 1)',
+        'rgba(59, 62, 172, 1)', 'rgba(0, 153, 198, 1)', 'rgba(221, 68, 119, 1)', 'rgba(102, 170, 0, 1)', 'rgba(184, 46, 46, 1)',
+        'rgba(49, 99, 149, 1)', 'rgba(153, 68, 153, 1)', 'rgba(34, 170, 153, 1)', 'rgba(170, 170, 17, 1)', 'rgba(102, 51, 204, 1)',
+        'rgba(230, 115, 0, 1)', 'rgba(139, 7, 7, 1)', 'rgba(50, 146, 98, 1)', 'rgba(85, 116, 166, 1)', 'rgba(59, 62, 172, 1)'],
       type: this.props.type,
     };
   }
 
   componentDidMount() {
     console.log('child did mount');
+  }
+
+  makeOpaque(color, degree) {
+    let Opaque = color;
+    Opaque = Opaque.substring(0, Opaque.length - 2) + degree + ')';
+    return Opaque;
   }
 
   createDataSet() {
@@ -65,7 +66,7 @@ class ChurnReport extends Component {
     if (type === '이번달') {
       if (this.props.data.length) {
         this.props.data.forEach((churnReason, index) => {
-          data.labels.push(this.state.reason_mapper[churnReason.index]);
+          data.labels.push(churnReason.index);
           data.datasets[0].data.push(churnReason.ThisPercentage);
           data.datasets[0].backgroundColor.push(this.state.colors[index]);
           data.datasets[0].hoverBackgroundColor.push(this.state.colors[index]);
@@ -74,7 +75,7 @@ class ChurnReport extends Component {
     } else if (type === '지난달') {
       if (this.props.data.length) {
         this.props.data.forEach((churnReason, index) => {
-          data.labels.push(this.state.reason_mapper[churnReason.index]);
+          data.labels.push(churnReason.index);
           data.datasets[0].data.push(churnReason.LastPercentage);
           data.datasets[0].backgroundColor.push(this.state.colors[index]);
         });
@@ -90,17 +91,17 @@ class ChurnReport extends Component {
         label: '월당 이탈율',
         fill: false,
         lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: this.makeOpaque(this.state.colors[0], 0.4),
+        borderColor: this.state.colors[0],
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBorderColor: this.state.colors[0],
         pointBackgroundColor: '#fff',
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBackgroundColor: this.state.colors[0],
         pointHoverBorderColor: 'rgba(220,220,220,1)',
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -129,7 +130,7 @@ class ChurnReport extends Component {
       if (allZero || !chart.data.datasets[0].data.length) {
         charts.push(
           <div>
-            <h2>{chart.title}</h2>
+            <h3>{chart.title}</h3>
             <h3>데이터가 충분치 않습니다</h3>
             <br />
             <hr />
@@ -139,7 +140,7 @@ class ChurnReport extends Component {
         if (chart.type === 'Doughnut') {
           charts.push(
             <div className="Chart">
-              <h2>{chart.title}</h2>
+              <h3>{chart.title}</h3>
               <Doughnut
                 data={chart.data}
               />
@@ -150,7 +151,7 @@ class ChurnReport extends Component {
         } else if (chart.type === 'Line') {
           charts.push(
             <div>
-              <h2>{chart.title}</h2>
+              <h3>{chart.title}</h3>
               <Line
                 data={chart.data}
               />
