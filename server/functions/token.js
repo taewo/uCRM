@@ -36,7 +36,7 @@ module.exports = {
   },
 
   checkUserHasToken(userid) {
-    Token
+    return Token
     .where({ userid })
     .fetch()
     .then(result => (result ? result.toJSON() : false))

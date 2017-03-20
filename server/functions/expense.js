@@ -30,4 +30,10 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
+
+  approveExpense(body) {
+    return Expense(body)
+    .where({ id: body.id })
+    .save
+  }
 };
