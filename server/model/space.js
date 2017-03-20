@@ -18,11 +18,14 @@ module.exports = {
   post(req) {
     return Token.getUserByToken(req.headers.token)
     .then((user) => {
+      console.log('USER found by token', user)
       if (user) {
         if (user.type === 'comp') {
           return Space.checkDuplicateSpace(req.body)
           .then((flagIfSpaceExist) => {
+            console.log('FLAGIFSPACEEXIST', flagIfSpaceExist)
             if (flagIfSpaceExist) {
+              console.log('CONDITION PASSED')
               return Promise.reject('Error: requested space already exist');
             } else {
               return Space.addNewSpace(req.body)
