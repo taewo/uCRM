@@ -72,8 +72,10 @@ app.post('/api/login/', (req, res) => {
   if (formIncomplete) {
     res.status(400).send('login form incomplete');
   } else {
+    console.log('hi')
     Auth.login(req)
     .then((result) => {
+      console.log('RESULT', result)
       delete result.expiredat;
       res.set({
         Token: result.token,

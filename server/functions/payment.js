@@ -2,8 +2,8 @@ const Payment = require('../db/payment');
 const Member = require('../db/member');
 
 module.exports = {
-  getPayment: memberid => (
-    Payment
+  getPayment(memberid) {
+    return Payment
     .where({ member_id: memberid })
     .fetchAll()
     .then((result) => {
@@ -12,11 +12,11 @@ module.exports = {
       }
       return [];
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  addNewPayment: body => (
-    Payment
+  addNewPayment(body) {
+    return Payment
     .where(body)
     .fetch()
     .then((result) => {
@@ -27,11 +27,11 @@ module.exports = {
       .save()
       .then(newPayment => (newPayment.toJSON()));
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getUnpaidSum: spaceid => (
-    Member.where({ space_id: spaceid })
+  getUnpaidSum(spaceid) {
+    return Member.where({ space_id: spaceid })
     .fetch({ withRelated: ['payment'] })
     .then((result) => {
       if (result) {
@@ -39,6 +39,6 @@ module.exports = {
       }
       return [];
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 };

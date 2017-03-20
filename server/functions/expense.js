@@ -1,7 +1,7 @@
 const Expense = require('../db/expense');
 
 module.exports = {
-  getExpense: (spaceid) => {
+  getExpense(spaceid) {
     return Expense
     .where({ space_id: spaceid })
     .fetchAll()
@@ -15,7 +15,7 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  addNewExpense: (body) => {
+  addNewExpense(body) {
     body.isapproved = 0;
     return Expense
     .where(body)
