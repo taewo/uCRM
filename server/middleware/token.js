@@ -32,19 +32,41 @@ module.exports = {
         const companyId = user.company_id;
 
         return Token.getTokenByUserId(userid)
-        .then((token) => {
-          console.log('TOKEN', token)
-          if (token) {
-            return Token.extendToken(token)
-            .then((extendedToken) => {
-              return Space.getAllSpacesByCompanyId(companyId)
-              .then((spaceList) => {
-                extendedToken.space_list = spaceList.map(space => ({
-                  space_id: space.id,
-                  name: space.name,
-                }));
-                extendedToken.company_id = companyId;
-                return extendedToken;
+        .then((tokenData) => {
+          console.log('TOKEN found by userid', tokenData)
+          if (tokenData) {
+            return Token.checkToken(tokenData.token)
+            .then((tokenValid) => {
+              console.log('TOKENVALID', tokenValid)
+              if (tokenValid) {
+                return Token.extendToken(tokenData)
+                .then((extendedToken) => {
+                  return Space.getAllSpacesByCompanyId(companyId)
+                  .then((spaceList) => {
+                    extendedToken.space_list = spaceList.map(space => ({
+                      space_id: space.id,
+                      name: space.name,
+                    }));
+                    extendedToken.company_id = companyId;
+                    return extendedToken;
+                  });
+                });
+              }
+              return Token.deleteToken(tokenData.token)
+              .then(() => {
+                return Token.addNewToken(newToken)
+                .then((generatedTokenData) => {
+                  console.log('new generated token because token expired', generatedTokenData)
+                  return Space.getAllSpacesByCompanyId(companyId)
+                  .then((spaceList) => {
+                    generatedTokenData.space_list = spaceList.map(space => ({
+                      space_id: space.id,
+                      name: space.name,
+                    }));
+                    generatedTokenData.company_id = companyId;
+                    return generatedTokenData;
+                  })
+                });
               });
             });
           }
@@ -70,9 +92,8 @@ module.exports = {
       .then((tokenCheck) => {
         if (tokenCheck) {
           return tokenCheck;
-        } else {
-          return Promise.reject('Error: Authentication credentials expired.');
         }
+        return Promise.reject('Error: Authentication credentials expired.');
       })
       .then((tokenData) => {
         return Token.extendToken(tokenData)

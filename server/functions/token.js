@@ -20,7 +20,7 @@ module.exports = {
       const now = new Date();
       const session = result.toJSON().expiredat;
       if (now - session > 0) {
-        return Promise.reject('Error: Authentication credentials expired.');
+        return false;
       }
       return result.toJSON();
     })
