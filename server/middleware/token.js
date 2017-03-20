@@ -5,7 +5,7 @@ const Space = require('../functions/space');
 const ADMIN = 'comp';
 
 module.exports = {
-  login: (req) => {
+  login(req) {
     const {
       userid,
       password,
@@ -14,7 +14,7 @@ module.exports = {
     return Auth.checkIdPassword(userid, password)
     .then((isValidIDAndPassword) => {
       if (!isValidIDAndPassword) {
-        throw new Error('invalid id or password');
+        return Promise.reject('Error: Authentication credentials were not provided.');
       }
       const newToken = Token.generateTokenData();
       newToken.userid = userid;
@@ -22,7 +22,7 @@ module.exports = {
       return Auth.getUserByUserId(userid)
       .then((user) => {
         if (!user) {
-          throw new Error('no user found!');
+          return Promise.reject('Error: Your requested user does not exist.');
         }
         newToken.type = user.type;
         if (user.type !== ADMIN) {
@@ -64,7 +64,7 @@ module.exports = {
     });
   },
 
-  checkNExtendedToken: (token) => {
+  checkNExtendedToken(token) {
     return Token.checkToken(token)
       .then((tokenCheck) => {
         if (tokenCheck) {

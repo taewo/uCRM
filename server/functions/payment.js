@@ -1,36 +1,44 @@
 const Payment = require('../db/payment');
+const Member = require('../db/member');
 
 module.exports = {
-  getPayment: (spaceid) => {
-    return Payment
-    .where({ space_id: spaceid })
+  getPayment: memberid => (
+    Payment
+    .where({ member_id: memberid })
     .fetchAll()
     .then((result) => {
       if (result) {
         return result.toJSON();
-      } else {
-        return [];
       }
+      return [];
     })
-    .catch(err => (Promise.reject(err)));
-  },
+    .catch(err => (Promise.reject(err)))
+  ),
 
-  addNewPayment: (body) => {
-    return Payment
-    .where({
-      space_id: body.space_id,
-      name: body.name,
-    })
+  addNewPayment: body => (
+    Payment
+    .where(body)
     .fetch()
     .then((result) => {
       if (result) {
-        return Promise.reject('Error: the same bill plan name already exist');
-      } else {
-        return new Payment(body)
-        .save()
-        .then(result => (result.toJSON()));
+        return Promise.reject('Error: the same payment already exist');
       }
+      return new Payment(body)
+      .save()
+      .then(newPayment => (newPayment.toJSON()));
     })
-    .catch(err => (Promise.reject(err)));
-  },
+    .catch(err => (Promise.reject(err)))
+  ),
+
+  getUnpaidSum: spaceid => (
+    Member.where({ space_id: spaceid })
+    .fetch({ withRelated: ['payment'] })
+    .then((result) => {
+      if (result) {
+        return result.related('payment').toJSON();
+      }
+      return [];
+    })
+    .catch(err => (Promise.reject(err)))
+  ),
 };

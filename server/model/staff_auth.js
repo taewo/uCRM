@@ -7,11 +7,8 @@ module.exports = {
 
     if (currentUser.type === 'comp') {
       return Staff.approveNewStaff(req.body)
-      .then((result) => {
-        return result;
-      });
-    } else {
-      throw new Error('unauthorized');
+      .then(result => (result));
     }
+    return Promise.reject('Error: not authorized request.');
   },
 };

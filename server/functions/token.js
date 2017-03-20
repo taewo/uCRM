@@ -2,7 +2,7 @@ const Token = require('../db/token');
 const uuid = require('uuid');
 
 module.exports = {
-  generateTokenData: () => {
+  generateTokenData() {
     const token = uuid();
     const expiredat = new Date();
     expiredat.setTime(expiredat.getTime() + (30 * 60 * 1000));
@@ -13,60 +13,45 @@ module.exports = {
     return tokenData;
   },
 
-  checkToken: (token) => {
-    return Token.where({ token })
+  checkToken(token) {
+    Token.where({ token })
     .fetch()
     .then((result) => {
       const now = new Date();
       const session = result.toJSON().expiredat;
       if (now - session > 0) {
-        throw new Error('Error: Authentication credentials expired.');
-      } else {
-        return result.toJSON();
+        return Promise.reject('Error: Authentication credentials expired.');
       }
-    });
+      return result.toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
   getTokenByUserId(userid) {
     return Token
     .where({ userid })
     .fetch()
-    // .then(result => (result ? result.toJSON : null));
-    .then((result) => {
-      if (result) {
-        console.log('get user token', result.toJSON());
-        return result.toJSON();
-      }
-    })
+    .then(result => (result ? result.toJSON : null))
+    .catch(err => (Promise.reject(err)));
   },
 
-  checkUserHasToken: (userid) => {
-    return new Promise((resolve, reject) => {
-      Token
-      .where({ userid })
-      .fetch()
-      .then((result) => {
-        if (result) {
-          return resolve(result.toJSON());
-        } else {
-          return resolve(false);
-        }
-      })
-      .catch(err => (reject(err)));
-    });
+  checkUserHasToken(userid) {
+    Token
+    .where({ userid })
+    .fetch()
+    .then(result => (result ? result.toJSON() : false))
+    .catch(err => (Promise.reject(err)));
   },
-  getUserByToken: (token) => {
-    return new Promise((resolve, reject) => {
-      Token
-      .where({ token })
-      .fetch()
-      .then((result) => {
-        return resolve(result.attributes);
-      })
-      .catch(err => (reject(err)));
-    });
+
+  getUserByToken(token) {
+    Token
+    .where({ token })
+    .fetch()
+    .then(result => (result ? result.toJSON() : null))
+    .catch(err => (Promise.reject(err)));
   },
-  extendToken: (tokenData) => {
+
+  extendToken(tokenData) {
     const newExpiredAt = new Date();
     newExpiredAt.setTime(newExpiredAt.getTime() + (30 * 60 * 1000));
     return Token
@@ -80,26 +65,18 @@ module.exports = {
     });
   },
 
-  addNewToken: (tokenData) => {
-    return new Promise((resolve, reject) => {
-      new Token(tokenData)
-      .save()
-      .then(result => (resolve(result.toJSON())))
-      .catch(err => (reject(err)));
-    });
+  addNewToken(tokenData) {
+    new Token(tokenData)
+    .save()
+    .then(result => (result ? result.toJSON() : null))
+    .catch(err => (Promise.reject(err)));
   },
 
-  deleteToken: (token) => {
-    return new Promise((resolve, reject) => {
-      Token
-      .where({ token })
-      .destroy()
-      .then((result) => {
-        return resolve(result.toJSON());
-      })
-      .catch((err) => {
-        return reject(err);
-      });
-    });
+  deleteToken(token) {
+    Token
+    .where({ token })
+    .destroy()
+    .then(result => (result ? result.toJSON() : null))
+    .catch(err => (Promise.reject(err)));
   },
 };

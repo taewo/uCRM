@@ -1,6 +1,5 @@
 const Staff = require('../db/staff');
 const bcrypt = require('bcrypt');
-const moment = require('moment');
 
 const saltRounds = 10;
 
@@ -19,6 +18,7 @@ module.exports = {
       });
     });
   },
+
   addNewStaff: (body) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(body.password, saltRounds, (err, hash) => {
@@ -44,6 +44,7 @@ module.exports = {
       });
     });
   },
+
   approveNewStaff: (body) => {
     return new Promise((resolve, reject) => {
       new Staff({
@@ -57,6 +58,7 @@ module.exports = {
       });
     });
   },
+
   getSpaceId: (userid) => {
     return new Promise((resolve, reject) => {
       Staff.where({ userid })

@@ -2,45 +2,37 @@ const Company = require('../db/company');
 const Admin = require('../db/admin');
 
 module.exports = {
-  checkExistence: (name) => {
-    return new Promise((resolve, reject) => {
+  checkExistence: name => (
+    Company
+    .where({ name })
+    .fetch()
+    .then(result => (result))
+    .catch(err => (Promise.reject(err)))
+  ),
+
+  getCompanySpaceInfoByCompanyId: companyid => (
       Company
-      .where({ name })
-      .fetch()
-      .then(result => (resolve(result)))
-      .catch(err => (reject(err)));
-    });
-  },
+    .where({ id: companyid })
+    .fetch({ withRelated: ['space'] })
+    .then(result => (result))
+    .catch(err => (Promise.reject(err)))
+  ),
 
-  getCompanySpaceInfoByCompanyId: (companyid) => {
-    return new Promise((resolve, reject) => {
-      Company
-      .where({ id: companyid })
-      .fetch({ withRelated: ['space'] })
-      .then(result => (resolve(result)))
-      .catch(err => (reject(err)));
-    });
-  },
+  getCompanyIdByUserId: userid => (
+    Admin
+    .where({ userid })
+    .fetch()
+    .then((result) => {
+      const resultJSON = result.toJSON();
+      return resultJSON.company_id;
+    })
+    .catch(err => (Promise.reject('Error: unahthorized company request.')))
+  ),
 
-  getCompanyIdByUserId: (userid) => {
-    return new Promise((resolve, reject) => {
-      Admin
-      .where({ userid })
-      .fetch()
-      .then((result) => {
-        const resultJSON = result.toJSON();
-        return resolve(resultJSON.company_id);
-      })
-      .catch(err => (reject('unahthorized, user has no company')));
-    });
-  },
-
-  addNewCompany: (name) => {
-    return new Promise((resolve, reject) => {
-      return new Company({ name })
-      .save()
-      .then(result => (resolve(result)))
-      .catch(err => (reject(err)));
-    });
-  },
+  addNewCompany: name => (
+    new Company({ name })
+    .save()
+    .then(result => (result))
+    .catch(err => (Promise.reject(err)))
+  ),
 };

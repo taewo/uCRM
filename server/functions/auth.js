@@ -1,3 +1,5 @@
+const Member = require('../db/member');
+
 const Admin = require('../functions/admin');
 const Staff = require('../functions/staff');
 const Token = require('../functions/token');
@@ -8,23 +10,19 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
   checkId: (userid) => {
-    return new Promise((resolve, reject) => {
+    const checkAdmin = Admin.checkExistence(userid);
+    const checkStaff = Staff.checkExistence(userid);
 
-      const checkAdmin = Admin.checkExistence(userid);
-      const checkStaff = Staff.checkExistence(userid);
-
-      Promise.all([checkAdmin, checkStaff])
-      .then((result) => {
-        if (result[0]) {
-          return resolve(false);
-        } else if (result[1]) {
-          return resolve(false);
-        } else {
-          return resolve(true);
-        }
-      })
-      .catch(err => (reject(err)));
-    });
+    return Promise.all([checkAdmin, checkStaff])
+    .then((result) => {
+      if (result[0]) {
+        return false;
+      } else if (result[1]) {
+        return false;
+      }
+      return true;
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
   checkIdPassword: (userid, password) => {
@@ -54,7 +52,6 @@ module.exports = {
 
     return Promise.all([ifAdmin, ifStaff])
     .then((users) => {
-      console.log('getuser user', users)
       if (users[0]) {
         users[0].type = 'comp';
         delete users[0].password;
@@ -80,8 +77,7 @@ module.exports = {
         .then((companyId) => {
           return Space.getAllSpacesByCompanyId(companyId)
           .then((spaceList) => {
-            const hasSpace = spaceList.some(space => (space.id === spaceid));
-            return hasSpace;
+            return spaceList.some(space => (space.id === spaceid));
           });
         });
       } else if (user.type === 'staff') {
@@ -91,8 +87,38 @@ module.exports = {
           return false;
         }
       } else {
-        throw new Error('unahthorized user');
+        return Promise.reject('unahthorized user');
       }
     });
+  },
+
+  checkIfUserHasMember: (req) => {
+    const token = req.headers.token;
+    const memberid = req.query.member_id || req.body.member_id;
+    return Token.getUserByToken(token)
+    .then((user) => {
+      if (user.type === 'comp') {
+        return Company.getCompanyIdByUserId(user.userid)
+        .then(companyId => (
+          Space.getAllSpacesByCompanyId(companyId)
+          .then(spaceList => (
+            Member
+            .where({ id: memberid })
+            .fetch()
+            .then((member) => {
+              if (member) {
+                return spaceList.some(space => (space.id === member.toJSON().space_id));
+              }
+              return Promise.reject('Error: the member does not exist');
+            })
+          ))
+        ));
+      } else if (user.type === 'staff') {
+        // do stuff for staff in the future
+      } else {
+        return Promise.reject('Error: unahthorized user');
+      }
+    })
+    .catch(err => (Promise.reject(err)));
   },
 };
