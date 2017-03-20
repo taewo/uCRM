@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
-import { LeadPage } from '../dummyComponents/onLead';
 import * as leadActions from '../../actions/leadActions';
 
 class Lead extends Component {
@@ -13,9 +11,19 @@ class Lead extends Component {
 
   componentDidMount() {
     console.log('did mount');
-    console.log('@#!$%^$##%', this.props.nameOnChange)
   }
   render() {
+    const leadDataList = this.props.leadData ?
+    this.props.leadData.map((listData, i) => {
+      const subStringDate = listData.date.substring(5, 10);
+      const modifyDate = subStringDate.replace('-', '월') + '일';
+      return (
+        <div key={i}>
+          {modifyDate}, {listData.name}님께서 {listData.type}로 연락 및 방문 하셨습니다.
+        </div>
+      )
+    })
+    : 'default';
     return (
       <div>
         Lead page<br />
@@ -24,18 +32,18 @@ class Lead extends Component {
         </Link>
         <br />
         <br />
-        <LeadPage data={this.props.nameOnChange} />
+        {leadDataList}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  nameOnChange: state.leadReducer.data,
+  leadData: state.leadReducer.data,
 });
 
 const mapDispatchToProps = dispatch => ({
-  leadShow: () => { dispatch(leadActions.leadShow()); }
+  leadShow: () => { dispatch(leadActions.leadShow()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lead);

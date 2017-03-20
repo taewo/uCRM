@@ -8,8 +8,10 @@ import leadReducer from './leadReducer';
 import spaceReducer from './spaceReducer';
 import billPlanReducer from './billPlanReducer';
 import membersReducer from './membersReducer';
+import basicReducer from './basicReducer';
 
 const reducers = combineReducers({
+  basicReducer,
   billPlanReducer,
   spaceReducer,
   leadReducer,

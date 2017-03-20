@@ -18,25 +18,24 @@ class AddLead extends Component {
   }
 
   submitData(e) {
-    const instance = {
-      headers: {
-        token: sessionStorage.getItem('userToken'),
-      },
+    const headers = {
+      token: sessionStorage.getItem('userToken'),
     };
+    console.log('e', e);
     axios({
       method: 'post',
       url: `${API_URL}/lead`,
-      // req:
       data: {
-        date: this.state.today,
         space_id: sessionStorage.getItem('userSpaceListId'),
+        date: this.state.today,
         name: e.name,
         email: e.email,
         mobile: e.mobile,
         note: e.note,
         type: e.type,
       },
-      headers: instance.headers,
+      params: { leadDetails: sessionStorage.getItem('userSpaceListId') },
+      headers: headers,
     })
     .then((res) => {
       console.log(11);
@@ -79,9 +78,10 @@ class AddLead extends Component {
         <div>
           <label>Type</label>
           <div>
-            <label><Field name="type" component="input" type="radio" value="email" /> Email</label>
-            <label><Field name="type" component="input" type="radio" value="phone" /> Phone</label>
-            <label><Field name="type" component="input" type="radio" value="tour" /> Tour</label>
+            <label><Field name="type" component="input" type="radio" value="메일" /> Email</label>
+            <label><Field name="type" component="input" type="radio" value="전화" /> Phone</label>
+            <label><Field name="type" component="input" type="radio" value="방문" /> Tour</label>
+            <label><Field name="type" component="input" type="radio" value="홈페이지" /> HomePage</label>
           </div>
         </div>
         <div>
