@@ -4,6 +4,8 @@ import { Field, reduxForm } from 'redux-form';
 // import 'react-infinite-calendar/styles.css'; // Make sure to import the default stylesheet
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 const { DOM: { input, select, textarea } } = React
 
@@ -30,8 +32,36 @@ class AddMembers extends Component {
   }
   submitData(e) {
     const data = Object.assign({}, e);
-    data.date = JSON.stringify(this.state.selectedDay);
-    console.log(11, data);
+    data.date = this.state.selectedDay;
+    console.log(data);
+    const space_id = sessionStorage.getItem('userSpaceListId');
+    const API_URL = 'http://localhost:4000/api';
+    const instance = {
+      headers: {
+        token: sessionStorage.getItem('userToken'),
+      },
+    };
+    return axios({
+      method: 'post',
+      url: `${API_URL}/member`,
+      headers: instance.headers,
+      data: {
+        space_id,
+        name: data.name,
+        email: data.email,
+        mobile: data.mobile,
+        joined_date: data.date,
+        gender: data.sex,
+        note: data.note,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      browserHistory.push('/admin/manage/members');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
@@ -42,7 +72,7 @@ class AddMembers extends Component {
           <div>
             <label>Name</label>
             <div>
-              <Field name="Name" component="input" type="text" placeholder="Name" />
+              <Field name="name" component="input" type="text" placeholder="Name" />
             </div>
           </div>
           <div>
@@ -69,14 +99,14 @@ class AddMembers extends Component {
           <div>
             <label>Gender</label>
             <div>
-              <label><Field name="sex" component="input" type="radio" value="male" /> Male</label>
-              <label><Field name="sex" component="input" type="radio" value="female" /> Female</label>
+              <label><Field name="sex" component="input" type="radio" value="M" /> Male</label>
+              <label><Field name="sex" component="input" type="radio" value="F" /> Female</label>
             </div>
           </div>
           <div>
             <label>Notes</label>
             <div>
-              <Field name="notes" component="textarea" />
+              <Field name="note" component="textarea" />
             </div>
           </div>
           <div>
