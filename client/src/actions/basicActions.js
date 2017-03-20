@@ -1,31 +1,32 @@
-import axios from 'axios';
 import * as types from './types';
+import axios from 'axios';
 import { API_URL } from '../config';
 
-export const leadData = data => ({
-  type: types.LEAD_DATA,
+export const basicData = data => ({
+  type: types.BASIC_DATA,
   data,
 });
 
-export const leadAxiosFinish = axiosGetData => ({
-  type: types.LEAD_AXIOS_DATA_GET,
+export const basicAxiosFinish = axiosGetData => ({
+  type: types.BASIC_AXIOS_DATA_GET,
   axiosGetData,
 });
 
-export function leadShow() {
+export function basicShow() {
   return (dispatch) => {
-    console.log('come in lead page show');
+    console.log('come in basic page');
     const token = {
       token: sessionStorage.getItem('userToken'),
     };
     return axios({
       method: 'get',
-      url: `${API_URL}/lead`,
-      headers: token,
+      url: `${API_URL}/basic`,
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
+      headers: token,
     })
     .then((res) => {
-      dispatch(leadData(res.data));
+      console.log('res222', res.data);
+      dispatch(basicData(res.data));
     })
     .catch((err) => {
       console.log('err', err);

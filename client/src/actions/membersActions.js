@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { browserHistory } from 'react-router';
+import { API_URL } from '../config';
 import * as types from './types';
 
 export const membersData = members => ({
@@ -15,19 +15,21 @@ export function membersShow() {
         token: sessionStorage.getItem('userToken'),
       },
     };
-    const API_URL = 'http://localhost:4000/api';
     return axios({
       method: 'get',
       url: `${API_URL}/member`,
       params: {
-        space_id: sessionStorage.getItem('userSpaceListId')
+        space_id: sessionStorage.getItem('userSpaceListId'),
       },
       headers: instance.headers,
     })
-      .then((res) => {
-        const members = res.data;
-        dispatch(membersData(members));
-      });
+    .then((res) => {
+      const members = res.data;
+      dispatch(membersData(members));
+    })
+    .catch((err) => {
+      console.log('err', err);
+    })
   };
 }
 
