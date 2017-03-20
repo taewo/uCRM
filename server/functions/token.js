@@ -14,7 +14,7 @@ module.exports = {
   },
 
   checkToken(token) {
-    Token.where({ token })
+    return Token.where({ token })
     .fetch()
     .then((result) => {
       const now = new Date();
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   getUserByToken(token) {
-    Token
+    return Token
     .where({ token })
     .fetch()
     .then(result => (result ? result.toJSON() : null))
@@ -66,14 +66,14 @@ module.exports = {
   },
 
   addNewToken(tokenData) {
-    new Token(tokenData)
+    return new Token(tokenData)
     .save()
     .then(result => (result ? result.toJSON() : null))
     .catch(err => (Promise.reject(err)));
   },
 
   deleteToken(token) {
-    Token
+    return Token
     .where({ token })
     .destroy()
     .then(result => (result ? result.toJSON() : null))
