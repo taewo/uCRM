@@ -7,6 +7,7 @@ import dashboardReducer from './dashboardReducer';
 import leadReducer from './leadReducer';
 import spaceReducer from './spaceReducer';
 import billPlanReducer from './billPlanReducer';
+import membersReducer from './membersReducer';
 
 const reducers = combineReducers({
   billPlanReducer,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   signUpReducer,
   logInReducer,
   dashboardReducer,
+  membersReducer,
   routing: routerReducer,
   form: formReducer,
 });

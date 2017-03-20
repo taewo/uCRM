@@ -4,21 +4,18 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 module.exports = {
-  checkExistence: (userid) => {
-    return new Promise((resolve, reject) => {
-      Admin
-      .where({ userid })
-      .fetch()
-      .then((result) => {
-        if (result) {
-          return resolve(result.attributes);
-        } else {
-          return resolve(false);
-        }
-      })
-      .catch(err => (reject('admin not found')));
-    });
-  },
+  checkExistence: userid => (
+    Admin
+    .where({ userid })
+    .fetch()
+    .then((result) => {
+      if (result) {
+        return result.toJSON();
+      }
+      return false;
+    })
+    .catch(err => (Promise.reject('Error: admin not found')))
+  ),
 
   addNewAdmin: (body, companyid) => {
     return new Promise((resolve, reject) => {
@@ -34,12 +31,11 @@ module.exports = {
         new Admin(adminInfo)
         .save()
         .then((admin) => {
-          console.log('new admin added', admin)
           adminInfo.space_list = [];
           delete admin.password;
           return resolve(admin);
         })
-        .catch(err => (reject('failed to save new admin in db')));
+        .catch(err => (reject('Error: failed to save new admin in db')));
       });
     });
   },

@@ -22,7 +22,7 @@ export function billPlanShow() {
     return axios({
       method: 'get',
       url: `${API_URL}/billplan`,
-      param: {space_id: localStorage.getItem('userSpaceListId') },
+      params: { space_id: localStorage.getItem('userSpaceListId') },
       headers: token,
     })
     .then((res) => {

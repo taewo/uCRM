@@ -17,19 +17,15 @@ module.exports = {
 
   addNewBillPlan: (body) => {
     return BillPlan
-    .where({
-      space_id: body.space_id,
-      name: body.name,
-    })
+    .where(body)
     .fetch()
     .then((result) => {
       if (result) {
         return Promise.reject('Error: the same bill plan name already exist');
-      } else {
-        return new BillPlan(body)
-        .save()
-        .then(result => (result.toJSON()));
       }
+      return new BillPlan(body)
+      .save()
+      .then(result => (result.toJSON()));
     })
     .catch(err => (Promise.reject(err)));
   },
