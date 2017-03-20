@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import ReportTable from './reporttable';
 
-class SpaceOccupancyTable extends Component {
+class SpaceOccupancyTable extends ReportTable {
 
   transformData() {
     const dataset = [];

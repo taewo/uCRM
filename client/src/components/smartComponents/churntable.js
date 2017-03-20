@@ -1,23 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import ReportTable from './reporttable';
 
-class ChurnTable extends Component {
-
-  getDelta(row) {
-    let delta = Math.round((row.ThisMonth / row.LastMonth - 1) * 100);
-    if (!row.ThisMonth || !row.LastMonth) {
-      delta = 100;
-    }
-    if ((row.ThisMonth - row.LastMonth) > 0) {
-      row.change = delta + '% 증가';
-    } else if ((row.ThisMonth - row.LastMonth) < 0) {
-      row.change = -delta + '% 감소';
-    } else {
-      row.change = '-';
-    }
-    return row;
-  }
+class ChurnTable extends ReportTable {
 
   transformData() {
     const dataset = [];
@@ -25,13 +11,14 @@ class ChurnTable extends Component {
       if (this.props.type === '비교분석' || this.props.type === '이번달' || this.props.type === '지난달') {
         let total = { index: '총합', ThisMonth: 0, ThisPercentage: '-', LastMonth: 0, LastPercentage: '-', change: '-' };
         this.props.data.forEach((rows) => {
-          let newRow = Object.assign({}, rows);
+          const newRow = Object.assign({}, rows);
           total.ThisMonth += newRow.ThisMonth;
           total.LastMonth += newRow.LastMonth;
-          newRow = this.getDelta(newRow);
+          newRow.change = this.getDelta(newRow.ThisMonth, newRow.LastMonth);
           dataset.push(newRow);
         });
-        total = this.getDelta(total);
+        total.change = this.getDelta(total.ThisMonth, total.LastMonth);
+        console.log(dataset);
         dataset.push(total);
       } else if (this.props.type === '이탈흐름분석') {
         let churnSum = 0;
