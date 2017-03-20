@@ -13,14 +13,14 @@ class AddBillPlan extends Component {
   submitData(e) {
     console.log('data', e);
     const token = {
-      token: localStorage.getItem('userToken'),
+      token: sessionStorage.getItem('userToken'),
     };
     return axios({
       method: 'post',
       url: `${API_URL}/billplan`,
       headers: token,
       data: {
-        space_id: localStorage.getItem('userSpaceListId'),
+        space_id: sessionStorage.getItem('userSpaceListId'),
         name: e.name,
         cost: e.cost,
         isdaily: e.isDaily,

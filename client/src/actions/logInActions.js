@@ -33,13 +33,13 @@ export function logInConfirm() {
         const userCompanyId = res.data.company_id;
         console.log(res.data.company_id);
 
-        localStorage.setItem('userCompanyId', userCompanyId);
+        sessionStorage.setItem('userCompanyId', userCompanyId);
 
         if (res.data.space_list.length === 0) {
-          if (localStorage.getItem('userToken')) {
+          if (sessionStorage.getItem('userToken')) {
             return reject('11 alredy logIn');
           }
-          localStorage.setItem('userToken', userToken);
+          sessionStorage.setItem('userToken', userToken);
           return resolve(browserHistory.push('/space'))
 
         } else {
@@ -47,11 +47,11 @@ export function logInConfirm() {
 
           console.log(typeof userSpaceList);
           console.log(userSpaceList);
-          if (localStorage.getItem('userToken')) {
+          if (sessionStorage.getItem('userToken')) {
             return reject('alredy logIn');
           }
-          localStorage.setItem('userToken', userToken);
-          localStorage.setItem('userSpaceList', userSpaceList);
+          sessionStorage.setItem('userToken', userToken);
+          sessionStorage.setItem('userSpaceList', userSpaceList);
           return resolve(browserHistory.push('/selectspace'));
         }
       });

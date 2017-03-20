@@ -13,7 +13,7 @@ class LogOut extends Component {
     logout() {
       const instance = {
         headers: {
-          token: localStorage.getItem('userToken'),
+          token: sessionStorage.getItem('userToken'),
         },
       };
       axios.get(`${API_URL}/logout`,
@@ -22,12 +22,12 @@ class LogOut extends Component {
     .then((res) => {
       console.log('res', res);
       browserHistory.push('/');
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('userSpaceList');
-      localStorage.removeItem('userSpaceListId');
-      localStorage.removeItem('userCompanyId');
-      localStorage.removeItem('userType');
+      sessionStorage.removeItem('userToken');
+      sessionStorage.removeItem('userData');
+      sessionStorage.removeItem('userSpaceList');
+      sessionStorage.removeItem('userSpaceListId');
+      sessionStorage.removeItem('userCompanyId');
+      sessionStorage.removeItem('userType');
     })
     .catch((err) => {
       console.log(err);

@@ -12,7 +12,7 @@ export function membersShow() {
     console.log('come in membersShow');
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
     const API_URL = 'http://localhost:4000/api';
@@ -20,7 +20,7 @@ export function membersShow() {
       method: 'get',
       url: `${API_URL}/member`,
       params: {
-        space_id: localStorage.getItem('userSpaceListId')
+        space_id: sessionStorage.getItem('userSpaceListId')
       },
       headers: instance.headers,
     })

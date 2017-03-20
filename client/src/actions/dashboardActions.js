@@ -34,13 +34,13 @@ export function dashboardShow() {
     const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
     return axios({
       method: 'get',
       url: `${API_URL}/dashboard`,
-      params: { space_id: localStorage.getItem('userSpaceListId') },
+      params: { space_id: sessionStorage.getItem('userSpaceListId') },
       headers: instance.headers,
     })
     .then((res) => {

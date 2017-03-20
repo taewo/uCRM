@@ -11,7 +11,7 @@ const renderMembers = ({ fields }) => (
         console.log(1);
       const instance = {
         headers: {
-          token: localStorage.getItem('userToken'),
+          token: sessionStorage.getItem('userToken'),
         },
       };
       fields.push();
@@ -69,10 +69,10 @@ class AddSpace extends Component {
   submitData(e) {
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
-    const userCompanyId = localStorage.getItem('userCompanyId');
+    const userCompanyId = sessionStorage.getItem('userCompanyId');
     const data = Object.assign({}, e);
     const spaceData = data.space[0];
     console.log(spaceData);
@@ -89,7 +89,7 @@ class AddSpace extends Component {
     })
     .then((res) => {
       console.log('res', res);
-      const userSpaceListId = localStorage.getItem('userSpaceListId');
+      const userSpaceListId = sessionStorage.getItem('userSpaceListId');
       userSpaceListId ?
       browserHistory.push('/admin/setting/space') :
       browserHistory.push('/admin');

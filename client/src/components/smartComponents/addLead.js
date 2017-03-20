@@ -20,7 +20,7 @@ class AddLead extends Component {
   submitData(e) {
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
     axios({
@@ -29,7 +29,7 @@ class AddLead extends Component {
       // req:
       data: {
         date: this.state.today,
-        space_id: localStorage.getItem('userSpaceListId'),
+        space_id: sessionStorage.getItem('userSpaceListId'),
         name: e.name,
         email: e.email,
         mobile: e.mobile,

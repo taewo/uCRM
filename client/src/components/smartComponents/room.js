@@ -26,7 +26,7 @@ class Room extends Component {
   // .then((res) => {
   //   console.log('res', res);
   //   browserHistory.push('/');
-  //   localStorage.removeItem('userToken');
+  //   sessionStorage.removeItem('userToken');
   // })
   // .catch((err) => {
   //   console.log(err);
