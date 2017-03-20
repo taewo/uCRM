@@ -32,10 +32,10 @@ module.exports = {
           if (check[0] && check[1]) {
             return Member.addNewMember(req.body, req.body.space_id)
             .then((newMember) => {
-              return newMember;
+              return newMember.toJSON();
             });
           }
-          return Promise.reject('Error: member already exist 3');
+          return Promise.reject('Error: member already exist ');
         })
         .then((newMember) => {
           return Lead.toggleConvertedLead(req.body.space_id, req.body.email)

@@ -15,7 +15,7 @@ module.exports = {
     .fetch()
     .then((result) => {
       if (result) {
-        return Promise.reject('Error: member already exist');
+        return Promise.reject('Error: duplicate email - member already exist');
       }
       return true;
     })
@@ -28,7 +28,7 @@ module.exports = {
     .fetch()
     .then((result) => {
       if (result) {
-        return Promise.reject('Error: member already exist');
+        return Promise.reject('Error: duplicate mobile - member already exist');
       }
       return true;
     })

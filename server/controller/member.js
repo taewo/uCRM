@@ -24,10 +24,12 @@ module.exports = {
     }
     return member.post(req)
     .then((result) => {
+      console.log('RESULT', result)
       if (result) {
         res.json(result);
+      } else {
+        res.status(302).send('Error: unahthorized access to this space');
       }
-      res.status(302).send('no access')
     })
     .catch((err) => {
       console.log(err.stack);
