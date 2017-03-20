@@ -8,8 +8,8 @@ const company = require('./company');
 
 module.exports = {
 
-  getMemberList: spaceid => (
-    Space
+  getMemberList(spaceid) {
+    return Space
     .where({ id: spaceid })
     .fetch({ withRelated: ['member'] })
     .then((result) => {
@@ -18,11 +18,12 @@ module.exports = {
       }
       return result.related('member').toJSON();
     })
-    .catch(err => (Promise.reject('failed to get member list')))
-  ),
+    .catch(err => (Promise.reject('failed to get member list')));
+  },
 
-  getReservedList: spaceid => (
-    Room.where({ space_id: spaceid })
+  getReservedList(spaceid) {
+    return Room
+    .where({ space_id: spaceid })
     .fetch({ withRelated: ['reservation'] })
     .then((result) => {
       if (!result) {
@@ -30,11 +31,12 @@ module.exports = {
       }
       return result.related('reservation').toJSON();
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getLatestActivity: spaceid => (
-    Activity.where({ space_id: spaceid })
+  getLatestActivity(spaceid) {
+    return Activity
+    .where({ space_id: spaceid })
     .query((query) => {
       // change below hard code with moment.js to show the last mongh activity
       query.whereBetween('date', ['2017-02-01', '2017-03-02']);
@@ -46,11 +48,12 @@ module.exports = {
       }
       return [];
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getSpaceDetailByID: spaceid => (
-    Space.where({ id: spaceid })
+  getSpaceDetailBySpaceId(spaceid) {
+    return Space
+    .where({ id: spaceid })
     .fetch()
     .then((result) => {
       if (result) {
@@ -58,11 +61,12 @@ module.exports = {
       }
       return [];
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getSpaceDetailByName: spaceName => (
-    Space.where({ name: spaceName })
+  getSpaceDetailByName(spaceName) {
+    return Space
+    .where({ name: spaceName })
     .fetch()
     .then((result) => {
       if (result) {
@@ -70,24 +74,24 @@ module.exports = {
       }
       return Promise.reject('Error: requested space does not exist');
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getAllSpacesByCompanyId: companyId => (
-    Space
+  getAllSpacesByCompanyId(companyId) {
+    return Space
     .where({ company_id: companyId })
     .fetchAll()
     .then(result => (result.toJSON()))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getAllSpacesByCompanyName: companyname => (
-    Company
+  getAllSpacesByCompanyName(companyname) {
+    return Company
     .where({ name: companyname })
     .fetch({ withRelated: ['space'] })
     .then(result => (result.related('space')))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
   addNewSpace: ({
     company_id,
@@ -106,20 +110,20 @@ module.exports = {
     .catch(err => (reject(err)));
   }),
 
-  checkDuplicateSpace: body => (
-    company.getCompanySpaceInfoByCompanyId(body.company_id)
+  checkDuplicateSpace(body) {
+    return company.getCompanySpaceInfoByCompanyId(body.company_id)
     .then((result) => {
       const existingSpace = result.related('space').toJSON();
       return existingSpace.some(space => (space.name === body.name));
     })
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  getSpaceIdByMemberId: memberid => (
-    Member
+  getSpaceIdByMemberId(memberid) {
+    return Member
     .where({ id: memberid })
     .fetch()
     .then(result => (result.toJSON().space_id))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 };

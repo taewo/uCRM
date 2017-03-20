@@ -1,5 +1,6 @@
 const Company = require('../db/company');
 const Admin = require('../db/admin');
+const Token = require('../db/token');
 
 module.exports = {
   checkExistence(name) {
@@ -10,7 +11,20 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  getCompanySpaceInfoByCompanyId(companyid) {
+  getCompanyInfoByToken(token) {
+    return Token
+    .where({ token })
+    .fetch()
+    .then((tokenData) => {
+      if (tokenData) {
+        return module.exports.getCompanyInfoByUserId(tokenData.toJSON().userid)
+        .then(company => (company));
+      }
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
+  getCompanyDetailByToken(companyid) {
     return Company
     .where({ id: companyid })
     .fetch({ withRelated: ['space'] })
@@ -23,8 +37,20 @@ module.exports = {
     .where({ userid })
     .fetch()
     .then((result) => {
-      const resultJSON = result.toJSON();
-      return resultJSON.company_id;
+      return result.toJSON().company_id;
+    })
+    .catch(err => (Promise.reject('Error: unahthorized company request.')));
+  },
+
+  getCompanyInfoByUserId(userid) {
+    return Admin
+    .where({ userid })
+    .fetch({ withRelated: ['company'] })
+    .then((company) => {
+      if (company) {
+        return company.related('company').toJSON();
+      }
+      return Promise.reject('Error: user has no company');
     })
     .catch(err => (Promise.reject('Error: unahthorized company request.')));
   },
