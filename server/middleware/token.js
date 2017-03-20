@@ -33,6 +33,7 @@ module.exports = {
 
         return Token.getTokenByUserId(userid)
         .then((token) => {
+          console.log('TOKEN', token)
           if (token) {
             return Token.extendToken(token)
             .then((extendedToken) => {

@@ -1,17 +1,17 @@
 const Reservation = require('../db/reservation');
 
 module.exports = {
-  getReservationPerRoom: roomid => (
-    Reservation.where({ room_id: roomid })
+  getReservationPerRoom(roomid) {
+    return Reservation.where({ room_id: roomid })
     .fetchAll()
     .then(result => (result))
-    .catch(err => (Promise.reject(err)))
-  ),
+    .catch(err => (Promise.reject(err)));
+  },
 
-  addNewReservation: body => (
-    new Reservation(body)
+  addNewReservation(body) {
+    return new Reservation(body)
     .save()
     .then(result => (result))
-    .catch(err => (Promise.reject('room does not exist')))
-  ),
+    .catch(err => (Promise.reject('room does not exist')));
+  },
 };

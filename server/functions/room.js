@@ -1,7 +1,7 @@
 const Room = require('../db/room');
 
 module.exports = {
-  checkIfRoomExistByRoomName: (spaceId, roomName) => {
+  checkIfRoomExistByRoomName(spaceId, roomName) {
     return Room
     .where({
       space_id: spaceId,
@@ -17,7 +17,7 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
-  getRoomListBySpaceId: spaceid => (
+  getRoomListBySpaceId: (spaceid) => (
     Room.where({ space_id: spaceid })
     .fetchAll()
     .then(result => (result.toJSON()))
