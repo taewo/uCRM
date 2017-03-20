@@ -26,6 +26,7 @@ class LogOut extends Component {
       localStorage.removeItem('userData');
       localStorage.removeItem('userSpaceList');
       localStorage.removeItem('userSpaceListId');
+      localStorage.removeItem('userCompanyId');
       localStorage.removeItem('userType');
     })
     .catch((err) => {

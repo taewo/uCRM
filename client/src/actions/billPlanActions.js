@@ -18,15 +18,15 @@ export function billPlanShow() {
     const token = {
       token: localStorage.getItem('userToken'),
     };
-    console.log(123, localStorage.getItem('userSpaceListId'));
+    const userSpaceListId = localStorage.getItem('userSpaceListId');
     return axios({
       method: 'get',
       url: `${API_URL}/billplan`,
-      params: { space_id: localStorage.getItem('userSpaceListId') },
+      params: { space_id: userSpaceListId },
       headers: token,
     })
     .then((res) => {
-      console.log('res', res);
+      console.log('res12', res.data);
       dispatch(billPlanData(res.data));
     })
     .catch((err) => {

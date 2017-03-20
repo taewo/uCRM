@@ -22,7 +22,6 @@ export function spaceShow() {
       method: 'get',
       url: `${API_URL}/space`,
       headers: token,
-      // params: { space_id: localStorage.getItem('userSpaceListId') },
     })
     .then((res) => {
       console.log('res.data', res.data);

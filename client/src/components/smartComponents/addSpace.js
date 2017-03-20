@@ -89,8 +89,11 @@ class AddSpace extends Component {
     })
     .then((res) => {
       console.log('res', res);
-      browserHistory.push('/admin')
-    })
+      const userSpaceListId = localStorage.getItem('userSpaceListId');
+      userSpaceListId ?
+      browserHistory.push('/admin/setting/space') :
+      browserHistory.push('/admin');
+    });
   }
 
   render() {

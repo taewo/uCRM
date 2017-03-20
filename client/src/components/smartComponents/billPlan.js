@@ -10,20 +10,24 @@ class BillPlan extends Component {
   }
   render() {
     console.log('billplan data', this.props.billPlanData);
-    // const billPlanList = this.props.billPlanData ?
-    // this.props.billPlanData.map((billPlanData, i) => {
-    //   return (
-    //     <div key={i}>
-    //
-    //     </div>
-    //   )
-    // })
+    const billPlanList = this.props.billPlanData ?
+    this.props.billPlanData.map((billPlanData, i) => {
+      return (
+        <div key={i}>
+          가격 : {billPlanData.cost} <br />
+          기간 :  {billPlanData.duration} <br />
+          이름 : {billPlanData.name} <br /><br />
+        </div>
+      );
+    })
+    : 'default';
     return (
       <div>
         BillPlan<br />
         <Link to={'/admin/setting/billplan/add'}>
           AddBillPlan
         </Link>
+        {billPlanList}
       </div>
     );
   }
