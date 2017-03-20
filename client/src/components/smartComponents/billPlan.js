@@ -9,6 +9,15 @@ class BillPlan extends Component {
     this.props.billPlanShow();
   }
   render() {
+    console.log('billplan data', this.props.billPlanData);
+    // const billPlanList = this.props.billPlanData ?
+    // this.props.billPlanData.map((billPlanData, i) => {
+    //   return (
+    //     <div key={i}>
+    //
+    //     </div>
+    //   )
+    // })
     return (
       <div>
         BillPlan<br />
