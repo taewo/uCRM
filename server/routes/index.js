@@ -7,9 +7,11 @@ const lead = require('../controller/lead');
 const member = require('../controller/member');
 const payment = require('../controller/payment');
 const expense = require('../controller/expense');
-const utility = require('../controller/utility');
 const billplan = require('../controller/billplan');
+const approve = require('../controller/approve');
 const Token = require('../middleware/token');
+// const approveStaff = require('../controller/approvestaff');
+// const utility = require('../controller/utility');
 
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
@@ -36,8 +38,6 @@ router.route('/member')
 .get(member.get)
 .post(member.post);
 
-router.route('/staff/permit')
-.put(utility.staff_auth.put);
 
 router.route('/billplan')
 .get(billplan.get)
@@ -50,6 +50,15 @@ router.route('/payment')
 router.route('/expense')
 .get(expense.get)
 .post(expense.post);
+
+router.route('/approve/staff')
+.post(approve.Staff.post);
+
+router.route('/approve/staff')
+.post(approve.Expense.post);
+
+// router.route('/staff/permit')
+// .put(utility.staff_auth.put);
 
 // router.route('/room')
 // .get(room.get)

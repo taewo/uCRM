@@ -1,4 +1,4 @@
-const staffAuth = require('../model/staff_auth');
+const staffAuth = require('../model/staff_approve');
 const signupAdmin = require('../model/signup_admin');
 const signupStaff = require('../model/signup_staff');
 
