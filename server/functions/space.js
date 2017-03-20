@@ -111,10 +111,10 @@ module.exports = {
   }),
 
   checkDuplicateSpace(body) {
-    return company.getCompanySpaceInfoByCompanyId(body.company_id)
+    return module.exports.getAllSpacesByCompanyId(body.company_id)
     .then((result) => {
-      const existingSpace = result.related('space').toJSON();
-      return existingSpace.some(space => (space.name === body.name));
+      console.log('if company has duplicate space name, RESULT', result)
+      return result.some(space => (space.name === body.name));
     })
     .catch(err => (Promise.reject(err)));
   },

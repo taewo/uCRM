@@ -71,7 +71,7 @@ module.exports = {
         if (tokenCheck) {
           return tokenCheck;
         } else {
-          throw new Error('Error: Authentication credentials expired.');
+          return Promise.reject('Error: Authentication credentials expired.');
         }
       })
       .then((tokenData) => {
