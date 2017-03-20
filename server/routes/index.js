@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const dashboard = require('../controller/dashboard');
 const space = require('../controller/space');
+const basic = require('../controller/basic');
 const lead = require('../controller/lead');
 const member = require('../controller/member');
 const payment = require('../controller/payment');
@@ -51,10 +52,14 @@ router.route('/expense')
 .get(expense.get)
 .post(expense.post);
 
+router.route('/basic')
+.get(basic.get)
+.put(basic.put);
+
 router.route('/approve/staff')
 .post(approve.Staff.post);
 
-router.route('/approve/staff')
+router.route('/approve/expense')
 .post(approve.Expense.post);
 
 // router.route('/staff/permit')

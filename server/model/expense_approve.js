@@ -1,14 +1,16 @@
 const Expense = require('../functions/expense');
+const Auth = require('../functions/auth');
 
 module.exports = {
-  post: (req) => {
-    const currentUser = req.session.passport.user;
-    console.log('sur', currentUser);
-
-    if (currentUser.type === 'comp') {
-      return Expense.approveNewStaff(req.body)
-      .then(result => (result));
-    }
-    return Promise.reject('Error: not authorized request.');
+  post(req) {
+    return Auth.checkIfUserHasSpace(req)
+    .then((access) => {
+      if (access) {
+        return Expense.toggleExpenseApproval(req)
+        .then(result => (result));
+      }
+      return Promise.reject('Error: Your requested space does not exist.');
+    })
+    .catch(err => (Promise.reject(err)));
   },
 };
