@@ -39,13 +39,13 @@ class LeadPage extends Component {
     }
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
     return axios({
       method: 'get',
       url: targeturl,
-      params: { space_id: localStorage.getItem('userSpaceListId') },
+      params: { space_id: sessionStorage.getItem('userSpaceListId') },
       headers: instance.headers,
     })
     .then((res) => {

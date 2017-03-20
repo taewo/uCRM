@@ -17,14 +17,14 @@ export function leadShow() {
     console.log('come in lead page show');
     const { data } = getState().leadReducer;
     const token = {
-      token: localStorage.getItem('userToken'),
+      token: sessionStorage.getItem('userToken'),
     };
     console.log(1);
     return axios({
       method: 'get',
       url: `${API_URL}/lead`,
       headers: token,
-      params: { space_id: localStorage.getItem('userSpaceListId') },
+      params: { space_id: sessionStorage.getItem('userSpaceListId') },
     })
     .then((res) => {
       console.log('check',res)

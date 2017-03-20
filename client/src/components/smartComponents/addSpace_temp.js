@@ -13,7 +13,7 @@ class AddSpace extends Component {
   submitData(e) {
     console.log('data', e)
     const token = {
-      token: localStorage.getItem('userToken'),
+      token: sessionStorage.getItem('userToken'),
     };
     return axios({
       method: 'post',

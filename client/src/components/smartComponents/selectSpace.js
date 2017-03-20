@@ -7,11 +7,11 @@ class SelectSpace extends Component {
   }
 
   render() {
-    const data = JSON.parse(localStorage.getItem('userSpaceList'));
+    const data = JSON.parse(sessionStorage.getItem('userSpaceList'));
     const showId = data.map((data) => {
       return <div
         onClick={() => {
-          localStorage.setItem('userSpaceListId', data.space_id);
+          sessionStorage.setItem('userSpaceListId', data.space_id);
           browserHistory.push('/admin/manage/dashboard');
         }}
       >

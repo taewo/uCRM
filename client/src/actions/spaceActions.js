@@ -16,7 +16,7 @@ export function spaceShow() {
   return (dispatch) => {
     console.log('come in space page show');
     const token = {
-      token: localStorage.getItem('userToken'),
+      token: sessionStorage.getItem('userToken'),
     };
     return axios({
       method: 'get',

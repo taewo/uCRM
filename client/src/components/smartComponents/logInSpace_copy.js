@@ -10,7 +10,7 @@ const renderMembers = ({ fields }) => (
     <button type="button" onClick={() => {
       const instance = {
         headers: {
-          token: localStorage.getItem('userToken'),
+          token: sessionStorage.getItem('userToken'),
         },
       };
       fields.push();
@@ -68,7 +68,7 @@ class LogInSpace extends Component {
   submitData(e) {
     const instance = {
       headers: {
-        token: localStorage.getItem('userToken'),
+        token: sessionStorage.getItem('userToken'),
       },
     };
     const data = Object.assign({}, e);

@@ -16,9 +16,9 @@ export function billPlanShow() {
   return (dispatch) => {
     console.log('come in billplan page');
     const token = {
-      token: localStorage.getItem('userToken'),
+      token: sessionStorage.getItem('userToken'),
     };
-    const userSpaceListId = localStorage.getItem('userSpaceListId');
+    const userSpaceListId = sessionStorage.getItem('userSpaceListId');
     return axios({
       method: 'get',
       url: `${API_URL}/billplan`,

@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 
 export function tokenChecker() {
   console.log('tokenChecker hello');
-  // const userToken = localStorage.getItem('userToken');
+  // const userToken = sessionStorage.getItem('userToken');
   // console.log('tokenChecker', userToken);
   // if (!userToken) {
   //   browserHistory.push('/');
