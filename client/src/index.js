@@ -45,7 +45,10 @@ const App = () => (
             </Route>
           </Route>
           <Route path="finance" component={smartComponents.Finance}>
-            <Route path="expense" component={smartComponents.Expense} />
+            <Route path="expense">
+              <IndexRoute component={smartComponents.Expense} />
+              <Route path="add" component={smartComponents.AddExpense} />
+            </Route>
             <Route path="payment" component={smartComponents.Payment} />
           </Route>
           <Route path="report" component={smartComponents.Report}>

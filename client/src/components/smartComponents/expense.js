@@ -15,7 +15,6 @@ class Expense extends Component {
     const {
       expenses,
     } = this.props;
-    console.log(this.props.expenses);
     // const memberList = this.props.members.map((member) => {
     //   const {
     //     email,
@@ -33,7 +32,7 @@ class Expense extends Component {
     // });
     return (
       <div>
-        <Link to={'/admin/finace/expense/add'}>
+        <Link to={'/admin/finance/expense/add'}>
           Add expense
         </Link>
         <br />

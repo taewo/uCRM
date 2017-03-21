@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import DropdownList from 'react-widgets/lib/DropdownList'
+import DropdownList from 'react-widgets/lib/DropdownList';
+import 'react-widgets/dist/css/react-widgets.css';
 // import InfiniteCalendar from 'react-infinite-calendar';
 // import 'react-infinite-calendar/styles.css'; // Make sure to import the default stylesheet
 import DayPicker from 'react-day-picker';
@@ -9,6 +10,9 @@ import axios from 'axios';
 import { browserHistory } from 'react-router';
 
 const { DOM: { input, select, textarea } } = React
+
+const types = ['월세', '가스비', '전기세', '사무용품', '행사', '간식', '기타'];
+const methods = ['현금', '계좌이체', '카드'];
 
 function sundays(day) {
   return day.getDay() === 0;
@@ -19,10 +23,15 @@ class AddExpense extends Component {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.submitData = this.submitData.bind(this);
+    this.handleTypeClick = this.handleTypeClick.bind(this);
+    this.handleMethodClick = this.handleMethodClick.bind(this);
     this.state = {
       selectedDay: new Date(),
+      selectedType: null,
+      selectedMethod: null,
     };
   }
+
   handleDayClick(day, { disabled, selected }) {
     if (disabled) {
       return;
@@ -31,9 +40,25 @@ class AddExpense extends Component {
       selectedDay: selected ? null : day,
     });
   }
+
+  handleTypeClick(type) {
+    this.setState({
+      selectedType: type,
+    });
+  }
+
+  handleMethodClick(method) {
+    this.setState({
+      selectedMethod: method,
+    });
+  }
+
   submitData(e) {
-    const data = Object.assign({}, e);
-    data.date = this.state.selectedDay;
+    const data = Object.assign({}, e, {
+      date: this.state.selectedDay,
+      type: this.state.selectedType,
+      method: this.state.selectedMethod,
+    });
     console.log(data);
     const space_id = sessionStorage.getItem('userSpaceListId');
     const API_URL = 'http://localhost:4000/api';
@@ -44,21 +69,20 @@ class AddExpense extends Component {
     };
     return axios({
       method: 'post',
-      url: `${API_URL}/member`,
+      url: `${API_URL}/expense`,
       headers: instance.headers,
       data: {
         space_id,
-        name: data.name,
-        email: data.email,
-        mobile: data.mobile,
-        joined_date: data.date,
-        gender: data.sex,
-        note: data.note,
+        detail: data.detail,
+        amount: data.amount,
+        payment_date: data.date,
+        type: data.type,
+        payment_method: data.method,
       },
     })
     .then((res) => {
       console.log(res);
-      browserHistory.push('/admin/manage/members');
+      browserHistory.push('/admin/finance/expense');
     })
     .catch((err) => {
       console.log(err);
@@ -66,58 +90,48 @@ class AddExpense extends Component {
   }
 
   render() {
+    console.log(this.state.selectedType);
+    console.log(this.state.selectedMethod);
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
-        <form id="name" onSubmit={handleSubmit(this.submitData)}>
+        <form id="expense" onSubmit={handleSubmit(this.submitData)}>
           <div>
-            <label>Favorite Color</label>
-            <Field
-              name="favoriteColor"
-              component={DropdownList}
-              data={colors}
-              valueField="value"
-              textField="color"/>
+            <label>타입</label>
+            <DropdownList
+              data={types}
+              value={this.state.selectedType}
+              onChange={this.handleTypeClick}
+            />
           </div>
           <div>
-            <label>Name</label>
+            <label>결제방법</label>
+            <DropdownList
+              data={methods}
+              value={this.state.selectedMethod}
+              onChange={this.handleMethodClick}
+            />
+          </div>
+          <div>
+            <label>Detail</label>
             <div>
-              <Field name="name" component="input" type="text" placeholder="Name" />
+              <Field name="detail" component="input" type="text" placeholder="Detail" />
             </div>
           </div>
           <div>
-            <label>Email</label>
+            <label>Amount</label>
             <div>
-              <Field name="email" component="input" type="text" placeholder="Email" />
+              <Field name="amount" component="input" type="text" placeholder="Amount" />
             </div>
           </div>
           <div>
-            <label>Mobile</label>
-            <div>
-              <Field name="mobile" component="input" type="text" placeholder="Mobile" />
-            </div>
-          </div>
-          <div>
-            <lavel>joined date</lavel>
+            <lavel>payment_date</lavel>
             <DayPicker
               initialMonth={new Date(2017, 1)}
               disabledDays={sundays}
               selectedDays={this.state.selectedDay}
               onDayClick={this.handleDayClick}
             />
-          </div>
-          <div>
-            <label>Gender</label>
-            <div>
-              <label><Field name="sex" component="input" type="radio" value="M" /> Male</label>
-              <label><Field name="sex" component="input" type="radio" value="F" /> Female</label>
-            </div>
-          </div>
-          <div>
-            <label>Notes</label>
-            <div>
-              <Field name="note" component="textarea" />
-            </div>
           </div>
           <div>
             <button
@@ -142,5 +156,6 @@ class AddExpense extends Component {
 }
 
 export default reduxForm({
+  // form: 'reactWidgets',
   form: 'simple',
 })(AddExpense);
