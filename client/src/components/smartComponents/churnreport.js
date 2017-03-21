@@ -45,7 +45,7 @@ class ChurnReport extends ReportChart {
     if (type === '이번달') {
       if (this.props.data.length) {
         this.props.data.forEach((churnReason, index) => {
-          data.labels.push(churnReason.index);
+          data.labels.push(churnReason.index + '(%)');
           data.datasets[0].data.push(churnReason.ThisPercentage);
           data.datasets[0].backgroundColor.push(this.colors[index]);
           data.datasets[0].hoverBackgroundColor.push(this.colors[index]);
@@ -54,7 +54,7 @@ class ChurnReport extends ReportChart {
     } else if (type === '지난달') {
       if (this.props.data.length) {
         this.props.data.forEach((churnReason, index) => {
-          data.labels.push(churnReason.index);
+          data.labels.push(churnReason.index + '(%)');
           data.datasets[0].data.push(churnReason.LastPercentage);
           data.datasets[0].backgroundColor.push(this.colors[index]);
         });
@@ -64,7 +64,7 @@ class ChurnReport extends ReportChart {
   }
 
   createFlowDataSet() {
-    const data = this.getLineTemplate(['월당 이탈율']);
+    const data = this.getLineTemplate(['월당 이탈율(%)']);
     if (this.props.data.length) {
       this.props.data.forEach((churnData) => {
         data.labels.push(churnData.Month + '월');

@@ -81,7 +81,7 @@ class RevenueReport extends ReportChart {
     const data = this.getDoughnutTemplate();
     if (this.props.data.length) {
       this.props.data.forEach((BillingPlan, index) => {
-        data.labels.push(BillingPlan.BillingPlan);
+        data.labels.push(BillingPlan.BillingPlan + '(%)');
         data.datasets[0].data.push(Math.round(BillingPlan.real_cost_percentage));
         data.datasets[0].backgroundColor.push(this.colors[index]);
         data.datasets[0].hoverBackgroundColor.push(this.colors[index]);
