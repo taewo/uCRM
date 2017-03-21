@@ -1,6 +1,7 @@
 const Space = require('../functions/space');
 const Company = require('../functions/company');
 const Token = require('../functions/token');
+const Auth = require('../functions/auth');
 
 module.exports = {
   get(req) {
@@ -44,9 +45,17 @@ module.exports = {
   },
 
   delete(req) {
-    return Space.deleteSpace(req.body.space_id)
-    .then((result) => {
-      return result;
+    return Auth.checkIfUserHasSpace(req)
+    .then((hasSpace) => {
+      return new Promise((resolve, reject) => {
+        if (hasSpace) {
+          return Space.deleteSpace(req.body.space_id)
+          .then((result) => {
+            return result;
+          });
+        }
+        return reject('Error: Your requested space does not exist.');
+      });
     })
     .catch(err => (Promise.reject(err)));
   },

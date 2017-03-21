@@ -41,4 +41,12 @@ module.exports = {
     })
     .catch(err => Promise.reject(err));
   },
+
+  deleteLead(leadid) {
+    return Lead
+    .where({ id: leadid })
+    .destroy()
+    .then(result => (result.toJSON()))
+    .catch(err => (Promise.reject(err)));
+  },
 };
