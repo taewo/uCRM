@@ -64,7 +64,7 @@ class ChurnReport extends ReportChart {
   }
 
   createFlowDataSet() {
-    const data = this.getLineTemplate(['월당 이탈율(%)']);
+    const data = this.getLineTemplate(['이탈']);
     if (this.props.data.length) {
       this.props.data.forEach((churnData) => {
         data.labels.push(churnData.Month + '월');

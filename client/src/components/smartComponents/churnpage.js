@@ -77,7 +77,11 @@ class ChurnPage extends Component {
           flowChartData: res.data,
         });
       }
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.message);
+    })
   }
 
   handleTabClick(value) {

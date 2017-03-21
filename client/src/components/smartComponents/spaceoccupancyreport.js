@@ -43,7 +43,7 @@ class SpaceOccupancyReport extends ReportChart {
     const data = this.getDoughnutTemplate();
     if (this.props.data.length) {
       this.props.data.forEach((billingPlan, index) => {
-        data.labels.push(billingPlan.BillingPlan);
+        data.labels.push(billingPlan.BillingPlan + '(%)');
         data.datasets[0].data.push(Math.round(billingPlan.BillingPlanOccupancyRate));
         data.datasets[0].backgroundColor.push(this.colors[index]);
         data.datasets[0].hoverBackgroundColor.push(this.colors[index]);
@@ -60,14 +60,14 @@ class SpaceOccupancyReport extends ReportChart {
       for (i = 0; i < this.props.data.length; i += 1) {
         const currentData = this.props.data[i];
         const currentRate = Math.round(currentData.TotalOccupancyRate);
-        data.labels.push(currentData.BillingPlan);
+        data.labels.push(currentData.BillingPlan + '(%)');
         data.datasets[0].data.push(currentRate);
         total += currentRate;
         data.datasets[0].backgroundColor.push(this.colors[i]);
         data.datasets[0].hoverBackgroundColor.push(this.colors[i]);
       }
       i += 1;
-      data.labels.push('미사용중');
+      data.labels.push('미사용중(%)');
       data.datasets[0].data.push(100 - total);
       data.datasets[0].backgroundColor.push(this.colors[i]);
       data.datasets[0].hoverBackgroundColor.push(this.colors[i]);

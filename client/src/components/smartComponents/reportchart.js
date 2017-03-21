@@ -174,76 +174,79 @@ class ReportChart extends Component {
 
   createCharts(datalist) {
     const charts = [];
+    console.log(datalist);
     datalist.forEach((chart) => {
       let allZero = true;
-      chart.data.datasets[0].data.forEach((data) => {
-        if (data !== 0) allZero = false;
-      });
+      if (chart.data.datasets.length) {
+        chart.data.datasets[0].data.forEach((data) => {
+          if (data !== 0) allZero = false;
+        });
+      }
       if (allZero || !chart.data.datasets[0].data.length) {
         charts.push(
           <div>
-            <h3>{chart.title}</h3>
-            <h3>데이터가 충분치 않습니다</h3>
-            <br />
-            <hr />
+          <h3>{chart.title}</h3>
+          <h3>데이터가 충분치 않습니다</h3>
+          <br />
+          <hr />
           </div>
         );
       } else {
         if (chart.type === 'Doughnut') {
           charts.push(
             <div className="Chart">
-              <h3>{chart.title}</h3>
-              <Doughnut
-                data={chart.data}
-              />
-              <br />
-              <hr />
+            <h3>{chart.title}</h3>
+            <Doughnut
+            data={chart.data}
+            />
+            <br />
+            <hr />
             </div>
           );
         } else if (chart.type === 'Radar') {
           charts.push(
             <div className="Chart">
-              <h3>{chart.title}</h3>
-              <Radar
-                data={chart.data}
-              />
-              <br />
-              <hr />
+            <h3>{chart.title}</h3>
+            <Radar
+            data={chart.data}
+            />
+            <br />
+            <hr />
             </div>
           );
         } else if (chart.type === 'Line') {
           charts.push(
             <div>
-              <h3>{chart.title}</h3>
-              <Line
-                data={chart.data}
-                options={this.lineOption}
-              />
-              <br />
-              <hr />
+            <h3>{chart.title}</h3>
+            <Line
+            data={chart.data}
+            options={this.lineOption}
+            />
+            <br />
+            <hr />
             </div>
           );
         } else if (chart.type === 'Mixed') {
           charts.push(
             <div>
-              <h3>{chart.title}</h3>
-              <Bar
-                data={chart.data}
-                options={this.mixedOption}
-              />
-              <br />
-              <hr />
+            <h3>{chart.title}</h3>
+            <Bar
+            data={chart.data}
+            options={this.mixedOption}
+            />
+            <br />
+            <hr />
             </div>
           );
         } else if (chart.type === 'HorizontalBar') {
           charts.push(
             <div>
-              <h3>{chart.title}</h3>
-              <HorizontalBar
-                data={chart.data}
-              />
-              <br />
-              <hr />
+            <h3>{chart.title}</h3>
+            <HorizontalBar
+            data={chart.data}
+            />
+            <br />
+            <hr />
             </div>
           );
         }
