@@ -29,7 +29,8 @@ router.route('/dashboard')
 
 router.route('/space')
 .get(space.get)
-.post(space.post);
+.post(space.post)
+.delete(space.delete);
 
 router.route('/lead')
 .get(lead.get)

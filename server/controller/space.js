@@ -9,6 +9,7 @@ module.exports = {
   .catch((err) => {
     res.status(400).send(err);
   }),
+
   post:
   (req, res) => {
     const dataIncomplete = (
@@ -32,4 +33,18 @@ module.exports = {
       res.status(400).send(err);
     });
   },
+  delete:
+  (req, res) => {
+    const dataIncomplete = !req.body.space_id;
+    if (dataIncomplete) {
+      res.status(400).send('post data incomplete');
+    }
+    return space.delete(req)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  }
 };
