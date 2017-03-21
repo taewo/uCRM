@@ -105,7 +105,7 @@ app.get('/api/logout', (req, res) => {
 app.use('/api', index);
 
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
+  const err = new Error('Not Found API');
   err.status = 404;
   next(err);
 });

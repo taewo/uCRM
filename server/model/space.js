@@ -25,7 +25,6 @@ module.exports = {
           .then((flagIfSpaceExist) => {
             console.log('FLAGIFSPACEEXIST', flagIfSpaceExist)
             if (flagIfSpaceExist) {
-              console.log('CONDITION PASSED')
               return Promise.reject('Error: requested space already exist');
             } else {
               return Space.addNewSpace(req.body)
@@ -40,6 +39,14 @@ module.exports = {
       } else {
         return Promise.reject('Error: Authentication credentials were not provided.');
       }
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
+  delete(req) {
+    return Space.deleteSpace(req.body.space_id)
+    .then((result) => {
+      return result;
     })
     .catch(err => (Promise.reject(err)));
   },

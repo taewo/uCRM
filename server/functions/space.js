@@ -126,4 +126,14 @@ module.exports = {
     .then(result => (result.toJSON().space_id))
     .catch(err => (Promise.reject(err)));
   },
+
+  deleteSpace(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .destroy()
+    .then((result) => {
+      return result.toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
+  },
 };
