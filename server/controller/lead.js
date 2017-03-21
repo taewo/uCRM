@@ -40,4 +40,18 @@ module.exports = {
       res.status(400).send(err);
     });
   },
+
+  delete:
+  (req, res) => {
+    const dataIncomplete = (
+      !req.body.lead_id
+      || !req.body.space_id
+    );
+    if (dataIncomplete) {
+      res.status(400).send('delete body data incomplete');
+    }
+    return lead.delete(req)
+    .then(result => (res.json(result)))
+    .catch(err => (res.status(400).send(err)));
+  },
 };

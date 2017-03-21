@@ -34,7 +34,7 @@ module.exports = {
     return Auth.checkIfUserHasSpace(req)
     .then((hasSpace) => {
       return Lead.deleteLead(req.body.lead_id)
-      .then(result => (result);
+      .then(result => (result));
     })
     .catch(err => (Promise.reject(err)));
   },
