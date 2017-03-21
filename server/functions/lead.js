@@ -42,11 +42,32 @@ module.exports = {
     .catch(err => Promise.reject(err));
   },
 
+  getSpaceForLead(leadid) {
+    return Lead
+    .where({ id: leadid })
+    .fetch()
+    .then((lead) => {
+      if (!lead) {
+        return Promise.reject('Error: no lead found');
+      }
+      return lead.toJSON().space_id;
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
   deleteLead(leadid) {
     return Lead
     .where({ id: leadid })
-    .destroy()
-    .then(result => (result.toJSON()))
+    .fetch()
+    .then((lead) => {
+      if (!lead) {
+        return Promise.reject('Error: no lead found');
+      }
+      return Lead
+      .where({ id: leadid })
+      .destroy()
+      .then(result => (result.toJSON()));
+    })
     .catch(err => (Promise.reject(err)));
   },
 };

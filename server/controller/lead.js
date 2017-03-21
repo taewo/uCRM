@@ -43,15 +43,12 @@ module.exports = {
 
   delete:
   (req, res) => {
-    const dataIncomplete = (
-      !req.body.lead_id
-      || !req.body.space_id
-    );
+    const dataIncomplete = !req.body.lead_id;
     if (dataIncomplete) {
       res.status(400).send('delete body data incomplete');
     }
     return lead.delete(req)
-    .then(result => (res.json(result)))
+    .then(result => (res.json('successfully deleted')))
     .catch(err => (res.status(400).send(err)));
   },
 };
