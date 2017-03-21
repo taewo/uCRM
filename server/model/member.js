@@ -1,6 +1,7 @@
 const Member = require('../functions/member');
 const Lead = require('../functions/lead');
 const Auth = require('../functions/auth');
+const Activity = require('../functions/activity');
 
 module.exports = {
   get(req) {
@@ -38,7 +39,15 @@ module.exports = {
           return Promise.reject('Error: member already exist ');
         })
         .then((newMember) => {
-          return Lead.toggleConvertedLead(req.body.space_id, req.body.email)
+          const activityDetail = {
+            space_id: req.body.space_id,
+            type: 'member_creation',
+            date: new Date(),
+            user: req.body.name,
+          };
+          const convertLead = Lead.toggleConvertedLead(req.body.space_id, req.body.email);
+          const addActivity = Activity.addNewActivity(activityDetail);
+          return Promise.all([convertLead, addActivity])
           .then(() => (newMember));
         });
       }

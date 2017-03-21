@@ -1,4 +1,5 @@
 const BillPlan = require('../functions/billplan');
+const Activity = require('../functions/activity');
 const Auth = require('../functions/auth');
 
 module.exports = {
@@ -18,8 +19,17 @@ module.exports = {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
       if (access) {
-        return BillPlan.addNewBillPlan(req.body)
-        .then(result => (result));
+        const activityDetail = {
+          space_id: req.body.space_id,
+          type: 'billplan_creation',
+          date: new Date(),
+          user: req.body.name,
+        };
+        const addBillplan = BillPlan.addNewBillPlan(req.body);
+        const addActivity = Activity.addNewActivity(activityDetail);
+        return Promise.all([addBillplan, addActivity])
+        .then(result => (result[0]))
+        .catch(err => (Promise.reject(err)));
       }
       return Promise.reject('Error: Your requested space does not exist.');
     })
