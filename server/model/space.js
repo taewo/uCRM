@@ -2,6 +2,7 @@ const Space = require('../functions/space');
 const Company = require('../functions/company');
 const Token = require('../functions/token');
 const Auth = require('../functions/auth');
+const Activity = require('../functions/activity');
 
 module.exports = {
   get(req) {
@@ -30,6 +31,15 @@ module.exports = {
             } else {
               return Space.addNewSpace(req.body)
               .then((newSpace) => {
+                console.log(newSpace.attributes.id, newSpace);
+                const activityDetail = {
+                  space_id: newSpace.id,
+                  type: 'space_creation',
+                  date: new Date(),
+                  user: newSpace.attributes.name,
+                };
+                Activity.addNewActivity(activityDetail);
+                // todo Error-handling
                 return newSpace;
               });
             }
