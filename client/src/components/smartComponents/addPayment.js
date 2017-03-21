@@ -18,16 +18,14 @@ function sundays(day) {
   return day.getDay() === 0;
 }
 
-class AddExpense extends Component {
+class AddPayment extends Component {
   constructor(props) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.submitData = this.submitData.bind(this);
-    this.handleTypeClick = this.handleTypeClick.bind(this);
     this.handleMethodClick = this.handleMethodClick.bind(this);
     this.state = {
       selectedDay: new Date(),
-      selectedType: null,
       selectedMethod: null,
     };
   }
@@ -41,12 +39,6 @@ class AddExpense extends Component {
     });
   }
 
-  handleTypeClick(type) {
-    this.setState({
-      selectedType: type,
-    });
-  }
-
   handleMethodClick(method) {
     this.setState({
       selectedMethod: method,
@@ -56,7 +48,6 @@ class AddExpense extends Component {
   submitData(e) {
     const data = Object.assign({}, e, {
       date: this.state.selectedDay,
-      type: this.state.selectedType,
       method: this.state.selectedMethod,
     });
     console.log(data);
@@ -82,7 +73,7 @@ class AddExpense extends Component {
     })
     .then((res) => {
       console.log(res);
-      browserHistory.push('/admin/finance/expense');
+      browserHistory.push('/admin/finance/payment');
     })
     .catch((err) => {
       console.log(err);
@@ -95,15 +86,7 @@ class AddExpense extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
-        <form id="expense" onSubmit={handleSubmit(this.submitData)}>
-          <div>
-            <label>타입</label>
-            <DropdownList
-              data={types}
-              value={this.state.selectedType}
-              onChange={this.handleTypeClick}
-            />
-          </div>
+        <form id="payment" onSubmit={handleSubmit(this.submitData)}>
           <div>
             <label>결제방법</label>
             <DropdownList
@@ -119,13 +102,7 @@ class AddExpense extends Component {
             </div>
           </div>
           <div>
-            <label>Amount</label>
-            <div>
-              <Field name="amount" component="input" type="text" placeholder="Amount" />
-            </div>
-          </div>
-          <div>
-            <lavel>payment_date</lavel>
+            <lavel>scheduled_date</lavel>
             <DayPicker
               initialMonth={new Date(2017, 1)}
               disabledDays={sundays}
@@ -149,7 +126,6 @@ class AddExpense extends Component {
             </button>
           </div>
         </form>
-        <div id="name_result" ></div>
       </div>
     );
   }
@@ -158,4 +134,4 @@ class AddExpense extends Component {
 export default reduxForm({
   // form: 'reactWidgets',
   form: 'simple',
-})(AddExpense);
+})(AddPayment);
