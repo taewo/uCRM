@@ -70,21 +70,24 @@ app.post('/api/signup/staff/', (req, res) => {
 app.post('/api/login/', (req, res) => {
   const formIncomplete = !req.body.userid || !req.body.password;
   if (formIncomplete) {
-    res.status(400).send('login form incomplete');
+    res.status(400).send('Error: login form incomplete');
   } else {
-    console.log('hi')
     Auth.login(req)
     .then((result) => {
-      console.log('Auth Login RESULT', result)
+      console.log('Welcome back!', result)
       delete result.expiredat;
-      res.set({
-        Token: result.token,
-      })
-      .send(result);
+      res.send(result);
+      // res.set({
+      //   Token: result.token,
+      // })
+      // .send(result);
     })
     .catch((err) => {
-      console.log(err)
-      res.status(500).send(err);
+      if (err === 'Error: already logged in.') {
+        res.status(401).send(err);
+      } else {
+        res.status(500).send(err);
+      }
     });
   }
 });

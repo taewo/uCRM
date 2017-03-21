@@ -33,11 +33,9 @@ module.exports = {
 
         return Token.getTokenByUserId(userid)
         .then((tokenData) => {
-          console.log('TOKEN found by userid', tokenData)
           if (tokenData) {
             return Token.checkToken(tokenData.token)
             .then((tokenValid) => {
-              console.log('TOKENVALID', tokenValid)
               if (tokenValid) {
                 return Token.extendToken(tokenData)
                 .then((extendedToken) => {
@@ -48,7 +46,7 @@ module.exports = {
                       name: space.name,
                     }));
                     extendedToken.company_id = companyId;
-                    return extendedToken;
+                    return Promise.reject('Error: already logged in.');
                   });
                 });
               }
@@ -56,7 +54,6 @@ module.exports = {
               .then(() => {
                 return Token.addNewToken(newToken)
                 .then((generatedTokenData) => {
-                  console.log('new generated token because token expired', generatedTokenData)
                   return Space.getAllSpacesByCompanyId(companyId)
                   .then((spaceList) => {
                     generatedTokenData.space_list = spaceList.map(space => ({
