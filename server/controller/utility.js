@@ -12,7 +12,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log('signup admin failed', err)
-      res.send(err).status(400);
+      res.status(400).send(err)//.status(400);
     }),
   },
 
@@ -24,8 +24,8 @@ module.exports = {
       res.json(result);
     })
     .catch((err) => {
-      console.log(err);
-      res.send(err).status(400);
+      console.log('here',err);
+      res.status(400).send(err);
     }),
     post:
     (req, res) => (signupStaff.post(req.body))
@@ -35,7 +35,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err);
-      res.send(err).status(400);
+      res.status(400).send(err);
     }),
   },
   staff_auth: {
@@ -45,10 +45,6 @@ module.exports = {
       res.json(result);
     })
     .catch((err) => {
-      console.log(err.stack);
-      if (err === 'unauthorized') {
-        res.status(401).send(err);
-      }
       res.status(400).send(err);
     }),
   },

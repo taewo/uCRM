@@ -7,9 +7,6 @@ module.exports = {
     res.json(result);
   })
   .catch((err) => {
-    if (err === 'unauthorized') {
-      res.status(401).send(err);
-    }
     res.status(400).send(err);
   }),
   post:
