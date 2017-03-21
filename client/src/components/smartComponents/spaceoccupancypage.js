@@ -31,7 +31,7 @@ class SpaceOccupancyPage extends Component {
   }
 
   getData(type) {
-    const API_URL = 'http://localhost:8000/api';
+    const API_URL = 'http://ec2-13-124-49-233.ap-northeast-2.compute.amazonaws.com:8000/api';
     let targeturl = `${API_URL}/space/year/?format=json`;
     if (type === 0) {
       targeturl = `${API_URL}/space/year/?format=json`;
