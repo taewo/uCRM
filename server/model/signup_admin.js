@@ -25,6 +25,7 @@ module.exports = {
             const companyId = newCompany.toJSON().id;
             return Admin.addNewAdmin(body, companyId)
             .then((newAdmin) => {
+              console.log('NEWADMIN', newAdmin)
               delete newAdmin.attributes.password;
               newAdmin.attributes.type = 'comp';
               return newAdmin.attributes;
