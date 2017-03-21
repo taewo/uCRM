@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import update from 'react-addons-update'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 import * as membersActions from '../../actions/membersActions';
 

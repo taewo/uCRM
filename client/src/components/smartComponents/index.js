@@ -8,7 +8,6 @@ export { default as Staff } from './staff';
 export { default as Manage } from './manage';
 export { default as Dashboard } from './dashboard';
 export { default as Members } from './members';
-export { default as Invoices } from './invoices';
 export { default as AddInvoices } from './addInvoices';
 export { default as Room } from './room';
 export { default as AddRoom } from './addRoom';
@@ -36,3 +35,7 @@ export { default as SpaceOccupancyTable } from './spaceoccupancytable';
 export { default as RevenuePage } from './revenuepage';
 export { default as RevenueReport } from './revenuereport';
 export { default as RevenueTable } from './revenuetable';
+
+export { default as Finance } from './finance';
+export { default as Expense } from './expense';
+export { default as AddExpense } from './addExpense';
