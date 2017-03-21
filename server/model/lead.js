@@ -10,10 +10,10 @@ module.exports = {
         .then((lead) => {
           return lead;
         })
-      } else {
-        throw new Error('user approaches unahthorized space_id');
       }
-    });
+      return Promise.reject('Error: Your requested space does not exist.');
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
   post(req) {
@@ -26,10 +26,10 @@ module.exports = {
             return resolve(lead);
           })
           .catch(err => (reject(err)));
-        } else {
-          return reject('user approaches unahthorized space_id');
         }
+        return reject('Error: Your requested space does not exist.');
       });
-    });
+    })
+    .catch(err => (Promise.reject(err)));
   },
 };

@@ -8,7 +8,6 @@ module.exports = {
     if (result.length) {
       res.json(result);
     }
-    res.status(300).send('unauthorized access');
   })
   .catch((err) => {
     console.log(err.stack);
