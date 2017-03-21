@@ -3,7 +3,10 @@ const Member = require('../db/member');
 module.exports = {
   getAllMembers(spaceid) {
     return Member
-    .where({ space_id: spaceid })
+    .where({
+      space_id: spaceid,
+      end_date: null,
+    })
     .fetchAll()
     .then(result => (result.toJSON()))
     .catch(err => (Promise.reject('Error: requested space does not exist')));
