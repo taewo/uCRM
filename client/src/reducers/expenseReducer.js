@@ -6,7 +6,7 @@ const initialState = {
 
 const expenseReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.MEMBERS_DATA:
+    case types.EXPENSE_DATA:
       return {
         ...state,
         expenses: action.expenses,

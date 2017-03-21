@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { MiddlebarDashboard, MiddlebarMembers, MiddlebarInvoices, MiddlebarRoom, MiddlebarLead } from '../dummyComponents/onManage';
+import React, { Component } from 'react';
+import { MiddlebarDashboard, MiddlebarMembers, MiddlebarLead } from '../dummyComponents/onManage';
 
 class Manage extends Component {
   render() {
@@ -7,8 +7,6 @@ class Manage extends Component {
       <div className="Manage">
         <MiddlebarDashboard />
         <MiddlebarMembers />
-        <MiddlebarInvoices />
-        <MiddlebarRoom />
         <MiddlebarLead />
         <br /><br />
         {this.props.children}

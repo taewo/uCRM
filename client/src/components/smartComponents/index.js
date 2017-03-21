@@ -39,3 +39,5 @@ export { default as RevenueTable } from './revenuetable';
 export { default as Finance } from './finance';
 export { default as Expense } from './expense';
 export { default as AddExpense } from './addExpense';
+export { default as Payment } from './payment';
+export { default as AddPayment } from './addPayment';

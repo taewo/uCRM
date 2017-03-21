@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
+import * as paymentActions from '../../actions/paymentActions';
 
-import * as expenseActions from '../../actions/expenseActions';
-
-class Expense extends Component {
+class Payment extends Component {
   componentDidMount() {
-    this.props.expenseShow();
+    this.props.paymentShow();
   }
 
   render() {
     const {
-      expenses,
+      payments,
     } = this.props;
     // const memberList = this.props.members.map((member) => {
     //   const {
@@ -32,16 +31,16 @@ class Expense extends Component {
     // });
     return (
       <div>
-        <Link to={'/admin/finance/expense/add'}>
-          Add expense
+        <Link to={'/admin/finance/payment/add'}>
+          Add payment
         </Link>
         <br />
         <div>
-          expenseList
+          payment list
         </div>
         <div>
           <button onClick={this.handleBtnClick}>Sort Product Name</button>
-          <BootstrapTable ref="table" data={expenses}>
+          <BootstrapTable ref="table" data={payments}>
             <TableHeaderColumn dataField="type" isKey={true} dataSort={true}>type ID</TableHeaderColumn>
             <TableHeaderColumn dataField="details" dataSort={true}>details</TableHeaderColumn>
             <TableHeaderColumn dataField="amount" dataSort={true}>amount</TableHeaderColumn>
@@ -56,11 +55,11 @@ class Expense extends Component {
 }
 
 const mapStateToProps = state => ({
-  expenses: state.expenseReducer.expenses,
+  payments: state.paymentReducer.payments,
 });
 
 const mapDispatchToProps = dispatch => ({
-  expenseShow: () => { dispatch(expenseActions.expenseShow()); },
+  paymentShow: () => { dispatch(paymentActions.paymentShow()); },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Expense);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

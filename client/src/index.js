@@ -35,10 +35,6 @@ const App = () => (
               <IndexRoute component={smartComponents.Members} />
               <Route path="add" component={smartComponents.AddMembers} />
             </Route>
-            <Route path="room">
-              <IndexRoute component={smartComponents.Room} />
-              <Route path="add" component={smartComponents.AddRoom} />
-            </Route>
             <Route path="lead">
               <IndexRoute component={smartComponents.Lead} />
               <Route path="add" component={smartComponents.AddLead} />
@@ -49,7 +45,10 @@ const App = () => (
               <IndexRoute component={smartComponents.Expense} />
               <Route path="add" component={smartComponents.AddExpense} />
             </Route>
-            <Route path="payment" component={smartComponents.Payment} />
+            <Route path="payment">
+              <IndexRoute component={smartComponents.Payment} />
+              <Route path="add" component={smartComponents.AddPayment} />
+            </Route>
           </Route>
           <Route path="report" component={smartComponents.Report}>
             <Route path="churn" component={smartComponents.ChurnPage} />

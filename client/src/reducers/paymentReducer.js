@@ -1,19 +1,19 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  members: [],
+  payments: [],
 };
 
-const membersReducer = (state = initialState, action) => {
+const paymentReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.MEMBERS_DATA:
+    case types.EXPENSE_DATA:
       return {
         ...state,
-        members: action.members,
+        payments: action.payments,
       };
     default:
       return state;
   }
 };
 
-export default membersReducer;
+export default paymentReducer;

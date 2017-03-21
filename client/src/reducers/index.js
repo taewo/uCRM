@@ -10,7 +10,7 @@ import billPlanReducer from './billPlanReducer';
 import membersReducer from './membersReducer';
 import basicReducer from './basicReducer';
 import expenseReducer from './expenseReducer';
-
+import paymentReducer from './paymentReducer';
 
 const reducers = combineReducers({
   basicReducer,
@@ -22,6 +22,7 @@ const reducers = combineReducers({
   dashboardReducer,
   membersReducer,
   expenseReducer,
+  paymentReducer,
   routing: routerReducer,
   form: formReducer,
 });
