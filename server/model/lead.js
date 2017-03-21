@@ -31,10 +31,17 @@ module.exports = {
   },
 
   delete(req) {
-    return Auth.checkIfUserHasSpace(req)
-    .then((hasSpace) => {
-      return Lead.deleteLead(req.body.lead_id)
-      .then(result => (result));
+    return Lead.getSpaceForLead(req.body.lead_id)
+    .then((spaceId) => {
+      req.body.space_id = spaceId;
+      return Auth.checkIfUserHasSpace(req)
+      .then((hasSpace) => {
+        if (hasSpace) {
+          return Lead.deleteLead(req.body.lead_id)
+          .then(result => (result));
+        }
+        return Promise.reject('Error: you have no authority to this lead.');
+      });
     })
     .catch(err => (Promise.reject(err)));
   },
