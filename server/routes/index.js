@@ -34,7 +34,8 @@ router.route('/space')
 
 router.route('/lead')
 .get(lead.get)
-.post(lead.post);
+.post(lead.post)
+.delete(lead.delete);
 
 router.route('/member')
 .get(member.get)
