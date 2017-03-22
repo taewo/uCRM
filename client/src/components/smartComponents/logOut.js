@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { Button, Menu } from 'semantic-ui-react';
+import { NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+
 import { API_URL } from '../../config';
 
 
@@ -37,9 +39,9 @@ class LogOut extends Component {
 
   render() {
     return (
-      <Menu.Item onClick={this.logout}>
-        Logout
-      </Menu.Item>
+      <LinkContainer to="/">
+        <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
+      </LinkContainer>
     );
   }
 }

@@ -31,7 +31,6 @@ export function logInConfirm() {
         const userType = res.data.type;
         const userToken = res.data.token;
         const userCompanyId = res.data.company_id;
-        console.log(res.data.company_id);
 
         sessionStorage.setItem('userCompanyId', userCompanyId);
 
@@ -40,19 +39,22 @@ export function logInConfirm() {
             return reject('11 alredy logIn');
           }
           sessionStorage.setItem('userToken', userToken);
-          return resolve(browserHistory.push('/space'))
+          return browserHistory.push('/space');
+          /*
+            return resolve('noSpaceList')
+            TODO
+            spaceList가 없을 때 add space로 Modal 이동하는 것 만들자
+          */
 
         } else {
           const userSpaceList = JSON.stringify(res.data.space_list);
 
-          console.log(typeof userSpaceList);
-          console.log(userSpaceList);
           if (sessionStorage.getItem('userToken')) {
             return reject('alredy logIn');
           }
           sessionStorage.setItem('userToken', userToken);
           sessionStorage.setItem('userSpaceList', userSpaceList);
-          return resolve(browserHistory.push('/selectspace'));
+          return resolve('hasSpaceList');
         }
       });
     })

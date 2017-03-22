@@ -8,15 +8,15 @@ class SelectSpace extends Component {
 
   render() {
     const data = JSON.parse(sessionStorage.getItem('userSpaceList'));
-    const showId = data.map((data) => {
-      return <div
+    const showId = data.map((spaceData) => {
+      return <button
         onClick={() => {
-          sessionStorage.setItem('userSpaceListId', data.space_id);
+          sessionStorage.setItem('userSpaceListId', spaceData.space_id);
           browserHistory.push('/admin/manage/dashboard');
         }}
       >
-        select: {data.name}
-      </div>;
+        select: {spaceData.name}
+      </button>;
     });
 
     return (
