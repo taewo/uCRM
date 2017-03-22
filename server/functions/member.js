@@ -106,11 +106,9 @@ module.exports = {
   },
 
   addNewMember(body, spaceid) {
-    console.log('BODY', body)
     const email = body.email;
     return module.exports.checkAllMemberByEmail(email)
     .then((member) => {
-      console.log('HASMEMBER', member)
       if (member) {
         if (member.isactive) {
           return Promise.reject('Error: the member already exist.');

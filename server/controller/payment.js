@@ -33,12 +33,24 @@ module.exports = {
     }
     return payment.post(req)
     .then((result) => {
-      console.log('RESULT', result)
       res.json(result);
     })
     .catch((err) => {
-      console.log('err', err)
       res.status(400).send(err);
     });
+  },
+
+  delete:
+  (req, res) => {
+    const dataIncomplete = (
+      !req.body.payment_id
+      || !req.body.member_id
+    );
+    if (dataIncomplete) {
+      res.status(400).send('delete data incomplete');
+    }
+    return payment.delete(req)
+    .then(result => (res.json(result)))
+    .catch(err => (res.status(400).send(err)));
   },
 };

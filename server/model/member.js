@@ -71,12 +71,9 @@ module.exports = {
       if (hasMember) {
         return Member.isMemberActive(memberid)
         .then((active) => {
-          console.log('ACTIVE', active)
           if (active) {
-            console.log('CONDITION PASSED')
             return Member.deleteMember(req.body)
             .then(() => {
-              console.log('hihihihi')
               return Member.getMemberByMemberId(memberid);
             });
           }

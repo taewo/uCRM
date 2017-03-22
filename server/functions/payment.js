@@ -14,17 +14,17 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
-  getPayment2(memberid) {
+
+  ifPaymentExist(paymentid, memberid) {
     return Payment
-    .where({ member_id: memberid })
-    .fetchAll({ withRelated: ['member'] })
-    .then((result) => {
-      if (result) {
-        return result.toJSON();
+    .where({ id: paymentid, member_id: memberid })
+    .fetch()
+    .then((payment) => {
+      if (payment) {
+        return true;
       }
-      return [];
-    })
-    .catch(err => (Promise.reject(err)));
+      return false;
+    });
   },
 
   addNewPayment(body) {
@@ -52,5 +52,13 @@ module.exports = {
       return [];
     })
     .catch(err => (Promise.reject(err)));
+  },
+
+  deleteMemberPayment(body) {
+    return Payment
+    .where({ id: body.payment_id, member_id: body.member_id })
+    .destroy()
+    .then(() => ('succesfully deleted'))
+    .catch(err => (Promise.reject(err)))
   },
 };
