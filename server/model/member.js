@@ -9,7 +9,7 @@ module.exports = {
     .then((access) => {
       if (access) {
         const spaceid = parseInt(req.query.space_id);
-        return Member.getAllMembers(spaceid)
+        return Member.getAllActiveMembers(spaceid)
         .then((result) => {
           if (result) {
             return result;
@@ -25,18 +25,26 @@ module.exports = {
   post(req) {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
+      console.log('ACCESS', access)
       if (access) {
+        console.log('CONDITION PASSED')
         const ifMemberExistByEmail = Member.checkExistingMemberByEmail(req.body.email);
         const ifMemberExistByMobile = Member.checkExistingMemberByMobile(req.body.mobile);
         return Promise.all([ifMemberExistByEmail, ifMemberExistByMobile])
         .then((check) => {
-          if (check[0] && check[1]) {
+          console.log('CHECK', check)
+          if (!check[0] && !check[1]) {
             return Member.addNewMember(req.body, req.body.space_id)
             .then((newMember) => {
+              console.log('NEWMEMBER', newMember.toJSON())
               return newMember.toJSON();
             });
+          } else if (check[0] && !check[1]) {
+            return Promise.reject('Error: member already exist(duplicate email)');
+          } else if (!check[1] && !check[1]) {
+            return Promise.reject('Error: member already exist(duplicate mobile)');
           }
-          return Promise.reject('Error: member already exist ');
+          // return Promise.reject('Error: member already exist ');
         })
         .then((newMember) => {
           const activityDetail = {
@@ -62,14 +70,15 @@ module.exports = {
       if (hasMember) {
         return Member.isMemberActive(memberid)
         .then((active) => {
+          console.log('ACTIVE', active)
           if (active) {
-            return Member.deleteMember(memberid)
+            console.log('CONDITION PASSED')
+            return Member.toggleMemberStatus(memberid)
             .then(() => {
-              return Member.getMember(memberid);
+              return Member.getMemberByMemberId(memberid);
             })
-          } else {
-            return Promise.reject('Error: member is already inactive');
-          };
+          }
+          return Promise.reject('Error: member is already inactive');
         })
       }
       return Promise.reject('Error: not authorized to delete this member');
