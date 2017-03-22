@@ -11,6 +11,7 @@ const expense = require('../controller/expense');
 const billplan = require('../controller/billplan');
 const approve = require('../controller/approve');
 const paymentSpace = require('../controller/payment_space');
+const activity = require('../controller/activity');
 const Token = require('../middleware/token');
 // const approveStaff = require('../controller/approvestaff');
 // const utility = require('../controller/utility');
@@ -21,7 +22,7 @@ router.use((req, res, next) => {
     next();
   })
   .catch((err) => {
-    res.send(err).status(500)
+    res.send(err).status(500);
   });
 });
 
@@ -67,6 +68,9 @@ router.route('/approve/staff')
 
 router.route('/approve/expense')
 .post(approve.Expense.post);
+
+router.route('/activity')
+.get(activity.get);
 
 // router.route('/staff/permit')
 // .put(utility.staff_auth.put);
