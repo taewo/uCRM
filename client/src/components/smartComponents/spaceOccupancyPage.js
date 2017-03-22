@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import SpaceOccupancyReport from './spaceoccupancyreport';
-import SpaceOccupancyTable from './spaceoccupancytable';
+import SpaceOccupancyReport from './spaceOccupancyReport';
+import SpaceOccupancyTable from './spaceOccupancyTable';
 
 
 class SpaceOccupancyPage extends Component {
