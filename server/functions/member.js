@@ -22,6 +22,20 @@ module.exports = {
     .catch(err => (Promise.reject('Error: requested space does not exist')));
   },
 
+  getCountActiveMemberBySpaceId(spaceid) {
+    return Member
+    // .where({
+    //   space_id: spaceid,
+    //   isactive: 1,
+    // })
+    .query({where: {space_id: spaceid, isactive: 1}} )
+    .count()
+    // .then((result) => {
+    //   return result;
+    // })
+    .then(result => (result))
+  },
+
   getMemberByMemberId(memberid) {
     return Member
     .where({ id: memberid })
