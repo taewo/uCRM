@@ -23,7 +23,7 @@ module.exports = {
           space_id: req.body.space_id,
           type: 'expense_creation',
           date: new Date(),
-          user: req.body.details,
+          target: req.body.details,
         };
         const addExpense = Expense.addNewExpense(req.body);
         const addActivity = Activity.addNewActivity(activityDetail);

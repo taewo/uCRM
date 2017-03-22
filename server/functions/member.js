@@ -24,16 +24,9 @@ module.exports = {
 
   getCountActiveMemberBySpaceId(spaceid) {
     return Member
-    // .where({
-    //   space_id: spaceid,
-    //   isactive: 1,
-    // })
-    .query({where: {space_id: spaceid, isactive: 1}} )
+    .query({ where: { space_id: spaceid, isactive: 1 } })
     .count()
-    // .then((result) => {
-    //   return result;
-    // })
-    .then(result => (result))
+    .then(result => (result));
   },
 
   getMemberByMemberId(memberid) {
@@ -87,6 +80,19 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
+  checkAllMemberByEmail(email) {
+    return Member
+    .where({ email })
+    .fetch()
+    .then((result) => {
+      if (result) {
+        return true;
+      }
+      return false;
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
   checkExistingMemberByMobile(mobile) {
     return Member
     .where({ mobile, isactive: 1 })
@@ -102,22 +108,23 @@ module.exports = {
   addNewMember(body, spaceid) {
     console.log('BODY', body)
     const email = body.email;
-    return module.exports.checkExistingMemberByEmail(email)
-    .then((hasMember) => {
-      console.log('HASMEMBER', hasMember)
-      if (hasMember) {
-        return Member
-        .where({ email })
-        .fetch()
-        .then((member) => {
-          console.log('MEMBER', member)
-          return module.exports.toggleMemberStatus(member.id)
-          .then(() => {
-            return Member
-            .where({ email })
-            .save(body, { patch: true });
+    return module.exports.checkAllMemberByEmail(email)
+    .then((member) => {
+      console.log('HASMEMBER', member)
+      if (member) {
+        if (member.isactive) {
+          return Promise.reject('Error: the member already exist.');
+        } else {
+          body.end_date = null;
+          body.end_reason = null;
+          body.isactive = 1;
+          return Member
+          .where({ email })
+          .save(body, { patch: true })
+          .then((member) => {
+            return member.toJSON();
           })
-        });
+        }
       }
       body.space_id = spaceid;
       body.isactive = 1;
@@ -141,17 +148,22 @@ module.exports = {
         .save({
           isactive: flag,
           end_date: endDate
-        });
+        },
+      { patch: true });
       }
       return Promise.reject('Error: no member exist to toggle active/inactive');
     });
   },
 
-  // deleteMember(memberid) {
-  //   console.log('MEMBERID', memberid)
-  //   const end_date = new Date();
-  //   return Member
-  //   .where({ id: memberid })
-  //   .save({ end_date, isactive: 0 }, { patch: true });
-  // },
+  deleteMember(body) {
+    const end_date = new Date();
+    const end_reason = body.end_reason;
+    return Member
+    .where({ id: body.member_id })
+    .save({
+      end_date,
+      isactive: 0,
+      end_reason
+    }, { patch: true });
+  },
 };

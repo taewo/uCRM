@@ -33,25 +33,26 @@ module.exports = {
         return Promise.all([ifMemberExistByEmail, ifMemberExistByMobile])
         .then((check) => {
           console.log('CHECK', check)
+          console.log('req.body', req.body)
           if (!check[0] && !check[1]) {
             return Member.addNewMember(req.body, req.body.space_id)
             .then((newMember) => {
-              console.log('NEWMEMBER', newMember.toJSON())
-              return newMember.toJSON();
+              console.log('NEWMEMBER', newMember)
+              return newMember;
             });
           } else if (check[0] && !check[1]) {
             return Promise.reject('Error: member already exist(duplicate email)');
-          } else if (!check[1] && !check[1]) {
+          } else if (!check[0] && check[1]) {
             return Promise.reject('Error: member already exist(duplicate mobile)');
           }
-          // return Promise.reject('Error: member already exist ');
+          return Promise.reject('Error: member already exist ');
         })
         .then((newMember) => {
           const activityDetail = {
             space_id: req.body.space_id,
             type: 'member_creation',
             date: new Date(),
-            user: req.body.name,
+            target: req.body.name,
           };
           const convertLead = Lead.toggleConvertedLead(req.body.space_id, req.body.email);
           const addActivity = Activity.addNewActivity(activityDetail);
@@ -73,13 +74,14 @@ module.exports = {
           console.log('ACTIVE', active)
           if (active) {
             console.log('CONDITION PASSED')
-            return Member.toggleMemberStatus(memberid)
+            return Member.deleteMember(req.body)
             .then(() => {
+              console.log('hihihihi')
               return Member.getMemberByMemberId(memberid);
-            })
+            });
           }
           return Promise.reject('Error: member is already inactive');
-        })
+        });
       }
       return Promise.reject('Error: not authorized to delete this member');
     });

@@ -38,13 +38,22 @@ module.exports = {
   },
 
   delete:
-  (req, res) => (member.delete(req))
-  .then((result) => {
-    console.log('RESULT', result)
-    res.json(result);
-  })
-  .catch((err) => {
-    console.log(err);
-    res.status(400).send(err);
-  }),
+  (req, res) => {
+    const dataIncomplete = (
+      !req.body.member_id
+      || !req.body.end_reason
+    );
+    if (dataIncomplete) {
+      res.status(400).send('delete data incomplete');
+    } else {
+      return member.delete(req)
+      .then((result) => {
+        console.log('RESULT', result)
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+    }
+  },
 };
