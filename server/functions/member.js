@@ -12,6 +12,21 @@ module.exports = {
     .catch(err => (Promise.reject('Error: requested space does not exist')));
   },
 
+  makeIdToMemberTable(spaceid) {
+    return module.exports.getAllMembers(spaceid)
+    .then((members) => {
+      if (members.length) {
+        const table = {};
+        members.forEach((member) => {
+          table[member.id] = [member.name, member.email];
+        });
+        return table;
+      }
+      return Promise.reject('Error: space has no members');
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
   checkExistingMemberByEmail(email) {
     return Member
     .where({ email })

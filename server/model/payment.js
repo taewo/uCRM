@@ -2,12 +2,14 @@ const Payment = require('../functions/payment');
 const Auth = require('../functions/auth');
 
 module.exports = {
+  // below code is getting payment records for one member
   get(req) {
     return Auth.checkIfUserHasMember(req)
     .then((hasMember) => {
       if (hasMember) {
         return Payment.getPayment(req.query.member_id)
         .then((result) => {
+          console.log('payment RESULT for the space=', req.body.space_id, result)
           if (result) {
             return result;
           }
