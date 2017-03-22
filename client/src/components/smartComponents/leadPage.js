@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import LeadReport from './leadreport';
-import LeadTable from './leadtable';
+import LeadReport from './leadReport';
+import LeadTable from './leadTable';
 
 
 class LeadPage extends Component {
