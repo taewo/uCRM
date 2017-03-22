@@ -41,7 +41,8 @@ module.exports = {
     }
     return space.delete(req)
     .then((result) => {
-      res.send(result);
+      console.log('gdgd',result)
+      res.json('delete space completed');
     })
     .catch((err) => {
       res.status(400).send(err);

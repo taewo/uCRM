@@ -61,7 +61,7 @@ module.exports = {
         if (hasSpace) {
           return Space.deleteSpace(req.body.space_id)
           .then((result) => {
-            return result;
+            return resolve(result);
           });
         }
         return reject('Error: Your requested space does not exist.');
