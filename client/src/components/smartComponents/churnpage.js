@@ -22,66 +22,59 @@ class ChurnPage extends Component {
         3: '이탈흐름분석',
       },
       type: 0,
+      isLoading: true,
     };
     this.handleTabClick = this.handleTabClick.bind(this);
   }
 
   componentDidMount() {
-    this.getData(0);
-    this.getData(1);
-    this.getData(2);
-    this.getData(3);
+    this.getData();
   }
 
-  getData(type) {
+  getData() {
     const API_URL = 'http://ec2-13-124-49-233.ap-northeast-2.compute.amazonaws.com:8000/api';
-    let targeturl = `${API_URL}/churn/flow/?format=json`;
-    if (type === 0) {
-      targeturl = `${API_URL}/churn/compare/?format=json`;
-    }
-    if (type === 1) {
-      targeturl = `${API_URL}/churn/this/?format=json`;
-    }
-    if (type === 2) {
-      targeturl = `${API_URL}/churn/last/?format=json`;
-    }
-    if (type === 3) {
-      targeturl = `${API_URL}/churn/flow/?format=json`;
-    }
+    const urls = [
+      `${API_URL}/churn/compare/?format=json`,
+      `${API_URL}/churn/this/?format=json`,
+      `${API_URL}/churn/last/?format=json`,
+      `${API_URL}/churn/flow/?format=json`,
+    ];
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),
       },
     };
-    return axios({
+    const promises = urls.map(url => axios({
       method: 'get',
-      url: targeturl,
+      url,
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
       headers: instance.headers,
-    })
-    .then((res) => {
-      if (type === 0) {
-        this.setState({
-          comparisonData: res.data,
-        });
-      } else if (type === 1) {
-        this.setState({
-          thisMonthData: res.data,
-        });
-      } else if (type === 2) {
-        this.setState({
-          lastMonthData: res.data,
-        });
-      } else if (type === 3) {
-        this.setState({
-          flowChartData: res.data,
-        });
-      }
+    }));
+    return Promise.all(promises)
+    .then(responses => responses.map(response => response.data))
+    .then((results) => {
+      console.log('hi');
+      const [
+        comparisonData,
+        thisMonthData,
+        lastMonthData,
+        flowChartData,
+      ] = results;
+      this.setState({
+        comparisonData,
+        thisMonthData,
+        lastMonthData,
+        flowChartData,
+        isLoading: false,
+      });
     })
     .catch((err) => {
       console.log(err);
-      console.log(err.message);
-    })
+      this.setState({
+        isLoading: false,
+      });
+      throw err;
+    });
   }
 
   handleTabClick(value) {
@@ -92,6 +85,37 @@ class ChurnPage extends Component {
 
 
   render() {
+    const {
+      comparisonData,
+      thisMonthData,
+      lastMonthData,
+      flowChartData,
+      isLoading,
+    } = this.state;
+    console.log(this.state);
+    const dataList = [
+      comparisonData,
+      thisMonthData,
+      lastMonthData,
+      flowChartData,
+    ];
+    const tabPanels =
+    !isLoading
+    ? dataList.map(data => (
+      <TabPanel>
+        <ChurnReport
+          className="ChurnReport"
+          data={data}
+          type={this.state.type_mapper[this.state.type]}
+        />
+        <ChurnTable
+          className="ChurnTable"
+          data={data}
+          type={this.state.type_mapper[this.state.type]}
+        />
+      </TabPanel>
+    ))
+    : false;
     return (
       <div className="ChurnTabs">
         <Tabs onSelect={this.handleTabClick}>
@@ -101,22 +125,7 @@ class ChurnPage extends Component {
             <Tab>지난달</Tab>
             <Tab>이탈흐름분석</Tab>
           </TabList>
-          <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
-            <ChurnTable className="ChurnTable" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.thisMonthData} type={this.state.type_mapper[this.state.type]} />
-            <ChurnTable className="ChurnTable" data={this.state.thisMonthData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.lastMonthData} type={this.state.type_mapper[this.state.type]} />
-            <ChurnTable className="ChurnTable" data={this.state.lastMonthData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <ChurnReport className="ChurnReport" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-            <ChurnTable className="ChurnTable" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
+          {tabPanels}
         </Tabs>
       </div>
     );

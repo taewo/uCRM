@@ -12,9 +12,9 @@ class RevenuePage extends Component {
     super(props);
     this.state = {
       comparisonData: [],
-      yearData: [],
       monthData: [],
       flowChartData: [],
+      yearData: [],
       type_mapper: {
         0: '이번달이익요약분석',
         1: '이번달이익세부분석',
@@ -22,58 +22,56 @@ class RevenuePage extends Component {
         3: '요금제별연간이익분석',
       },
       type: 0,
+      isLoading: true,
     };
     this.handleTabClick = this.handleTabClick.bind(this);
   }
 
   componentDidMount() {
-    this.getData(0);
-    this.getData(1);
-    this.getData(2);
-    this.getData(3);
+    this.getData();
   }
 
-  getData(type) {
+  getData() {
     const API_URL = 'http://ec2-13-124-49-233.ap-northeast-2.compute.amazonaws.com:8000/api';
-    let targeturl = `${API_URL}/revenue/flow/month/?format=json`;
-    if (type === 1) {
-      targeturl = `${API_URL}/revenue/billing/month/?format=json`;
-    }
-    if (type === 2) {
-      targeturl = `${API_URL}/revenue/flow/year/?format=json`;
-    }
-    if (type === 3) {
-      targeturl = `${API_URL}/revenue/billing/year/?format=json`;
-    }
+    const urls = [
+      `${API_URL}/revenue/flow/month/?format=json`,
+      `${API_URL}/revenue/billing/month/?format=json`,
+      `${API_URL}/revenue/flow/year/?format=json`,
+      `${API_URL}/revenue/billing/year/?format=json`,
+    ]
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),
       },
     };
-    return axios({
+    const promises = urls.map(url => axios({
       method: 'get',
-      url: targeturl,
+      url,
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
       headers: instance.headers,
+    }));
+    return Promise.all(promises)
+    .then(responses => responses.map(response => response.data))
+    .then((results) => {
+      const [
+        comparisonData,
+        monthData,
+        flowChartData,
+        yearData,
+      ] = results;
+      this.setState({
+        comparisonData,
+        monthData,
+        flowChartData,
+        yearData,
+        isLoading: false,
+      });
     })
-    .then((res) => {
-      if (type === 0) {
-        this.setState({
-          comparisonData: res.data,
-        });
-      } else if (type === 1) {
-        this.setState({
-          monthData: res.data,
-        });
-      } else if (type === 2) {
-        this.setState({
-          flowChartData: res.data,
-        });
-      } else if (type === 3) {
-        this.setState({
-          yearData: res.data,
-        });
-      }
+    .catch((err) => {
+      this.setState({
+        isLoading: false,
+      });
+      throw err;
     });
   }
 
@@ -84,6 +82,36 @@ class RevenuePage extends Component {
   }
 
   render() {
+    const {
+      comparisonData,
+      monthData,
+      flowChartData,
+      yearData,
+      isLoading,
+    } = this.state;
+    const dataList = [
+      comparisonData,
+      monthData,
+      flowChartData,
+      yearData,
+    ];
+    const tabPanels =
+    !isLoading
+    ? dataList.map(data => (
+      <TabPanel>
+        <RevenueReport
+          className="RevenueReport"
+          data={data}
+          type={this.state.type_mapper[this.state.type]}
+        />
+        <RevenueTable
+          className="RevenueTable"
+          data={data}
+          type={this.state.type_mapper[this.state.type]}
+        />
+      </TabPanel>
+    ))
+    : false;
     return (
       <div className="RevenueTabs">
         <Tabs onSelect={this.handleTabClick}>
@@ -93,22 +121,7 @@ class RevenuePage extends Component {
             <Tab>연간 이익 흐름 분석</Tab>
             <Tab>요금제별 연간이익 분석</Tab>
           </TabList>
-          <TabPanel>
-            <RevenueReport className="RevenueReport" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
-            <RevenueTable className="RevenueTable" data={this.state.comparisonData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <RevenueReport className="RevenueReport" data={this.state.monthData} type={this.state.type_mapper[this.state.type]} />
-            <RevenueTable className="RevenueTable" data={this.state.monthData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <RevenueReport className="RevenueReport" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-            <RevenueTable className="RevenueTable" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <RevenueReport className="RevenueReport" data={this.state.yearData} type={this.state.type_mapper[this.state.type]} />
-            <RevenueTable className="RevenueTable" data={this.state.yearData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
+          {tabPanels}
         </Tabs>
       </div>
     );
