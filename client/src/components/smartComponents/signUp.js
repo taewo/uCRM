@@ -1,49 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Email, Mobile, Name, Password, Userid, Companyname, Submit } from '../dummyComponents/onSignUp';
-import * as signUpActions from '../../actions/signUpActions';
+import { NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
 
-// const propTypes = {
-//   signUpEmailOnChange: PropTypes.func,
-// };
-//
-// const defaultProps = {
-//   signUpEmailOnChange: () => {console.log('입력을 기다린다.')},
-// };
+import { Companyname, Email, Mobile, Name, Password, Userid } from '../dummyComponents/onSignUp';
+import * as signUpActions from '../../actions/signUpActions';
 
 class SignUp extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.open = this.open.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+
+    this.state = {
+      showModal: false,
+      showSelectSpace: false,
+    };
+  }
+
+  open() {
+    this.setState({
+      showModal: true,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      showModal: false,
+    });
+  }
+
   render() {
     return (
-      <div>
-          SignUp
-        <Userid signUpUserid={this.props.signUpUseridOnChange} />
-        <Password signUpPassword={this.props.signUpPasswordOnChange} />
-        <Name signUpName={this.props.signUpNameOnChange} />
-        <Companyname signUpCompanyname={this.props.signUpCompanynameOnChange} />
-        <Email signUpEmail={this.props.signUpEmailOnChange} />
-        <Mobile signUpMobile={this.props.signUpMobileOnChange} />
-        <Submit signUpSubmit={this.props.signUpSubmitOnCange} />
-      </div>
+      <NavItem eventKey={3} onClick={this.open}>
+        SignUp
+        <Modal show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header>
+            <Modal.Title>Login</Modal.Title>
+            <Userid signUpUserid={this.props.signUpUserid} />
+            <Password signUpPassword={this.props.signUpPassword} />
+            <Name signUpName={this.props.signUpName} />
+            <Companyname signUpCompanyname={this.props.signUpCompanyname} />
+            <Mobile signUpMobile={this.props.signUpMobile} />
+            <Email signUpEmail={this.props.signUpEmail} />
+          </Modal.Header>
+          <Modal.Footer>
+            <Button onClick={() => {
+              this.props.signUpSubmit();
+              this.closeModal();
+            }}>
+            회원가입
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </NavItem>
     );
   }
 }
-// SignUp.propTypes = propTypes;
-// SignUp.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
   toggleSignedUp: state.signUpReducer.toggleSignedUp,
 });
 
 const mapDispatchToProps = dispatch => ({
-  signUpEmailOnChange: (email) => { dispatch(signUpActions.signUpEmail(email)); },
-  signUpMobileOnChange: (mobile) => { dispatch(signUpActions.signUpMobile(mobile)); },
-  signUpNameOnChange: (name) => { dispatch(signUpActions.signUpName(name)); },
-  signUpPasswordOnChange: (password) => { dispatch(signUpActions.signUpPassword(password)); },
-  signUpUseridOnChange: (userid) => { dispatch(signUpActions.signUpUserid(userid)); },
-  signUpCompanynameOnChange: (companyname) => { dispatch(signUpActions.signUpCompanyname(companyname)); },
-  signUpSubmitOnCange: () => { dispatch(signUpActions.signUpSubmit()); },
+  signUpEmail: email => dispatch(signUpActions.signUpEmail(email)),
+  signUpMobile: mobile => dispatch(signUpActions.signUpMobile(mobile)),
+  signUpName: name => dispatch(signUpActions.signUpName(name)),
+  signUpPassword: password => dispatch(signUpActions.signUpPassword(password)),
+  signUpUserid: userid => dispatch(signUpActions.signUpUserid(userid)),
+  signUpCompanyname: companyname => dispatch(signUpActions.signUpCompanyname(companyname)),
+  signUpSubmit: () => dispatch(signUpActions.signUpSubmit()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

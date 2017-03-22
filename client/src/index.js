@@ -24,8 +24,8 @@ const App = () => (
     <Router history={history}>
       <Route path="/" component={smartComponents.Headers}>
         <IndexRoute component={smartComponents.Home} />
-        <Route path="signup" component={smartComponents.SignUp} />
-        <Route path="login" component={smartComponents.Login} />
+        {/* <Route path="signup" component={smartComponents.SignUp} /> */}
+        {/* <Route path="login" component={smartComponents.Login} */}
         <Route path="space" component={smartComponents.AddSpace} />
         <Route path="selectspace" component={smartComponents.SelectSpace} />
         <Route path="admin" component={smartComponents.Admin}>

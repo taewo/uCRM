@@ -7,7 +7,6 @@ class ButtonSignUp extends Component {
     return (
       <Menu.Item>
         <Link to={'/signup'}>signup</Link>
-        <Link to={'/'}>Home</Link>
       </Menu.Item>
     );
   }
