@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Panel, Glyphicon, Button } from 'react-bootstrap';
 import '../../../../public/style.css';
+const allMemberImg = require('../../../../image/allMember.svg');
 
 class AllMember extends Component {
   render() {
@@ -10,9 +11,9 @@ class AllMember extends Component {
     return (
       <div className="dashboard_panel">
           <Panel header={title1} bsStyle="danger">
-              <Glyphicon glyph="globe" />
-            AllMember : sadkfjaskfjs
-            {this.props.allMember}
+            <img src={allMemberImg} />
+              AllMember : sadkfjaskfjs
+              {this.props.allMember}
           </Panel>
       </div>
     );

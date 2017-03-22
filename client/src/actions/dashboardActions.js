@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { browserHistory } from 'react-router';
+import { API_URL } from '../config';
 import * as types from './types';
 
 export const dashboardAllMember = allMember => ({
@@ -28,23 +28,19 @@ export const dashboardIsChangeDashboard = isChangeDashboard => ({
 });
 
 export function dashboardShow() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('come in dashboardShow');
-    const { allMember, currentMember, latestActivity, roomReservation } = getState().dashboardReducer;
-    const API_URL = 'http://localhost:4000/api';
-    const instance = {
-      headers: {
-        token: sessionStorage.getItem('userToken'),
-      },
+    const token = {
+      token: sessionStorage.getItem('userToken'),
     };
     return axios({
       method: 'get',
       url: `${API_URL}/dashboard`,
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
-      headers: instance.headers,
+      headers: token,
     })
     .then((res) => {
-      console.log(res.data);
+      console.log(111, res.data);
       const data = res.data;
       const dataMemberList = data.memberList;
       const dataMemberListLength = dataMemberList.length;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap';
 import '../../../../public/style.css';
+const currentMemberImg = require('../../../../image/currentMember.svg');
 
 class CurrentMember extends Component {
   render() {
@@ -10,6 +11,7 @@ class CurrentMember extends Component {
     return (
       <div className="dashboard_panel">
         <Panel header={title2} bsStyle="success">
+          <img src={currentMemberImg} />
           CurrentMember :sadkfjaskfjs
           {this.props.currentMember}
         </Panel>
