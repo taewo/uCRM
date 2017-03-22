@@ -1,5 +1,5 @@
 import React from 'react';
-import ReportChart from './reportchart';
+import ReportChart from './reportChart';
 
 class RevenueReport extends ReportChart {
 

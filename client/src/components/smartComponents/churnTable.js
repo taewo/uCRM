@@ -1,7 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import ReportTable from './reporttable';
+import ReportTable from './reportTable';
 
 class ChurnTable extends ReportTable {
 

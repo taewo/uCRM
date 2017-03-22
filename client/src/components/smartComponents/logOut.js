@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import { Button, Menu } from 'semantic-ui-react';
 import { API_URL } from '../../config';
 
 
@@ -10,14 +11,14 @@ class LogOut extends Component {
     this.logout = this.logout.bind(this);
   }
 
-    logout() {
-      const instance = {
-        headers: {
-          token: sessionStorage.getItem('userToken'),
-        },
-      };
-      axios.get(`${API_URL}/logout`,
-       instance,
+  logout() {
+    const instance = {
+      headers: {
+        token: sessionStorage.getItem('userToken'),
+      },
+    };
+    axios.get(`${API_URL}/logout`,
+     instance,
      )
     .then((res) => {
       console.log('res', res);
@@ -36,9 +37,9 @@ class LogOut extends Component {
 
   render() {
     return (
-      <button onClick={this.logout}>
+      <Menu.Item onClick={this.logout}>
         Logout
-      </button>
+      </Menu.Item>
     );
   }
 }

@@ -2,24 +2,24 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import ChurnReport from './churnreport';
-import ChurnTable from './churntable';
+import RevenueReport from './revenueReport';
+import RevenueTable from './revenueTable';
 
 
-class ChurnPage extends Component {
+class RevenuePage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      thisMonthData: [],
-      lastMonthData: [],
       comparisonData: [],
+      monthData: [],
       flowChartData: [],
+      yearData: [],
       type_mapper: {
-        0: '비교분석',
-        1: '이번달',
-        2: '지난달',
-        3: '이탈흐름분석',
+        0: '이번달이익요약분석',
+        1: '이번달이익세부분석',
+        2: '이익흐름분석',
+        3: '요금제별연간이익분석',
       },
       type: 0,
       isLoading: true,
@@ -34,11 +34,11 @@ class ChurnPage extends Component {
   getData() {
     const API_URL = 'http://ec2-13-124-49-233.ap-northeast-2.compute.amazonaws.com:8000/api';
     const urls = [
-      `${API_URL}/churn/compare/?format=json`,
-      `${API_URL}/churn/this/?format=json`,
-      `${API_URL}/churn/last/?format=json`,
-      `${API_URL}/churn/flow/?format=json`,
-    ];
+      `${API_URL}/revenue/flow/month/?format=json`,
+      `${API_URL}/revenue/billing/month/?format=json`,
+      `${API_URL}/revenue/flow/year/?format=json`,
+      `${API_URL}/revenue/billing/year/?format=json`,
+    ]
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),
@@ -53,23 +53,21 @@ class ChurnPage extends Component {
     return Promise.all(promises)
     .then(responses => responses.map(response => response.data))
     .then((results) => {
-      console.log('hi');
       const [
         comparisonData,
-        thisMonthData,
-        lastMonthData,
+        monthData,
         flowChartData,
+        yearData,
       ] = results;
       this.setState({
         comparisonData,
-        thisMonthData,
-        lastMonthData,
+        monthData,
         flowChartData,
+        yearData,
         isLoading: false,
       });
     })
     .catch((err) => {
-      console.log(err);
       this.setState({
         isLoading: false,
       });
@@ -83,33 +81,31 @@ class ChurnPage extends Component {
     });
   }
 
-
   render() {
     const {
       comparisonData,
-      thisMonthData,
-      lastMonthData,
+      monthData,
       flowChartData,
+      yearData,
       isLoading,
     } = this.state;
-    console.log(this.state);
     const dataList = [
       comparisonData,
-      thisMonthData,
-      lastMonthData,
+      monthData,
       flowChartData,
+      yearData,
     ];
     const tabPanels =
     !isLoading
     ? dataList.map(data => (
       <TabPanel>
-        <ChurnReport
-          className="ChurnReport"
+        <RevenueReport
+          className="RevenueReport"
           data={data}
           type={this.state.type_mapper[this.state.type]}
         />
-        <ChurnTable
-          className="ChurnTable"
+        <RevenueTable
+          className="RevenueTable"
           data={data}
           type={this.state.type_mapper[this.state.type]}
         />
@@ -117,13 +113,13 @@ class ChurnPage extends Component {
     ))
     : false;
     return (
-      <div className="ChurnTabs">
+      <div className="RevenueTabs">
         <Tabs onSelect={this.handleTabClick}>
           <TabList>
-            <Tab>비교분석</Tab>
-            <Tab>이번달</Tab>
-            <Tab>지난달</Tab>
-            <Tab>이탈흐름분석</Tab>
+            <Tab>요약</Tab>
+            <Tab>이번달 세부 분석</Tab>
+            <Tab>연간 이익 흐름 분석</Tab>
+            <Tab>요금제별 연간이익 분석</Tab>
           </TabList>
           {tabPanels}
         </Tabs>
@@ -132,4 +128,4 @@ class ChurnPage extends Component {
   }
 }
 
-export default ChurnPage;
+export default RevenuePage;
