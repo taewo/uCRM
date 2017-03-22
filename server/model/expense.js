@@ -34,4 +34,21 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
+
+  delete(req) {
+    return Auth.checkIfUserHasSpace(req)
+    .then((access) => {
+      if (access) {
+        return Expense.ifExpenseExist(req.body.expense_id, req.body.space_id)
+        .then((expenseExist) => {
+          if (expenseExist) {
+            return Expense.deleteExpense(req.body.expense_id);
+          }
+          return Promise.reject('Error: expense does not exist');
+        });
+      }
+      return Promise.reject('Error: Your requested space does not exist.');
+    })
+    .catch(err => (Promise.reject(err)));
+  },
 };

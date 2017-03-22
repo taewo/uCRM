@@ -60,7 +60,8 @@ router.route('/space/payment')
 
 router.route('/expense')
 .get(expense.get)
-.post(expense.post);
+.post(expense.post)
+.delete(expense.delete);
 
 router.route('/basic')
 .get(basic.get)

@@ -37,4 +37,22 @@ module.exports = {
       res.status(400).send(err);
     });
   },
+
+  delete:
+  (req, res) => {
+    const {
+      expense_id,
+      space_id,
+    } = req.body;
+    const dataIncomplete = (
+      !expense_id
+      || !space_id
+    );
+    if (dataIncomplete) {
+      res.status(400).send('post data incomplete');
+    }
+    return expense.delete(req)
+    .then(result => (res.json(result)))
+    .catch(err => (res.status(400).send(err)));
+  },
 };
