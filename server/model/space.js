@@ -36,7 +36,7 @@ module.exports = {
                   space_id: newSpace.id,
                   type: 'space_creation',
                   date: new Date(),
-                  user: newSpace.attributes.name,
+                  target: newSpace.attributes.name,
                 };
                 Activity.addNewActivity(activityDetail);
                 // todo Error-handling

@@ -23,7 +23,7 @@ module.exports = {
           space_id: req.body.space_id,
           type: 'billplan_creation',
           date: new Date(),
-          user: req.body.name,
+          target: req.body.name,
         };
         const addBillplan = BillPlan.addNewBillPlan(req.body);
         const addActivity = Activity.addNewActivity(activityDetail);

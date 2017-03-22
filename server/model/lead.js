@@ -25,7 +25,7 @@ module.exports = {
           space_id: req.body.space_id,
           type: 'lead_' + req.body.type,
           date: new Date(),
-          user: req.body.email,
+          target: req.body.email,
         };
         const addLead = Lead.addNewLead(req.body);
         const addActivity = Activity.addNewActivity(activityDetail);

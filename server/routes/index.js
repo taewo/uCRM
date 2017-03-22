@@ -52,14 +52,16 @@ router.route('/billplan')
 
 router.route('/member/payment')
 .get(payment.get)
-.post(payment.post);
+.post(payment.post)
+.delete(payment.delete);
 
 router.route('/space/payment')
 .get(paymentSpace.get);
 
 router.route('/expense')
 .get(expense.get)
-.post(expense.post);
+.post(expense.post)
+.delete(expense.delete);
 
 router.route('/basic')
 .get(basic.get)

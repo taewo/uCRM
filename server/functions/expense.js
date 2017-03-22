@@ -15,6 +15,18 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
+  ifExpenseExist(expenseid, spaceid) {
+    return Expense
+    .where({ id: expenseid, space_id: spaceid })
+    .fetch()
+    .then((expenseExist) => {
+      if (expenseExist) {
+        return true;
+      }
+      return false;
+    });
+  },
+
   addNewExpense(body) {
     body.isapproved = 0;
     return Expense
@@ -46,5 +58,13 @@ module.exports = {
       });
     })
     .catch(err => (Promise.reject(err)));
+  },
+
+  deleteExpense(expenseid) {
+    return Expense
+    .where({ id: expenseid })
+    .destroy()
+    .then(result => ('successfully deleted'))
+    .catch(err => (Promise.reject(err)))
   },
 };
