@@ -22,7 +22,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const App = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={smartComponents.Header}>
+      <Route path="/" component={smartComponents.Headers}>
         <IndexRoute component={smartComponents.Home} />
         <Route path="signup" component={smartComponents.SignUp} />
         <Route path="login" component={smartComponents.Login} />
@@ -54,6 +54,7 @@ const App = () => (
             <Route path="churn" component={smartComponents.ChurnPage} />
             <Route path="lead" component={smartComponents.LeadPage} />
             <Route path="space" component={smartComponents.SpaceOccupancyPage} />
+            <Route path="revenue" component={smartComponents.RevenuePage} />
           </Route>
           <Route path="setting" component={smartComponents.Setting}>
             <Route path="basic" component={smartComponents.Basic} />

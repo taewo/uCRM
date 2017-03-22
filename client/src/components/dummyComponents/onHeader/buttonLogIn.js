@@ -1,25 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Container, Menu, Button } from 'semantic-ui-react';
 import { Link } from 'react-router';
 
-const propTypes = {
-};
-
-const defaultProps = {
-};
-
 class ButtonLogIn extends Component {
-  constructor(props) {
-    super(props);
-  }
+
   render() {
     return (
-      <button>
+      <Menu.Item>
         <Link to={'/login'}>login</Link>
-      </button>
+      </Menu.Item>
+
     );
   }
 }
-ButtonLogIn.propTypes = propTypes;
-ButtonLogIn.defaultProps = defaultProps;
 
 export default ButtonLogIn;
