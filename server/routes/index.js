@@ -10,6 +10,7 @@ const payment = require('../controller/payment');
 const expense = require('../controller/expense');
 const billplan = require('../controller/billplan');
 const approve = require('../controller/approve');
+const paymentSpace = require('../controller/payment_space');
 const Token = require('../middleware/token');
 // const approveStaff = require('../controller/approvestaff');
 // const utility = require('../controller/utility');
@@ -46,9 +47,12 @@ router.route('/billplan')
 .get(billplan.get)
 .post(billplan.post);
 
-router.route('/payment')
+router.route('/member/payment')
 .get(payment.get)
 .post(payment.post);
+
+router.route('/space/payment')
+.get(paymentSpace.get);
 
 router.route('/expense')
 .get(expense.get)
