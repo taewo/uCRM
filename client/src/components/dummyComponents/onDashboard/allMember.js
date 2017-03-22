@@ -1,25 +1,23 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
+import React, { Component } from 'react';
+import { Panel } from 'react-bootstrap';
+import '../../../../public/style.css';
+const allMemberImg = require('../../../../image/allMember.svg');
 
 class AllMember extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
+    const title1 = (
+      <h3>전체 멤버수</h3>
+    );
     return (
-      <div>
-        AllMember :
-        {this.props.allMember}
+      <div className="dashboard_panel">
+          <Panel header={title1} bsStyle="danger">
+            <img src={allMemberImg} />
+              AllMember : sadkfjaskfjs
+              {this.props.allMember}
+          </Panel>
       </div>
     );
   }
 }
-AllMember.propTypes = propTypes;
-AllMember.defaultProps = defaultProps;
 
 export default AllMember;
