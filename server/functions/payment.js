@@ -1,3 +1,5 @@
+const Moment = require('moment');
+
 const Payment = require('../db/payment');
 const Member = require('../db/member');
 
@@ -14,16 +16,17 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
-  getPayment2(memberid) {
+
+  getCountExpiring(spaceid) {
     return Payment
-    .where({ member_id: memberid })
-    .fetchAll({ withRelated: ['member'] })
-    .then((result) => {
-      if (result) {
-        return result.toJSON();
-      }
-      return [];
+    .where({ space_id: spaceid })
+    .query((qb) => {
+      // change below hard code with moment.js to show the last mongh activity
+      const now = Moment().format('YYYY-MM-DD');
+      const weekLater = Moment().add(7, 'days').format('YYYY-MM-DD');
+      qb.whereBetween('end_date', [now, weekLater]);
     })
+    .count()
     .catch(err => (Promise.reject(err)));
   },
 

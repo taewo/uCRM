@@ -1,3 +1,5 @@
+const Moment = require('moment');
+
 const Lead = require('../db/lead');
 
 module.exports = {
@@ -6,6 +8,19 @@ module.exports = {
     .where({ space_id: spaceid })
     .fetchAll()
     .then(result => (result.toJSON()))
+    .catch(err => (Promise.reject(err)));
+  },
+
+  getCountRecentLead(spaceid) {
+    return Lead
+    .where({ space_id: spaceid })
+    .query((qb) => {
+      // change below hard code with moment.js to show the last mongh activity
+      const now = Moment().format('YYYY-MM-DD');
+      const weekAgo = Moment().subtract(7, 'days').format('YYYY-MM-DD');
+      qb.whereBetween('date', [weekAgo, now]);
+    })
+    .count()
     .catch(err => (Promise.reject(err)));
   },
 
