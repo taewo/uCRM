@@ -100,7 +100,7 @@ class SpaceOccupancyPage extends Component {
         />
         <SpaceOccupancyTable
           className="SpaceOccupancyTable"
-          data={this.state.flowChartData}
+          data={data}
           type={this.state.type_mapper[this.state.type]}
         />
       </TabPanel>
