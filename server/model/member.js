@@ -5,26 +5,21 @@ const Activity = require('../functions/activity');
 
 module.exports = {
   get(req) {
-    // return Auth.checkIfUserHasSpace(req)
-    // .then((access) => {
-    //   if (access) {
-    //     const spaceid = parseInt(req.query.space_id);
-    //     return Member.getAllActiveMembers(spaceid)
-    //     .then((result) => {
-    //       if (result) {
-    //         return result;
-    //       }
-    //       return [];
-    //     });
-    //   }
-    //   return Promise.reject('Error: unauthorized access request to the space');
-    // })
-    // .catch(err => (Promise.reject(err)));
-
-    return Member.getCountActiveMemberBySpaceId(req.query.space_id)
-    .then((result) => {
-      console.log('count', result)
+    return Auth.checkIfUserHasSpace(req)
+    .then((access) => {
+      if (access) {
+        const spaceid = parseInt(req.query.space_id);
+        return Member.getAllActiveMembers(spaceid)
+        .then((result) => {
+          if (result) {
+            return result;
+          }
+          return [];
+        });
+      }
+      return Promise.reject('Error: unauthorized access request to the space');
     })
+    .catch(err => (Promise.reject(err)));
   },
 
   post(req) {
