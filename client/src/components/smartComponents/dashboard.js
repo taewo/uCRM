@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { AllMember, CurrentMember, LatestActivity, RoomReservation } from '../dummyComponents/onDashboard';
+import { AllMember, CurrentMember, LatestActivity } from '../dummyComponents/onDashboard';
 import * as dashboardActions from '../../actions/dashboardActions';
+import '../../../public/style.css';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -11,11 +12,16 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="Dashboard">
-        <AllMember allMember={this.props.allMemberOnChange} />
-        <CurrentMember currentMember={this.props.currentMemberOnChange} />
-        <LatestActivity latestActivity={this.props.latestActivityOnChange} />
-        <RoomReservation roomReservation={this.props.roomReservationOnChange} />
+      <div className="dashoboard_container">
+        <div className="allMember">
+          <AllMember allMember={this.props.allMemberOnChange} />
+        </div>
+        <div className="currentMember">
+          <CurrentMember currentMember={this.props.currentMemberOnChange} />
+        </div>
+        <div className="latestActivity">
+          <LatestActivity latestActivity={this.props.latestActivityOnChange} />
+        </div>
       </div>
     );
   }
@@ -25,7 +31,6 @@ const mapStateToProps = state => ({
   allMemberOnChange: state.dashboardReducer.allMember,
   currentMemberOnChange: state.dashboardReducer.currentMember,
   latestActivityOnChange: state.dashboardReducer.latestActivity,
-  roomReservationOnChange: state.dashboardReducer.roomReservation,
 });
 
 const mapDispatchToProps = dispatch => ({

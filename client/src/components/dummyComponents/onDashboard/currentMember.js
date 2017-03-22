@@ -1,25 +1,21 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
+import React, { Component } from 'react';
+import { Panel } from 'react-bootstrap';
+import '../../../../public/style.css';
 
 class CurrentMember extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
+    const title2 = (
+      <h3>현재 멤버수</h3>
+    );
     return (
-      <div>
-        CurrentMember :
-        {this.props.currentMember}
+      <div className="dashboard_panel">
+        <Panel header={title2} bsStyle="success">
+          CurrentMember :sadkfjaskfjs
+          {this.props.currentMember}
+        </Panel>
       </div>
     );
   }
 }
-CurrentMember.propTypes = propTypes;
-CurrentMember.defaultProps = defaultProps;
 
 export default CurrentMember;

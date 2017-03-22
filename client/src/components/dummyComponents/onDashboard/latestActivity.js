@@ -1,42 +1,26 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
+import React, { Component } from 'react';
+import { Panel } from 'react-bootstrap';
+import '../../../../public/style.css';
 
 class LatestActivity extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-
+    const title2 = (
+      <h3>최근 활동 내역</h3>
+    );
     const latestActivityList = this.props.latestActivity ?
         this.props.latestActivity.map((data, i) =>
           <div key={i}>{data.user}는 {data.type}을 {data.date}했다</div>
         )
       : [];
-    // const {user, type, date} = this.props.latestActivity;
-    // const userName = user ? user.map(user => user.user) : [];
     return (
-      <div>
-        LatestActivity:
-        <ul>
+      <div className="dashboard_panel">
+        <Panel header={title2} bsStyle="info">
+          Latest Activity : sadkfjaskfjs
           {latestActivityList}
-        </ul>
+        </Panel>
       </div>
     );
   }
 }
-LatestActivity.propTypes = propTypes;
-LatestActivity.defaultProps = defaultProps;
 
 export default LatestActivity;
-
-// <LatestActivity latestActivity={this.props.latestActivityOnChange} />
-
-// {this.props.latestActivity.map((data, i) => {
-//   return (<Form user={data.user} action={data.type} date={data.date} key={i}/>)
-// })}
