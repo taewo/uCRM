@@ -36,4 +36,15 @@ module.exports = {
       res.status(400).send(err);
     });
   },
+
+  delete:
+  (req, res) => (member.delete(req))
+  .then((result) => {
+    console.log('RESULT', result)
+    res.json(result);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(400).send(err);
+  }),
 };

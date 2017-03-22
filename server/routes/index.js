@@ -15,6 +15,7 @@ const activity = require('../controller/activity');
 const Token = require('../middleware/token');
 // const approveStaff = require('../controller/approvestaff');
 // const utility = require('../controller/utility');
+// TODO you can require folder
 
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
@@ -41,7 +42,8 @@ router.route('/lead')
 
 router.route('/member')
 .get(member.get)
-.post(member.post);
+.post(member.post)
+.delete(member.delete);
 
 
 router.route('/billplan')
