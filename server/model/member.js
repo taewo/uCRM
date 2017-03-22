@@ -54,4 +54,25 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
+
+  delete(req) {
+    const memberid = req.body.member_id;
+    return Auth.checkIfUserHasMember(req)
+    .then((hasMember) => {
+      if (hasMember) {
+        return Member.isMemberActive(memberid)
+        .then((active) => {
+          if (active) {
+            return Member.deleteMember(memberid)
+            .then(() => {
+              return Member.getMember(memberid);
+            })
+          } else {
+            return Promise.reject('Error: member is already inactive');
+          };
+        })
+      }
+      return Promise.reject('Error: not authorized to delete this member');
+    });
+  },
 };
