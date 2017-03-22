@@ -10,9 +10,12 @@ const payment = require('../controller/payment');
 const expense = require('../controller/expense');
 const billplan = require('../controller/billplan');
 const approve = require('../controller/approve');
+const paymentSpace = require('../controller/payment_space');
+const activity = require('../controller/activity');
 const Token = require('../middleware/token');
 // const approveStaff = require('../controller/approvestaff');
 // const utility = require('../controller/utility');
+// TODO you can require folder
 
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
@@ -20,7 +23,7 @@ router.use((req, res, next) => {
     next();
   })
   .catch((err) => {
-    res.send(err).status(500)
+    res.send(err).status(500);
   });
 });
 
@@ -39,16 +42,20 @@ router.route('/lead')
 
 router.route('/member')
 .get(member.get)
-.post(member.post);
+.post(member.post)
+.delete(member.delete);
 
 
 router.route('/billplan')
 .get(billplan.get)
 .post(billplan.post);
 
-router.route('/payment')
+router.route('/member/payment')
 .get(payment.get)
 .post(payment.post);
+
+router.route('/space/payment')
+.get(paymentSpace.get);
 
 router.route('/expense')
 .get(expense.get)
@@ -63,6 +70,9 @@ router.route('/approve/staff')
 
 router.route('/approve/expense')
 .post(approve.Expense.post);
+
+router.route('/activity')
+.get(activity.get);
 
 // router.route('/staff/permit')
 // .put(utility.staff_auth.put);

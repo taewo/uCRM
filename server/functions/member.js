@@ -12,6 +12,44 @@ module.exports = {
     .catch(err => (Promise.reject('Error: requested space does not exist')));
   },
 
+  getMember(memberid) {
+    return Member
+    .where({ id: memberid })
+    .fetch()
+    .then(result => (result.toJSON()))
+    .catch(err => (Promise.reject('Error: requested space does not exist')));
+  },
+
+  isMemberActive(memberid) {
+    return Member
+    .where({ id: memberid })
+    .fetch()
+    .then((member) => {
+      if (member) {
+        if (member.end_date) {
+          return false;
+        }
+        return true;
+      }
+      return false;
+    });
+  },
+
+  makeIdToMemberTable(spaceid) {
+    return module.exports.getAllMembers(spaceid)
+    .then((members) => {
+      if (members.length) {
+        const table = {};
+        members.forEach((member) => {
+          table[member.id] = [member.name, member.email];
+        });
+        return table;
+      }
+      return Promise.reject('Error: space has no members');
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
   checkExistingMemberByEmail(email) {
     return Member
     .where({ email })
@@ -32,18 +70,28 @@ module.exports = {
     .then((result) => {
       if (result) {
         return Promise.reject('Error: duplicate mobile - member already exist');
+        // TODO just return false
       }
       return true;
-    })
-    .catch(err => (Promise.reject(err)));
+    });
   },
 
   addNewMember(body, spaceid) {
     body.space_id = spaceid;
     body.isactive = 1;
     return new Member(body)
-    .save()
-    .then(result => (result))
-    .catch(err => (Promise.reject(err)));
+    .save();
+  },
+
+  deleteMember(memberid) {
+    console.log('MEMBERID', memberid)
+    const end_date = new Date();
+    return Member
+    .where({ id: memberid })
+    .save({ end_date }, { patch: true })
+    // .then((member) => {
+    //   console.log('member', member);
+    //   return member;
+    // })
   },
 };

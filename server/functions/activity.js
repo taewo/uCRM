@@ -3,15 +3,15 @@ const Activity = require('../db/activity');
 module.exports = {
   getActivity(spaceid) {
     return Activity
-    .query(qb => qb.orderby('data', 'DESC'))
+    .query('orderBy', 'date', 'DESC')
+    // .query(function(qb) {return qb.orderBy('date', 'DESC')}) // this also works
     .where({ space_id: spaceid })
     .fetchAll()
     .then((result) => {
       if (result) {
         return result.toJSON();
-      } else {
-        return [];
       }
+      return [];
     })
     .catch(err => (Promise.reject(err)));
   },
