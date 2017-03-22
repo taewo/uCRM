@@ -53,6 +53,7 @@ class ChurnPage extends Component {
     return Promise.all(promises)
     .then(responses => responses.map(response => response.data))
     .then((results) => {
+      console.log('hi');
       const [
         comparisonData,
         thisMonthData,
@@ -69,7 +70,9 @@ class ChurnPage extends Component {
     })
     .catch((err) => {
       console.log(err);
-      console.log(err.message);
+      this.setState({
+        isLoading: false,
+      });
       throw err;
     });
   }

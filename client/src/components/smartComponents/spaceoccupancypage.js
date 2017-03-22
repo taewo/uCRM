@@ -20,53 +20,53 @@ class SpaceOccupancyPage extends Component {
         2: '최근이용률',
       },
       type: 0,
+      isLoading: true,
     };
     this.handleTabClick = this.handleTabClick.bind(this);
   }
 
   componentDidMount() {
-    this.getData(0);
-    this.getData(1);
-    this.getData(2);
+    this.getData();
   }
 
-  getData(type) {
+  getData() {
     const API_URL = 'http://ec2-13-124-49-233.ap-northeast-2.compute.amazonaws.com:8000/api';
-    let targeturl = `${API_URL}/space/year/?format=json`;
-    if (type === 0) {
-      targeturl = `${API_URL}/space/year/?format=json`;
-    }
-    if (type === 1) {
-      targeturl = `${API_URL}/space/billing-this/?format=json`;
-    }
-    if (type === 2) {
-      targeturl = `${API_URL}/space/week/?format=json`;
-    }
+    const urls = [
+      `${API_URL}/space/year/?format=json`,
+      `${API_URL}/space/billing-this/?format=json`,
+      `${API_URL}/space/week/?format=json`,
+    ];
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),
       },
     };
-    return axios({
+    const promises = urls.map(url => axios({
       method: 'get',
-      url: targeturl,
+      url,
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
       headers: instance.headers,
+    }));
+    return Promise.all(promises)
+    .then(responses => responses.map(response => response.data))
+    .then((results) => {
+      const [
+        flowChartData,
+        billingData,
+        recentData,
+      ] = results;
+      this.setState({
+        flowChartData,
+        billingData,
+        recentData,
+        isLoading: false,
+      });
     })
-    .then((res) => {
-      if (type === 0) {
-        this.setState({
-          flowChartData: res.data,
-        });
-      } else if (type === 1) {
-        this.setState({
-          billingData: res.data,
-        });
-      } else if (type === 2) {
-        this.setState({
-          recentData: res.data,
-        });
-      }
+    .catch((err) => {
+      this.setState({
+        isLoading: false,
+      });
+      throw err;
     });
   }
 
@@ -78,6 +78,34 @@ class SpaceOccupancyPage extends Component {
 
 
   render() {
+    const {
+      flowChartData,
+      billingData,
+      recentData,
+      isLoading,
+    } = this.state;
+    const dataList = [
+      flowChartData,
+      billingData,
+      recentData,
+    ];
+    const tabPanels =
+    !isLoading
+    ? dataList.map(data => (
+      <TabPanel>
+        <SpaceOccupancyReport
+          className="SpaceOccupancyReport"
+          data={data}
+          type={this.state.type_mapper[this.state.type]}
+        />
+        <SpaceOccupancyTable
+          className="SpaceOccupancyTable"
+          data={this.state.flowChartData}
+          type={this.state.type_mapper[this.state.type]}
+        />
+      </TabPanel>
+    ))
+    : false;
     return (
       <div className="SpaceOccupancyTabs">
         <Tabs onSelect={this.handleTabClick}>
@@ -86,18 +114,7 @@ class SpaceOccupancyPage extends Component {
             <Tab>요금제별분석</Tab>
             <Tab>최근이용률</Tab>
           </TabList>
-          <TabPanel>
-            <SpaceOccupancyReport className="SpaceOccupancyReport" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-            <SpaceOccupancyTable className="SpaceOccupancyTable" data={this.state.flowChartData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <SpaceOccupancyReport className="SpaceOccupancyReport" data={this.state.billingData} type={this.state.type_mapper[this.state.type]} />
-            <SpaceOccupancyTable className="SpaceOccupancyTable" data={this.state.billingData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
-          <TabPanel>
-            <SpaceOccupancyReport className="SpaceOccupancyReport" data={this.state.recentData} type={this.state.type_mapper[this.state.type]} />
-            <SpaceOccupancyTable className="SpaceOccupancyTable" data={this.state.recentData} type={this.state.type_mapper[this.state.type]} />
-          </TabPanel>
+          {tabPanels}
         </Tabs>
       </div>
     );
