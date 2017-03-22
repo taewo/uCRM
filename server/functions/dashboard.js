@@ -1,18 +1,22 @@
 const Space = require('../functions/space');
+const Lead = require('../functions/lead');
+const Member = require('../functions/member');
 const Payment = require('../functions/payment');
 
+
 const getDashboard = (req) => {
-  const memberList = Space.getMemberListbySpaceId(req.query.space_id);
-  const reservedList = Space.getReservedList(req.query.space_id);
-  const unpaidSum = Payment.getUnpaidSum(req.query.space_id);
+  const activeMember = Member.getCountActiveMemberBySpaceId(req.query.space_id);
+  const expiringPayment = Payment.getCountExpiring(req.query.space_id);
+  const leadCount = Lead.getCountRecentLead(req.query.space_id);
   const latestActivity = Space.getLatestActivity(req.query.space_id);
 
-  return Promise.all([memberList, reservedList, unpaidSum, latestActivity])
+  return Promise.all([activeMember, expiringPayment, leadCount, latestActivity])
   .then((result) => {
+    console.log('gd');
     const container = {};
-    container.memberList = result[0];
-    container.reservedList = result[1];
-    container.unpaidSum = result[2];
+    container.activeMember = result[0]
+    container.expiringPayment = result[1];
+    container.leadCount = result[2];
     container.latestActivity = result[3];
     return container;
   })
