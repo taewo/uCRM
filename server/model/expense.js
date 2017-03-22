@@ -21,12 +21,14 @@ module.exports = {
       if (access) {
         const activityDetail = {
           space_id: req.body.space_id,
-          type: 'member_creation',
+          type: 'expense_creation',
           date: new Date(),
           user: req.body.details,
         };
-        const addExpense = Expense.addNewExpense(req.body)
-        .then(result => (result))
+        const addExpense = Expense.addNewExpense(req.body);
+        const addActivity = Activity.addNewActivity(activityDetail);
+        return Promise.all([addExpense, addActivity])
+        .then(result => (result[0]));
       }
       return Promise.reject('Error: Your requested space does not exist.');
     })
