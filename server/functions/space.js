@@ -1,14 +1,14 @@
+const Moment = require('moment');
+
 const Space = require('../db/space');
 const Company = require('../db/company');
 const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const company = require('./company');
-
 module.exports = {
 
-  getMemberList(spaceid) {
+  getMemberListbySpaceId(spaceid) {
     return Space
     .where({ id: spaceid })
     .fetch({ withRelated: ['member'] })
@@ -37,11 +37,13 @@ module.exports = {
   getLatestActivity(spaceid) {
     return Activity
     .where({ space_id: spaceid })
-    .query((query) => {
+    .query((qb) => {
       // change below hard code with moment.js to show the last mongh activity
-      query.whereBetween('date', ['2017-02-01', '2017-03-02']);
+      const now = Moment().format('YYYY-MM-DD');
+      const monthAgo = Moment().subtract(30, 'days').format('YYYY-MM-DD');
+      qb.whereBetween('date', [monthAgo, now]);
     })
-    .fetch()
+    .fetchAll()
     .then((result) => {
       if (result) {
         return result.toJSON();
@@ -79,7 +81,7 @@ module.exports = {
 
   getAllSpacesByCompanyId(companyId) {
     return Space
-    .where({ company_id: companyId })
+    .where({ company_id: companyId, isactive: true })
     .fetchAll()
     .then(result => (result.toJSON()))
     .catch(err => (Promise.reject(err)));
@@ -87,7 +89,7 @@ module.exports = {
 
   getAllSpacesByCompanyName(companyname) {
     return Company
-    .where({ name: companyname })
+    .where({ name: companyname, isactive: true })
     .fetch({ withRelated: ['space'] })
     .then(result => (result.related('space')))
     .catch(err => (Promise.reject(err)));
@@ -104,6 +106,7 @@ module.exports = {
       name,
       address,
       max_desks,
+      isactive: true,
     })
     .save()
     .then(newSpace => (resolve(newSpace)))
@@ -113,7 +116,7 @@ module.exports = {
   checkDuplicateSpace(body) {
     return module.exports.getAllSpacesByCompanyId(body.company_id)
     .then((result) => {
-      console.log('if company has duplicate space name, RESULT', result)
+      console.log('if company has duplicate space name, RESULT', result);
       return result.some(space => (space.name === body.name));
     })
     .catch(err => (Promise.reject(err)));
@@ -127,10 +130,20 @@ module.exports = {
     .catch(err => (Promise.reject(err)));
   },
 
+  recoverSpace(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .save({ isactive: true }, { patch: true })
+    .then((result) => {
+      return result.toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
   deleteSpace(spaceid) {
     return Space
     .where({ id: spaceid })
-    .destroy()
+    .save({ isactive: false }, { patch: true })
     .then((result) => {
       return result.toJSON();
     })
