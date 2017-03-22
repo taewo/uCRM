@@ -2,7 +2,7 @@ const Space = require('../functions/space');
 const Payment = require('../functions/payment');
 
 const getDashboard = (req) => {
-  const memberList = Space.getMemberList(req.query.space_id);
+  const memberList = Space.getMemberListbySpaceId(req.query.space_id);
   const reservedList = Space.getReservedList(req.query.space_id);
   const unpaidSum = Payment.getUnpaidSum(req.query.space_id);
   const latestActivity = Space.getLatestActivity(req.query.space_id);

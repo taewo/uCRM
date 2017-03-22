@@ -4,11 +4,9 @@ const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const company = require('./company');
-
 module.exports = {
 
-  getMemberList(spaceid) {
+  getMemberListbySpaceId(spaceid) {
     return Space
     .where({ id: spaceid })
     .fetch({ withRelated: ['member'] })
