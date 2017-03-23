@@ -59,7 +59,7 @@ class RevenueTable extends ReportTable {
     console.log(tableDataSet);
     if (this.props.type === '이번달이익요약분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Month" isKey>기간</TableHeaderColumn>
           <TableHeaderColumn dataField="revenues">총수입</TableHeaderColumn>
           <TableHeaderColumn dataField="expense">총비용</TableHeaderColumn>
@@ -68,7 +68,7 @@ class RevenueTable extends ReportTable {
       );
     } else if (this.props.type === '이번달이익세부분석' || this.props.type === '요금제별연간이익분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="BillingPlan" isKey>요금제</TableHeaderColumn>
           <TableHeaderColumn dataField="count">회원 수</TableHeaderColumn>
           <TableHeaderColumn dataField="cost">총수입</TableHeaderColumn>
@@ -79,7 +79,7 @@ class RevenueTable extends ReportTable {
       );
     } else if (this.props.type === '이익흐름분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Month" isKey>해당 월</TableHeaderColumn>
           <TableHeaderColumn dataField="revenues">총수입</TableHeaderColumn>
           <TableHeaderColumn dataField="expense">총비용</TableHeaderColumn>

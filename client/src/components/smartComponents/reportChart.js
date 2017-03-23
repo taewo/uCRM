@@ -65,6 +65,15 @@ class ReportChart extends Component {
         }],
       },
     };
+    this.horizontalBarOption = {
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: true,
+          },
+        }],
+      },
+    };
     this.colors = ['rgba(51, 102, 204, 1)', 'rgba(220, 57, 18, 1)', 'rgba(255, 153, 0, 1)', 'rgba(16, 150, 24, 1)', 'rgba(153, 0, 153, 1)',
       'rgba(59, 62, 172, 1)', 'rgba(0, 153, 198, 1)', 'rgba(221, 68, 119, 1)', 'rgba(102, 170, 0, 1)', 'rgba(184, 46, 46, 1)',
       'rgba(49, 99, 149, 1)', 'rgba(153, 68, 153, 1)', 'rgba(34, 170, 153, 1)', 'rgba(170, 170, 17, 1)', 'rgba(102, 51, 204, 1)',
@@ -185,68 +194,69 @@ class ReportChart extends Component {
       if (allZero || !chart.data.datasets[0].data.length) {
         charts.push(
           <div>
-          <h3>{chart.title}</h3>
-          <h3>데이터가 충분치 않습니다</h3>
-          <br />
-          <hr />
+            <h3>{chart.title}</h3>
+            <h3>데이터를 추가해주세요!</h3>
+            <br />
+            <hr />
           </div>
         );
       } else {
         if (chart.type === 'Doughnut') {
           charts.push(
             <div className="Chart">
-            <h3>{chart.title}</h3>
-            <Doughnut
-            data={chart.data}
-            />
-            <br />
-            <hr />
+              <h3>{chart.title}</h3>
+              <Doughnut
+                data={chart.data}
+              />
+              <br />
+              <hr />
             </div>
           );
         } else if (chart.type === 'Radar') {
           charts.push(
             <div className="Chart">
-            <h3>{chart.title}</h3>
-            <Radar
-            data={chart.data}
-            />
-            <br />
-            <hr />
+              <h3>{chart.title}</h3>
+              <Radar
+                data={chart.data}
+              />
+              <br />
+              <hr />
             </div>
           );
         } else if (chart.type === 'Line') {
           charts.push(
             <div>
-            <h3>{chart.title}</h3>
-            <Line
-            data={chart.data}
-            options={this.lineOption}
-            />
-            <br />
-            <hr />
+              <h3>{chart.title}</h3>
+              <Line
+                data={chart.data}
+                options={this.lineOption}
+              />
+              <br />
+              <hr />
             </div>
           );
         } else if (chart.type === 'Mixed') {
           charts.push(
             <div>
-            <h3>{chart.title}</h3>
-            <Bar
-            data={chart.data}
-            options={this.mixedOption}
-            />
-            <br />
-            <hr />
+              <h3>{chart.title}</h3>
+              <Bar
+                data={chart.data}
+                options={this.mixedOption}
+              />
+              <br />
+              <hr />
             </div>
           );
         } else if (chart.type === 'HorizontalBar') {
           charts.push(
             <div>
-            <h3>{chart.title}</h3>
-            <HorizontalBar
-            data={chart.data}
-            />
-            <br />
-            <hr />
+              <h3>{chart.title}</h3>
+              <HorizontalBar
+                data={chart.data}
+                options={this.horizontalBarOption}
+              />
+              <br />
+              <hr />
             </div>
           );
         }
