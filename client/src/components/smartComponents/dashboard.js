@@ -58,10 +58,10 @@ class Dashboard extends Component {
         <PageHeader><small> 최근 활동 상황 </small></PageHeader>
         <ListGroup>
         {this.props.dashboardData.latestActivity.map((data, i) => {
+          console.log('999', data.date);
           const checkType = data.type === 'billplan_creation' ?
           'Bill Plan 생성'
           : 'member 등록';
-          // console.log('999', data.date.value);
           if(i % 2 === 0) {
             return (
               <ListGroupItem bsStyle="warning">

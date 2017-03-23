@@ -15,21 +15,6 @@ class Members extends Component {
       members,
     } = this.props;
     console.log(this.props.members);
-    // const memberList = this.props.members.map((member) => {
-    //   const {
-    //     email,
-    //     end_date,
-    //     end_reason,
-    //     gender,
-    //     joined_date,
-    //     mobile,
-    //     name,
-    //   } = member;
-    //   return (
-    //     <div>
-    //       이름: {name}
-    //     </div>);
-    // });
     return (
       <div>
         <Link to={'/admin/manage/members/add'}>
@@ -49,7 +34,6 @@ class Members extends Component {
             <TableHeaderColumn dataField='mobile' dataSort={ true }>mobile</TableHeaderColumn>
             <TableHeaderColumn dataField='email' dataSort={ true }>email</TableHeaderColumn>
             <TableHeaderColumn dataField='gender' dataSort={ true }>gender</TableHeaderColumn>
-
           </BootstrapTable>
         </div>
       </div>
