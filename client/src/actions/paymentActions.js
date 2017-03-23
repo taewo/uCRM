@@ -7,6 +7,16 @@ export const paymentData = payments => ({
   payments,
 });
 
+export const paymentMemberId = Id => ({
+  type: types.PAYMENT_MEMBER_ID,
+  Id,
+});
+
+  export const paymentBillplanData = billplan => ({
+    type: types.PAMENT_BILLPLAN_DATA,
+    billplan,
+  })
+
 export function paymentShow() {
   return (dispatch) => {
     console.log('come in paymentShow');
@@ -15,18 +25,28 @@ export function paymentShow() {
         token: sessionStorage.getItem('userToken'),
       },
     };
-    return axios({
+    const getSpacePayment = axios({
       method: 'get',
-      url: `${API_URL}/payment`,
+      url: `${API_URL}/space/payment`,
       params: {
         space_id: sessionStorage.getItem('userSpaceListId'),
       },
       headers: instance.headers,
-    })
+    });
+    const getBillPlan = axios({
+      method: 'get',
+      url: `${API_URL}/billplan`,
+      params: {
+        space_id: sessionStorage.getItem('userSpaceListId'),
+      },
+      headers: instance.headers,
+    });
+    return Promise.all([getSpacePayment, getBillPlan])
     .then((res) => {
-      console.log(res);
-      const payments = res.data;
+      const payments = res[0].data;
+      const billplan = res[1].data;
       dispatch(paymentData(payments));
+      dispatch(paymentBillplanData(billplan));
     })
     .catch((err) => {
       console.log('err', err);
@@ -34,10 +54,31 @@ export function paymentShow() {
   };
 }
 
-  //
-  //
-  //
+/*
+-----------------------------
+Promise All example
+-----------------------------
+const getSpacePayment = axios({
+  method: 'get',
+  url: `${API_URL}/space/payment`,
+  params: {
+    space_id: sessionStorage.getItem('userSpaceListId'),
+  },
+  headers: instance.headers,
+})
+const getBillPlan = axios({
+  method: 'get',
+  url: `${API_URL}/billplan`,
+  params: {
+    space_id: sessionStorage.getItem('userSpaceListId'),
+  },
+  headers: instance.headers,
+})
+return Promise.all([getSpacePayment, getBillPlan])
+.then((res) => {
+  const payments = res[0].data;
+  const billplan = res[1].data;
+  console.log(payments);
+  console.log(billplan);
 
-
-  //   .then((res) => {
-  //   });
+  */

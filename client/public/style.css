@@ -50,6 +50,7 @@ html, body{
   display: inline-block;
 }
 
+.Member, .Lead, .Expense, .Payment{
 
 .adminImgSize {
   height: 30px;
@@ -67,14 +68,17 @@ html, body{
   margin-right: 3%;
 }
 
-.member_buttonToolbar {
+.member_buttonToolbar, .lead_buttonToolbar, .expense_buttonToolbar, .payment_buttonToolbar {
   margin-left: 1%
 }
 
-.member_header {
+.member_header, .lead_header, .expense_header, .payment_header {
   margin-left: 2%
 }
 
+.RevenueTabs, .SpaceOccupancyTabs, .LeadTabs, .ChurnTabs {
+  margin-left: 4%;
+  margin-right: 4%;
 .Lead {
   margin-left: 3%;
   margin-right: 3%;
