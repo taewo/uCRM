@@ -6,7 +6,9 @@ import { MiddlebarDashboard, MiddlebarMembers, MiddlebarLead } from '../dummyCom
 
 
 const manageButtonStyle = {
-  height: '35%',
+  // width: '100%',
+  height: '37%',
+  border: 'none',
 };
 
 const manageStyle = {
@@ -14,29 +16,38 @@ const manageStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
-  border: 'none',
+  // border: 'none',
 };
 
+const bodyStyle = {
+  width: '100%',
+  height: '100%',
+};
 
 class Manage extends Component {
   render() {
-
     return (
       <div className="manage" style={manageStyle}>
         <div className="Manage">
           <ButtonGroup vertical className="manage_button" style={manageButtonStyle}>
             <LinkContainer to="/admin/manage/dashboard">
-              <Button className="manage_button" style={manageButtonStyle}>Dashboard</Button>
+              <Button className="manage_button" style={manageButtonStyle}>
+                홈
+              </Button>
             </LinkContainer>
             <LinkContainer to="/admin/manage/members">
-              <Button className="manage_button" style={manageButtonStyle}>Members</Button>
+              <Button className="manage_button" style={manageButtonStyle}>
+                멤버
+              </Button>
             </LinkContainer>
             <LinkContainer to="/admin/manage/lead">
-              <Button className="manage_button" style={manageButtonStyle}>Lead</Button>
+              <Button className="manage_button" style={manageButtonStyle}>
+                잠재고객
+              </Button>
             </LinkContainer>
           </ButtonGroup>
         </div>
-        <div>
+        <div className="bodyStyle">
           {this.props.children}
         </div>
       </div>

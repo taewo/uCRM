@@ -5,10 +5,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { MiddlebarBasic, MiddlebarBillPlan, MiddlebarSpace } from '../dummyComponents/onSetting';
 
 const settingStyle = {
+  width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
-  margin: '10px'
 };
 
 const settingButtonStyle = {
@@ -33,7 +33,9 @@ class Setting extends Component {
             </LinkContainer>
           </ButtonGroup>
         </div>
+        <div className="bodyStyle">
           {this.props.children}
+        </div>
       </div>
     );
   }

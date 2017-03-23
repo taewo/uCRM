@@ -2,43 +2,42 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as spaceActions from '../../actions/spaceActions';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 class Space extends Component {
   componentWillMount() {
     console.log('will mount');
     this.props.spaceShow();
-    console.log(this.props.spaceData);
-  }
-
-  componentDidMount() {
-    console.log(this.props.spaceData);
   }
 
   render() {
-    console.log(this.props.spaceData);
-    const spaceList = this.props.spaceData ?
-    this.props.spaceData.map((spaceData, i) => {
-      console.log('spaceData', spaceData.address);
+    if(!this.props.spaceData) {
       return (
-        <div key={i}>
-          장소 : {spaceData.address} <br />
-          공간 : {spaceData.name} <br />
-        최대인원 : {spaceData.max_desks} <br /><br />
+        <div>
+          fail
         </div>
-      );
-    })
-    : 'default';
-    return (
-      <div>
-        Space
-        <br />
-        <Link to={'/admin/setting/space/add'}>
-          Add Space
-        </Link>
-        <br />
-        {spaceList}
-      </div>
-    );
+      )
+    } else {
+      const dataArr = [];
+      this.props.spaceData.map((data, i) => {
+        const dataObj = {};
+        dataObj.address = data.address;
+        dataObj.name = data.name;
+        dataObj.max_desks = data.max_desks;
+        dataArr.push(dataObj);
+      })
+      return (
+        <div>
+          <h3>공간</h3>
+          <br />
+            <BootstrapTable data={dataArr} >
+              <TableHeaderColumn dataField='address' isKey>주소</TableHeaderColumn>
+              <TableHeaderColumn dataField='name'>이름</TableHeaderColumn>
+              <TableHeaderColumn dataField='max_desks'>최대인원</TableHeaderColumn>
+            </BootstrapTable>
+        </div>
+      )
+    }
   }
 }
 

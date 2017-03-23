@@ -34,22 +34,36 @@ html, body{
   width: 80px;
 }*/
 
-.allMember {
+.presentMember {
   float: left;
   display: inline-block;
 }
 
-.latestActivity {
+.expiringMember {
   margin: 0 auto !important;
   display: inline-block;
 }
-.currentMember {
+
+.latestLead {
   float: right;
   margin: 0 auto !important;
   display: inline-block;
 }
 
 .Member, .Lead, .Expense, .Payment{
+
+.adminImgSize {
+  height: 30px;
+}
+
+.bodyStyle {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  margin: auto;
+}
+
+.Member {
   margin-left: 3%;
   margin-right: 3%;
 }
@@ -65,4 +79,29 @@ html, body{
 .RevenueTabs, .SpaceOccupancyTabs, .LeadTabs, .ChurnTabs {
   margin-left: 4%;
   margin-right: 4%;
+.Lead {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.lead_buttonToolbar {
+  margin-left: 1%
+}
+
+.lead_header {
+  margin-left: 2%
+}
+
+.Expense {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.expense_buttonToolbar {
+  margin-left: 1%
+}
+
+.expense_header {
+  margin-left: 2%
+
 }
