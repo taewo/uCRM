@@ -63,7 +63,7 @@ class LeadTable extends ReportTable {
     console.log(tableDataSet);
     if (this.props.type === '채널별비교') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Channels" isKey>채널</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 문의</TableHeaderColumn>
           <TableHeaderColumn dataField="LastMonth">지난달 문의</TableHeaderColumn>
@@ -75,7 +75,7 @@ class LeadTable extends ReportTable {
       );
     } else if (this.props.type === '요약') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Channels" isKey>채널</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 문의/방문</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisConversion">이번달 전환</TableHeaderColumn>
@@ -84,7 +84,7 @@ class LeadTable extends ReportTable {
       );
     } else if (this.props.type === '잠재고객흐름분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Month" isKey>해당 월</TableHeaderColumn>
           <TableHeaderColumn dataField="Leads">잠재고객 문의/방문</TableHeaderColumn>
           <TableHeaderColumn dataField="ActualConversion">입주 전환</TableHeaderColumn>

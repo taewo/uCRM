@@ -71,8 +71,8 @@ class LeadReport extends ReportChart {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: this.colors[index],
-            data: [channel.ThisMonth, channel.ThisConversion, Math.round(channel.ThisConversionPercentage / 100), channel.LastMonth, channel.LastConversion, Math.round(channel.LastConversionPercentage / 100)],
-          }
+            data: [channel.ThisMonth, channel.ThisConversion, Math.round(channel.ThisConversionPercentage) / 100, channel.LastMonth, channel.LastConversion, Math.round(channel.LastConversionPercentage) / 100],
+          },
         );
       });
     }
