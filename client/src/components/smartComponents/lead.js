@@ -1,17 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
+
 import * as leadActions from '../../actions/leadActions';
 
 class Lead extends Component {
-  componentWillMount() {
+
+  constructor(props) {
+    super(props);
+
+    this.open = this.open.bind(this);
+    // this.delete = this.delete.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    // this.handleRowSelect = this.handleRowSelect.bind(this);
+    this.state = {
+      showModal: false,
+    };
+  }
+
+  componentDidMount() {
     console.log('will mount');
     this.props.leadShow();
   }
 
-  componentDidMount() {
-    console.log('did mount');
+  open() {
+    this.setState({
+      showModal: true,
+    });
   }
+
+  closeModal() {
+    this.setState({
+      showModal: false,
+    });
+  }
+
   render() {
     const leadDataList = this.props.leadData ?
     this.props.leadData.map((listData, i) => {

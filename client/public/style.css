@@ -47,3 +47,20 @@ html, body{
   margin: 0 auto !important;
   display: inline-block;
 }
+
+.Member {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.member_buttonToolbar {
+  margin-left: 1%
+}
+
+.member_header {
+  margin-left: 2%
+}
+
+.button {
+
+}
