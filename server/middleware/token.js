@@ -110,4 +110,16 @@ module.exports = {
       })
       .catch(err => (Promise.reject(err)));
   },
+
+  checkExistingToken(token) {
+    return Token.checkValidToken(token)
+      .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
+        if (tokenCheck) {
+          return tokenCheck;
+        }
+        return Promise.reject('Error: Authentication credentials expired.')
+      })
+      .catch(err => (Promise.reject(err)));
+  },
 };
