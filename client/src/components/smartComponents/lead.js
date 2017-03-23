@@ -9,9 +9,6 @@ class Lead extends Component {
     this.props.leadShow();
   }
 
-  componentDidMount() {
-    console.log('did mount');
-  }
   render() {
     const leadDataList = this.props.leadData ?
     this.props.leadData.map((listData, i) => {
