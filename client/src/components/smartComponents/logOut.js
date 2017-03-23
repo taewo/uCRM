@@ -24,13 +24,13 @@ class LogOut extends Component {
      )
     .then((res) => {
       console.log('res', res);
-      browserHistory.push('/');
       sessionStorage.removeItem('userToken');
       sessionStorage.removeItem('userData');
       sessionStorage.removeItem('userSpaceList');
       sessionStorage.removeItem('userSpaceListId');
       sessionStorage.removeItem('userCompanyId');
       sessionStorage.removeItem('userType');
+      browserHistory.push('/');
     })
     .catch((err) => {
       console.log(err);
