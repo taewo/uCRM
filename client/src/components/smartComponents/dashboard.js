@@ -21,17 +21,17 @@ class Dashboard extends Component {
     }
     const {activeMember, expiringPayment, leadCount, latestActivity} = this.props.dashboardData
     const title1 = (
-      <h3>현재 멤버수</h3>
+      <h3>현재 멤버</h3>
     );
     const title2 = (
-      <h3>최근 방문객</h3>
+      <h3>잠재 고객</h3>
     );
     const title3 = (
-      <h3>만료 근접 멤버</h3>
+      <h3>만료 예정 멤버</h3>
     );
     return (
       <div className="dashoboard_container">
-        <div className="allMember">
+        <div className="presentMember">
           <div className="dashboard_panel">
             <Panel header={title1} bsStyle="danger">
               <img src={allMemberImg} alt="adf"/>
@@ -39,7 +39,7 @@ class Dashboard extends Component {
             </Panel>
           </div>
         </div>
-        <div className="currentMember">
+        <div className="latestLead">
           <div className="dashboard_panel">
             <Panel header={title2} bsStyle="success">
               <img src={currentMemberImg} alt="123"/>
@@ -47,7 +47,7 @@ class Dashboard extends Component {
             </Panel>
           </div>
         </div>
-        <div className="latestActivity">
+        <div className="expiringMember">
           <div className="dashboard_panel">
             <Panel header={title3} bsStyle="info">
               <img src={latestActivityImg} alt="kd2" />
@@ -55,10 +55,9 @@ class Dashboard extends Component {
             </Panel>
           </div>
         </div>
-        <PageHeader><small> 최근 활동 상황 </small></PageHeader>
+        <PageHeader><small> 활동내역 </small></PageHeader>
         <ListGroup>
         {this.props.dashboardData.latestActivity.map((data, i) => {
-          console.log('999', data.date);
           const editedDate = data.date.substring(2, 10).split('-');
           let checkTypes = '';
           let checkTarget = '';
@@ -69,7 +68,7 @@ class Dashboard extends Component {
           } else if (dataType === 'member_creation') {
             checkTypes = '신규로 입주하셨습니다.';
             checkTarget = `'${data.target}'님께서`;
-          } else if (dataType === 'space_createion') {
+          } else if (dataType === 'space_creation') {
             checkTypes = '공간이 생성되었습니다. 축하합니다!';
             checkTarget = `'${data.target}'`;
           } else if (dataType === 'lead_메일') {

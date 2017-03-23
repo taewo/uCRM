@@ -3,40 +3,41 @@ import { connect } from 'react-redux';
 import * as basicActions from '../../actions/basicActions';
 import '../../../public/style.css';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-const allMemberImg = require('../../../image/allMember.svg');
 
 class Basic extends Component {
   componentWillMount() {
     this.props.basicShow();
   }
   render() {
-    const basicList = this.props.basicData ?
-    this.props.basicData.map((data, i) => {
+    if(!this.props.basicData) {
       return (
-        <div key={i}>
-          address: {data.address} <br />
-          company_id: {data.company_id} <br />
-          max_desks: {data.max_desks} <br />
-          name : {data.name} <br /><br /><br />
+        <div>
+          fail
         </div>
       );
-    })
-    : 'default';
-    const title1 = (
-      <h3>현재 멤버수</h3>
-    );
-    return (
-      <div>
-        Basics
-        <br />
-          <BootstrapTable >
-             <TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
-             <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-             <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
-           </BootstrapTable>
-        {basicList}
-      </div>
-    );
+    } else {
+      const basicName = this.props.basicData[0].name;
+      const dataArr = [];
+      const obj = {};
+      this.props.basicData.shift();
+      this.props.basicData.map((data, i) => {
+        obj.space = data.company_id;
+        obj.name = data.name;
+        obj.address = data.address;
+      });
+      dataArr.push(obj);
+      return (
+        <div>
+          <h3>{basicName}</h3>
+          <br />
+          <BootstrapTable data={dataArr} >
+            <TableHeaderColumn dataField='space' isKey>Space ID</TableHeaderColumn>
+            <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+            <TableHeaderColumn dataField='address'>Address</TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+      );
+    }
   }
 }
 
