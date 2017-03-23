@@ -7,7 +7,7 @@ import SignUp from './signUp';
 import LogOut from './logOut';
 import LogIn from './logIn';
 
-const CrmImg = require('../../../image/CRM_c.svg');
+const CrmImg = require('../../../image/crm.svg');
 
 const HeadersStyle = {
   height: '100%',
@@ -17,9 +17,6 @@ const CrmImgStyle = {
 };
 
 class Headers extends Component {
-  componentDidMount() {
-
-  }
   render() {
     if(sessionStorage.getItem('userToken')) {
       return (
