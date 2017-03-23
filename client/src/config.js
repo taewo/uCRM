@@ -1,4 +1,5 @@
 import { browserHistory } from 'react-router';
+import axios from 'axios';
 
 export function tokenChecker() {
   console.log('tokenChecker hello');
