@@ -6,7 +6,7 @@ class SidebarSetting extends Component {
     return (
       <div>
         <Link to={'/admin/setting/basic'}>
-          SidebarSetting
+          Setting
         </Link>
       </div>
     );
