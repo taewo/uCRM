@@ -29,11 +29,11 @@ class Admin extends Component {
             <LinkContainer to="/admin/manage/dashboard">
               <Button className="admin_button" style={adminButtonStyle}>Manage</Button>
             </LinkContainer>
-            <LinkContainer to="/admin/report/churn">
-              <Button className="admin_button" style={adminButtonStyle}>Report</Button>
-            </LinkContainer>
             <LinkContainer to="/admin/finance/expense">
               <Button className="admin_button" style={adminButtonStyle}>Finance</Button>
+            </LinkContainer>
+            <LinkContainer to="/admin/report/churn">
+              <Button className="admin_button" style={adminButtonStyle}>Report</Button>
             </LinkContainer>
             <LinkContainer to="/admin/setting/basic">
               <Button className="admin_button" style={adminButtonStyle}>Setting</Button>
