@@ -53,7 +53,16 @@ class Lead extends Component {
     const {
       leads,
     } = this.props;
-    console.log(this.props.leads);
+    let result = [];
+    for(let i = 0; i < leads.length; i += 1 ) {
+      if(leads[i].date) {
+        const leadDate = leads[i].date.substring(2, 10);
+        const data = Object.assign({}, leads[i], {
+          date: leadDate,
+        });
+        result.push(data);
+      }
+    }
 
     const cellEditProp = {
       mode: 'click',
@@ -72,7 +81,7 @@ class Lead extends Component {
       <div className="Lead">
         <PageHeader className="lead_header">
           <mediam>
-            Leads
+            잠재고객
           </mediam>
         </PageHeader>
 
@@ -99,19 +108,19 @@ class Lead extends Component {
         </div>
         <div>
           <BootstrapTable
-            data={leads}
+            data={result}
             pagination
             striped
             search
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="name" isKey dataSort>name</TableHeaderColumn>
-            <TableHeaderColumn dataField="date" dataSort>date</TableHeaderColumn>
-            <TableHeaderColumn dataField="mobile" dataSort>mobile</TableHeaderColumn>
-            <TableHeaderColumn dataField="email" dataSort>email</TableHeaderColumn>
-            <TableHeaderColumn dataField="type" dataSort>type</TableHeaderColumn>
-            <TableHeaderColumn dataField="note" dataSort>note</TableHeaderColumn>
+            <TableHeaderColumn dataField="name" isKey dataSort>이름</TableHeaderColumn>
+            <TableHeaderColumn dataField="date" dataSort>방문일/문의일</TableHeaderColumn>
+            <TableHeaderColumn dataField="mobile" dataSort>휴대폰</TableHeaderColumn>
+            <TableHeaderColumn dataField="email" dataSort>이메일</TableHeaderColumn>
+            <TableHeaderColumn dataField="type" dataSort>문의방법</TableHeaderColumn>
+            <TableHeaderColumn dataField="note" dataSort>비고</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

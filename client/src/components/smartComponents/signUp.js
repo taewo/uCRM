@@ -34,7 +34,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <NavItem eventKey={3} onClick={this.open}>
+      <NavItem eventKey={2} onClick={this.open}>
         SignUp
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>

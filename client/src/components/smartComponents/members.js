@@ -60,7 +60,29 @@ class Members extends Component {
     const {
       members,
     } = this.props;
-    console.log(this.props.members);
+    console.log(111, this.props.members);
+    let result = [];
+    for (let i = 0; i < members.length; i += 1) {
+      if (members[i].joined_date) {
+        if (members[i].end_date) {
+          const joinDate = members[i].joined_date.substring(2, 10);
+          const endDate = members[i].end_date.substring(2, 10);
+          const data = Object.assign({}, members[i], {
+            joined_date: joinDate,
+            end_date: endDate,
+          });
+          result.push(data)
+          console.log(999, result);
+        } else {
+          const joinDate = members[i].joined_date.substring(2, 10);
+          const data = Object.assign({}, members[i], {
+            joined_date: joinDate,
+          });
+          result.push(data)
+          console.log(888, result);
+        }
+      }
+    }
 
     const cellEditProp = {
       mode: 'click',
@@ -99,7 +121,7 @@ class Members extends Component {
       <div className="Member">
         <PageHeader className="member_header">
           <mediam>
-            Members
+            멤버
           </mediam>
         </PageHeader>
 
@@ -126,20 +148,20 @@ class Members extends Component {
         </div>
         <div>
           <BootstrapTable
-            data={members}
+            data={result}
             pagination
             striped
             search
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="name" isKey dataSort>name</TableHeaderColumn>
-            <TableHeaderColumn dataField="joined_date" dataSort>joined_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_date" dataSort>end_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_reason" dataSort>end_reason</TableHeaderColumn>
-            <TableHeaderColumn dataField="mobile" dataSort>mobile</TableHeaderColumn>
-            <TableHeaderColumn dataField="email" dataSort>email</TableHeaderColumn>
-            <TableHeaderColumn dataField="gender" dataSort>gender</TableHeaderColumn>
+            <TableHeaderColumn dataField="name" isKey dataSort>이름</TableHeaderColumn>
+            <TableHeaderColumn dataField="joined_date" dataSort>입주일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_date" dataSort>계약종료일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_reason" dataSort>종료사유</TableHeaderColumn>
+            <TableHeaderColumn dataField="mobile" dataSort>휴대폰</TableHeaderColumn>
+            <TableHeaderColumn dataField="email" dataSort>이메일</TableHeaderColumn>
+            <TableHeaderColumn dataField="gender" dataSort>성별</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

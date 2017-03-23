@@ -117,6 +117,15 @@ class Payment extends Component {
           </ButtonToolbar>
         </div>
         <div>
+
+      {/*<button onClick={this.handleBtnClick}>Sort Product Name</button>
+          <BootstrapTable ref="table" data={payments}>
+            <TableHeaderColumn dataField="type" isKey={true} dataSort={true}>type ID</TableHeaderColumn>
+            <TableHeaderColumn dataField="details" dataSort={true}>details</TableHeaderColumn>
+            <TableHeaderColumn dataField="amount" dataSort={true}>amount</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_date" dataSort={true}>payment_date</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_method" dataSort={true}>payment_method</TableHeaderColumn>*/}
+
           <BootstrapTable
             data={payments}
             pagination
@@ -129,6 +138,7 @@ class Payment extends Component {
             <TableHeaderColumn dataField="start_date" dataSort>start_date</TableHeaderColumn>
             <TableHeaderColumn dataField="end_date" dataSort>end_date</TableHeaderColumn>
             <TableHeaderColumn dataField="billing_plan" dataSort>billing_plan</TableHeaderColumn>
+
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

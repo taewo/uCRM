@@ -30,3 +30,14 @@ export function tokenChecker() {
 }
 
 export const API_URL = 'http://localhost:4000/api';
+
+export function commafy(num) {
+  const str = num.toString().split('.');
+  if (str[0].length >= 5) {
+    str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+  }
+  if (str[1] && str[1].length >= 5) {
+    str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+  }
+  return str.join('.');
+}

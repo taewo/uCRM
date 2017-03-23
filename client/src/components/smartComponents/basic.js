@@ -16,24 +16,25 @@ class Basic extends Component {
         </div>
       );
     } else {
+      console.log(999, this.props.basicData)
       const basicName = this.props.basicData[0].name;
       const dataArr = [];
       const obj = {};
       this.props.basicData.shift();
       this.props.basicData.map((data, i) => {
-        obj.space = data.company_id;
         obj.name = data.name;
         obj.address = data.address;
+        obj.max_desks = data.max_desks;
       });
       dataArr.push(obj);
       return (
         <div>
           <h3>{basicName}</h3>
           <br />
-          <BootstrapTable data={dataArr} >
-            <TableHeaderColumn dataField='space' isKey>Space ID</TableHeaderColumn>
-            <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
-            <TableHeaderColumn dataField='address'>Address</TableHeaderColumn>
+          <BootstrapTable data={dataArr} striped>
+            <TableHeaderColumn dataField='name' isKey>공간이름</TableHeaderColumn>
+            <TableHeaderColumn dataField='address'>주소</TableHeaderColumn>
+            <TableHeaderColumn dataField='max_desks'>최대인원</TableHeaderColumn>
           </BootstrapTable>
         </div>
       );
