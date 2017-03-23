@@ -13,9 +13,12 @@ const approve = require('../controller/approve');
 const paymentSpace = require('../controller/payment_space');
 const activity = require('../controller/activity');
 const Token = require('../middleware/token');
+const Utility = require('../controller/utility');
 // const approveStaff = require('../controller/approvestaff');
-// const utility = require('../controller/utility');
 // TODO you can require folder
+
+router.route('/token')
+.get(Utility.check_token.get);
 
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
@@ -32,6 +35,11 @@ router.route('/member/payment')
 .post(payment.post)
 .delete(payment.delete);
 
+router.route('/space')
+.get(space.get)
+.post(space.post)
+.delete(space.delete);
+
 router.get('*', (req, res, next) => {
   console.log(req.query.space_id);
   if (!req.query.space_id) {
@@ -43,10 +51,6 @@ router.get('*', (req, res, next) => {
 router.route('/dashboard')
 .get(dashboard.get);
 
-router.route('/space')
-.get(space.get)
-.post(space.post)
-.delete(space.delete);
 
 router.route('/lead')
 .get(lead.get)
