@@ -40,7 +40,7 @@ module.exports = {
     .query((qb) => {
       console.log('hi');
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().add(1, 'hour').format('YYYY-MM-DD HH:MM:SS');
+      const now = Moment().format('YYYY-MM-DD HH:MM:SS');
       const monthAgo = Moment().subtract(30, 'days').format('YYYY-MM-DD HH:MM:SS');
       qb.whereBetween('date', [monthAgo, now]);
     })
