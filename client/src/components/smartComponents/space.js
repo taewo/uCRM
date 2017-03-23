@@ -31,8 +31,8 @@ class Space extends Component {
           <h3>공간</h3>
           <br />
             <BootstrapTable data={dataArr} >
-              <TableHeaderColumn dataField='address' isKey>주소</TableHeaderColumn>
-              <TableHeaderColumn dataField='name'>이름</TableHeaderColumn>
+              <TableHeaderColumn dataField='name' isKey>공간</TableHeaderColumn>
+              <TableHeaderColumn dataField='address'>장소</TableHeaderColumn>
               <TableHeaderColumn dataField='max_desks'>최대인원</TableHeaderColumn>
             </BootstrapTable>
         </div>

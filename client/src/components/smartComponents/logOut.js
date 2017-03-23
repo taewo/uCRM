@@ -40,7 +40,7 @@ class LogOut extends Component {
   render() {
     return (
       <LinkContainer to="/">
-        <NavItem eventKey={3} onClick={this.logout}>Logout</NavItem>
+        <NavItem eventKey={4} onClick={this.logout}>Logout</NavItem>
       </LinkContainer>
     );
   }

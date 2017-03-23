@@ -46,7 +46,6 @@ class Payment extends Component {
             <TableHeaderColumn dataField="amount" dataSort={true}>amount</TableHeaderColumn>
             <TableHeaderColumn dataField="payment_date" dataSort={true}>payment_date</TableHeaderColumn>
             <TableHeaderColumn dataField="payment_method" dataSort={true}>payment_method</TableHeaderColumn>
-
           </BootstrapTable>
         </div>
       </div>

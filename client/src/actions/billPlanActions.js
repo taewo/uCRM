@@ -26,7 +26,7 @@ export function billPlanShow() {
       headers: token,
     })
     .then((res) => {
-      console.log('res12', res.data);
+      console.log('res12www', res.data);
       dispatch(billPlanData(res.data));
     })
     .catch((err) => {

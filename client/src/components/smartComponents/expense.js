@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
-
+import { commafy } from '../../config';
 import AddExpense from './addExpense';
 import * as expenseActions from '../../actions/expenseActions';
 
@@ -41,7 +41,20 @@ class Expense extends Component {
     const {
       expenses,
     } = this.props;
-
+    // console.log(11, expenses);
+    let result = [];
+    for(let i = 0; i < expenses.length; i += 1) {
+      if(expenses[i].payment_date) {
+        const expenseDate = expenses[i].payment_date.substring(2, 10);
+        const expenseAmount = commafy(expenses[i].amount);
+        const data = Object.assign({}, expenses[i], {
+          payment_date: expenseDate,
+          amount: expenseAmount,
+        });
+        result.push(data);
+      }
+    }
+    // console.log(999, result);
     const cellEditProp = {
       mode: 'click',
       blurToSave: true,
@@ -73,7 +86,7 @@ class Expense extends Component {
       <div className="Expense">
         <PageHeader className="expense_header">
           <mediam>
-            Expense
+            지출현황
           </mediam>
         </PageHeader>
 
@@ -100,18 +113,18 @@ class Expense extends Component {
         </div>
         <div>
           <BootstrapTable
-            data={expenses}
+            data={result}
             pagination
             striped
             search
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="amount" isKey dataSort>amount</TableHeaderColumn>
-            <TableHeaderColumn dataField="payment_date" dataSort>payment_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="payment_method" dataSort>payment_method</TableHeaderColumn>
-            <TableHeaderColumn dataField="type" dataSort>type</TableHeaderColumn>
-            <TableHeaderColumn dataField="details" dataSort>details</TableHeaderColumn>
+            <TableHeaderColumn dataField="amount" isKey dataSort>금액</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_date" dataSort>날짜</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_method" dataSort>결제방법</TableHeaderColumn>
+            <TableHeaderColumn dataField="type" dataSort>분류</TableHeaderColumn>
+            <TableHeaderColumn dataField="details" dataSort>내역</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>
