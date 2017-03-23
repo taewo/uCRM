@@ -112,7 +112,12 @@ module.exports = {
     })
     .save()
     .then(newSpace => (resolve(newSpace)))
-    .catch(err => (reject(err)));
+    .catch((err) => {
+      if (err.code.includes('ER_DUP_ENTRY')) {
+        return reject('Error: the space name is taken.');
+      }
+      return reject(err);
+    });
   }),
 
   checkDuplicateSpace(body) {
