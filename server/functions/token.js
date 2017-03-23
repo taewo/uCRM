@@ -13,12 +13,14 @@ module.exports = {
     return tokenData;
   },
 
-  checkToken(token) {
+  checkValidToken(token) {
     return Token.where({ token })
     .fetch()
     .then((result) => {
       const now = new Date();
       const session = result.toJSON().expiredat;
+      console.log(typeof session, now, session);
+      console.log(now - session, now - session > 0)
       if (now - session > 0) {
         return false;
       }

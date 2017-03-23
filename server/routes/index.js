@@ -23,6 +23,7 @@ router.use((req, res, next) => {
     next();
   })
   .catch((err) => {
+    console.log('isval?')
     res.send(err).status(500);
   });
 });
