@@ -6,7 +6,7 @@ class MiddlebarLead extends Component {
     return (
       <div>
         <Link to={'/admin/manage/lead'}>
-          MiddlebarLead
+          Lead
         </Link>
       </div>
     );

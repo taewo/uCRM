@@ -1,13 +1,11 @@
 html, body{
   width: 100%;
   height: 100%;
-  !important;
 }
 
 #root {
   width: 100%;
   height: 100%;
-  !important;
 }
 .Report {
   width: 50%;

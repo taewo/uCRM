@@ -15,7 +15,7 @@ class SidebarReport extends Component {
     return (
       <div>
         <Link to={'/admin/report/churn'}>
-          SidebarReport
+          Report
         </Link>
       </div>
     );

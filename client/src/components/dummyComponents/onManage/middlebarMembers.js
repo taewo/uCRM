@@ -15,7 +15,7 @@ class MiddlebarMembers extends Component {
     return (
       <div>
         <Link to={'/admin/manage/members'}>
-          MiddlebarMembers
+          Members
         </Link>
       </div>
     );
