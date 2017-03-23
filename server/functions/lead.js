@@ -16,8 +16,8 @@ module.exports = {
     .where({ space_id: spaceid })
     .query((qb) => {
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().format('YYYY-MM-DD');
-      const weekAgo = Moment().subtract(7, 'days').format('YYYY-MM-DD');
+      const now = Moment().format('YYYY-MM-DD HH:MM');
+      const weekAgo = Moment().subtract(7, 'days').format('YYYY-MM-DD HH:MM');
       qb.whereBetween('date', [weekAgo, now]);
     })
     .count()

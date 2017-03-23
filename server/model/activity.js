@@ -8,6 +8,7 @@ module.exports = {
       if (access) {
         return Activity.getActivity(req.query.space_id)
         .then((activity) => {
+          console.log(activity);
           return activity;
         })
       }
