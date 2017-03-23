@@ -69,7 +69,7 @@ class Dashboard extends Component {
           } else if (dataType === 'member_creation') {
             checkTypes = '신규로 입주하셨습니다.';
             checkTarget = `'${data.target}'님께서`;
-          } else if (dataType === 'space_createion') {
+          } else if (dataType === 'space_creation') {
             checkTypes = '공간이 생성되었습니다. 축하합니다!';
             checkTarget = `'${data.target}'`;
           } else if (dataType === 'lead_메일') {

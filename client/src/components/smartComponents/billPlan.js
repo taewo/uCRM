@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as billPlanActions from '../../actions/billPlanActions';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 class BillPlan extends Component {
   componentWillMount() {
@@ -9,27 +10,34 @@ class BillPlan extends Component {
     this.props.billPlanShow();
   }
   render() {
-    console.log('billplan data', this.props.billPlanData);
-    const billPlanList = this.props.billPlanData ?
-    this.props.billPlanData.map((billPlanData, i) => {
+    if(!this.props.billPlanData) {
       return (
-        <div key={i}>
-          가격 : {billPlanData.cost} <br />
-          기간 :  {billPlanData.duration} <br />
-          이름 : {billPlanData.name} <br /><br />
+        <div>
+          fail
         </div>
-      );
-    })
-    : 'default';
-    return (
-      <div>
-        BillPlan<br />
-        <Link to={'/admin/setting/billplan/add'}>
-          AddBillPlan
-        </Link>
-        {billPlanList}
-      </div>
-    );
+      )
+    } else {
+      const dataArr = [];
+      this.props.billPlanData.map((data, i) => {
+        const dataObj = {};
+        dataObj.cost = data.cost;
+        dataObj.duration = data.duration;
+        dataObj.name = data.name;
+        dataArr.push(dataObj);
+      });
+      console.log(333, dataArr);
+      return (
+        <div>
+          <h3>요금제</h3>
+          <br />
+          <BootstrapTable data={dataArr} >
+            <TableHeaderColumn dataField='cost' isKey>가격</TableHeaderColumn>
+            <TableHeaderColumn dataField='duration'>기간</TableHeaderColumn>
+            <TableHeaderColumn dataField='name'>명칭</TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+      )
+    }
   }
 }
 
