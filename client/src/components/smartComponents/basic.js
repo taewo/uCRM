@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as basicActions from '../../actions/basicActions';
 import '../../../public/style.css';
-import { PageHeader, Panel } from 'react-bootstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 const allMemberImg = require('../../../image/allMember.svg');
 
 class Basic extends Component {
@@ -27,17 +27,13 @@ class Basic extends Component {
     );
     return (
       <div>
-        Basic
-        <PageHeader>
-          <small>
-            test
-          </small>
-          <Panel header={title1} bsStyle="danger">
-            <img src={allMemberImg} alt="adf"/>
-              현재 멤버수 : jh
-          </Panel>
-        </PageHeader>
+        Basics
         <br />
+          <BootstrapTable >
+             <TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
+             <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+             <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+           </BootstrapTable>
         {basicList}
       </div>
     );
