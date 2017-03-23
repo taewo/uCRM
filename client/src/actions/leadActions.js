@@ -25,9 +25,11 @@ export function leadShow() {
       params: { space_id: sessionStorage.getItem('userSpaceListId') },
     })
     .then((res) => {
+      console.log(999, res)
       dispatch(leadData(res.data));
     })
     .catch((err) => {
+      console.log('9999999  err');
       console.log('err', err);
     });
   };

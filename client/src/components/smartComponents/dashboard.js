@@ -61,6 +61,7 @@ class Dashboard extends Component {
           const checkType = data.type === 'billplan_creation' ?
           'Bill Plan 생성'
           : 'member 등록';
+          // console.log('999', data.date.value);
           if(i % 2 === 0) {
             return (
               <ListGroupItem bsStyle="warning">
