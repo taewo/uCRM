@@ -90,11 +90,15 @@ module.exports = {
   },
 
   checkNExtendedToken(token) {
+    console.log('TOKEN', token)
     return Token.checkValidToken(token)
       .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
         if (tokenCheck) {
+          console.log('CONDITION PASSED')
           return tokenCheck;
         }
+        console.log('1111111111111111111111111')
         return Promise.reject('Error: Authentication credentials expired.');
       })
       .then((tokenData) => {
@@ -103,6 +107,7 @@ module.exports = {
           delete result.expiredat;
           return result;
         });
-      });
+      })
+      .catch(err => (Promise.reject(err)));
   },
 };

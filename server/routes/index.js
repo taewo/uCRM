@@ -23,7 +23,7 @@ router.use((req, res, next) => {
     next();
   })
   .catch((err) => {
-    res.send(err).status(500);
+    res.status(500).send(err);
   });
 });
 
