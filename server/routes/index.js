@@ -27,10 +27,17 @@ router.use((req, res, next) => {
   });
 });
 
+
 router.route('/member/payment')
 .get(payment.get)
 .post(payment.post)
 .delete(payment.delete);
+
+router.route('/space')
+.get(space.get)
+.post(space.post)
+.delete(space.delete);
+
 
 router.get('*', (req, res, next) => {
   console.log(req.query.space_id);
@@ -43,10 +50,6 @@ router.get('*', (req, res, next) => {
 router.route('/dashboard')
 .get(dashboard.get);
 
-router.route('/space')
-.get(space.get)
-.post(space.post)
-.delete(space.delete);
 
 router.route('/lead')
 .get(lead.get)
