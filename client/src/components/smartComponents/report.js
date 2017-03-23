@@ -28,20 +28,28 @@ class Report extends Component {
         <div className="Manage">
           <ButtonGroup vertical className="report_button" style={reportButtonStyle}>
             <LinkContainer to="/admin/report/churn">
-              <Button className="report_button" style={reportButtonStyle}>이탈분석</Button>
+              <Button className="report_button" style={reportButtonStyle}>
+                이탈
+              </Button>
             </LinkContainer>
             <LinkContainer to="/admin/report/lead">
-              <Button className="report_button" style={reportButtonStyle}>잠재고객</Button>
+              <Button className="report_button" style={reportButtonStyle}>
+                잠재고객
+              </Button>
             </LinkContainer>
             <LinkContainer to="/admin/report/space">
-              <Button className="report_button" style={reportButtonStyle}>이용률</Button>
+              <Button className="report_button" style={reportButtonStyle}>
+                이용률
+              </Button>
             </LinkContainer>
             <LinkContainer to="/admin/report/revenue">
-              <Button className="report_button" style={reportButtonStyle}>수익</Button>
+              <Button className="report_button" style={reportButtonStyle}>
+                수익
+              </Button>
             </LinkContainer>
           </ButtonGroup>
         </div>
-        <div>
+        <div className="bodyStyle">
           {this.props.children}
         </div>
       </div>

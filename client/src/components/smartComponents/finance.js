@@ -30,7 +30,9 @@ class Finance extends Component {
             </LinkContainer>
           </ButtonGroup>
         </div>
+        <div className="bodyStyle">
           {this.props.children}
+        </div>
       </div>
     );
   }

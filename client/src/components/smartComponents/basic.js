@@ -26,7 +26,6 @@ class Basic extends Component {
         obj.address = data.address;
       });
       dataArr.push(obj);
-      console.log(999, dataArr);
       return (
         <div>
           <h3>{basicName}</h3>

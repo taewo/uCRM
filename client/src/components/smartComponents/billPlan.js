@@ -25,7 +25,6 @@ class BillPlan extends Component {
         dataObj.name = data.name;
         dataArr.push(dataObj);
       });
-      console.log(333, dataArr);
       return (
         <div>
           <h3>요금제</h3>
