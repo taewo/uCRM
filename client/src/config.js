@@ -6,6 +6,7 @@ export function tokenChecker() {
   console.log('tokenChecker hello');
   const userToken = sessionStorage.getItem('userToken');
   if (!userToken) {
+    alert('로그인이 되어있지 않습니다. 로그인 해주세요!');
     browserHistory.push('/');
   }
   return axios({
@@ -17,6 +18,8 @@ export function tokenChecker() {
     console.log('check successful', res);
   })
   .catch((err) => {
+    sessionStorage.clear();
+    alert('비정상적인 접근입니다. 다시 로그인 해주세요!');
     browserHistory.push('/');
   });
 }
