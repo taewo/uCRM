@@ -23,9 +23,16 @@ router.use((req, res, next) => {
     next();
   })
   .catch((err) => {
-    console.log('isval?')
     res.send(err).status(500);
   });
+});
+
+router.get((req, res, next) => {
+  console.log(req.query.space_id);
+  if (!req.query.space_id) {
+    res.send('Error: no specified space id').status(500);
+  }
+  next();
 });
 
 router.route('/dashboard')
