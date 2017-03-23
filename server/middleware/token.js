@@ -41,15 +41,16 @@ module.exports = {
                 console.log('validitychecked')
                 return Token.extendToken(tokenData)
                 .then((extendedToken) => {
-                  console.log('extension')
+                  console.log('extension');
                   return Space.getAllSpacesByCompanyId(companyId)
                   .then((spaceList) => {
+                    console.log('sp', extendedToken);
                     extendedToken.space_list = spaceList.map(space => ({
                       space_id: space.id,
                       name: space.name,
                     }));
+                    console.log('extendedToken', extendedToken);
                     extendedToken.company_id = companyId;
-                    console.log('extendedToken', extendToken)
                     return extendedToken;
                   });
                 });
