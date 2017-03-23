@@ -25,7 +25,6 @@ class Members extends Component {
           memberList
         </div>
         <div>
-          <button onClick={ this.handleBtnClick }>Sort Product Name</button>
           <BootstrapTable ref='table' data={ members }>
             <TableHeaderColumn dataField='name' isKey={ true } dataSort={ true }>name ID</TableHeaderColumn>
             <TableHeaderColumn dataField='joined_date' dataSort={ true }>joined_date</TableHeaderColumn>

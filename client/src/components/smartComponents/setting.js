@@ -8,6 +8,7 @@ const settingStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
+  margin: '10px'
 };
 
 const settingButtonStyle = {

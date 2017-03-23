@@ -59,19 +59,42 @@ class Dashboard extends Component {
         <ListGroup>
         {this.props.dashboardData.latestActivity.map((data, i) => {
           console.log('999', data.date);
-          const checkType = data.type === 'billplan_creation' ?
-          'Bill Plan 생성'
-          : 'member 등록';
+          const editedDate = data.date.substring(2, 10).split('-');
+          let checkTypes = '';
+          let checkTarget = '';
+          let dataType = data.type;
+          if(dataType === 'billplan_creation') {
+            checkTypes = '요금제가 등록되었습니다.';
+            checkTarget = `'${data.target}'`;
+          } else if (dataType === 'member_creation') {
+            checkTypes = '신규로 입주하셨습니다.';
+            checkTarget = `'${data.target}'님께서`;
+          } else if (dataType === 'space_createion') {
+            checkTypes = '공간이 생성되었습니다. 축하합니다!';
+            checkTarget = `'${data.target}'`;
+          } else if (dataType === 'lead_메일') {
+            checkTypes = '메일로 문의해주셨습니다.';
+            checkTarget = `'${data.target}'님께서`;
+          } else if (dataType === 'lead_전화') {
+            checkTypes = '전화로 문의해주셨습니다.';
+            checkTarget = `'${data.target}'님께서`;
+          } else if (dataType === 'lead_방문') {
+            checkTypes = '직접 방문해주셨습니다.';
+            checkTarget = `'${data.target}'님께서`;
+          } else if (dataType === 'expense_creation') {
+            checkTypes = '지출하였습니다.';
+            checkTarget = `'${data.target}'로`;
+          }
           if(i % 2 === 0) {
             return (
               <ListGroupItem bsStyle="warning">
-                {data.space_id} space에서 {checkType}
+                {editedDate[0]}년 {editedDate[1]}월 {editedDate[2]}일, {checkTarget} {checkTypes}
               </ListGroupItem>
             )
           }
           return (
             <ListGroupItem>
-              {data.space_id} space에서 {checkType}
+              {editedDate[0]}년 {editedDate[1]}월 {editedDate[2]}일, {checkTarget} {checkTypes}
             </ListGroupItem>
           )
         })}
