@@ -49,6 +49,7 @@ module.exports = {
                       name: space.name,
                     }));
                     extendedToken.company_id = companyId;
+                    console.log('extendedToken', extendToken)
                     return extendedToken;
                   });
                 });
@@ -64,6 +65,7 @@ module.exports = {
                       name: space.name,
                     }));
                     generatedTokenData.company_id = companyId;
+                    console.log('GENERATEDTOKENDATA', generatedTokenData)
                     return generatedTokenData;
                   })
                 });
