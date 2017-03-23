@@ -17,6 +17,16 @@ const Token = require('../middleware/token');
 // const utility = require('../controller/utility');
 // TODO you can require folder
 
+router.get('/token', (req, res) => {
+  Token.checkExistingToken(req.headers.token)
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    res.status(500).send(err);
+  });
+});
+
 router.use((req, res, next) => {
   Token.checkNExtendedToken(req.headers.token)
   .then((result) => {
