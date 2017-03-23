@@ -8,7 +8,7 @@ export const membersData = members => ({
 });
 
 export function membersShow() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     console.log('come in membersShow');
     const instance = {
       headers: {
@@ -29,6 +29,6 @@ export function membersShow() {
     })
     .catch((err) => {
       console.log('err', err);
-    })
+    });
   };
 }

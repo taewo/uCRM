@@ -19,6 +19,9 @@ export function tokenChecker() {
     console.log('check successful', res);
   })
   .catch((err) => {
+
+    console.log('dd',err.respoznse.data);
+
         // console.log(err.response.data);
     // alert('비정상적인 접근입니다. 다시 로그인 해주세요!');
     // sessionStorage.clear();
