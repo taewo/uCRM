@@ -57,7 +57,7 @@ class LeadReport extends ReportChart {
   createChannelsDataSet() {
     console.log(this.props.data);
     const data = {
-      labels: ['이번달 방문/문의', '이번달 전환', '지난달 방문/문의', '지난달 전환'],
+      labels: ['이번달 방문/문의', '이번달 전환', '이번달 전환율', '지난달 방문/문의', '지난달 전환', '지난달 전환율'],
       datasets: [],
     };
     if (this.props.data.length) {
@@ -71,7 +71,7 @@ class LeadReport extends ReportChart {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: this.colors[index],
-            data: [channel.ThisMonth, channel.ThisConversion, channel.LastMonth, channel.LastConversion],
+            data: [channel.ThisMonth, channel.ThisConversion, Math.round(channel.ThisConversionPercentage) / 100, channel.LastMonth, channel.LastConversion, Math.round(channel.LastConversionPercentage) / 100],
           },
         );
       });

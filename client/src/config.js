@@ -1,11 +1,11 @@
 import { browserHistory } from 'react-router';
-import axios from 'axios';
 
-export const API_URL = 'http://localhost:4000/api';
 export function tokenChecker() {
   console.log('tokenChecker hello');
   const userToken = sessionStorage.getItem('userToken');
+  console.log('tokenChecker', userToken);
   if (!userToken) {
+    browserHistory.push('/');
     alert('로그인이 되어있지 않습니다. 로그인 해주세요!');
     return browserHistory.push('/');
   }
@@ -23,3 +23,5 @@ export function tokenChecker() {
     return browserHistory.push('/');
   });
 }
+
+export const API_URL = 'http://localhost:4000/api';
