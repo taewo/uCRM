@@ -19,9 +19,10 @@ export function tokenChecker() {
     console.log('check successful', res);
   })
   .catch((err) => {
-    sessionStorage.clear();
-    alert('비정상적인 접근입니다. 다시 로그인 해주세요!');
-    return browserHistory.push('/');
+        // console.log(err.response.data);
+    // alert('비정상적인 접근입니다. 다시 로그인 해주세요!');
+    // sessionStorage.clear();
+    // return browserHistory.push('/');
   });
 }
 
