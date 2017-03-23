@@ -13,7 +13,7 @@ class Login extends Component {
 
     this.open = this.open.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.showSpace = this.showSpace.bind(this);
+    this.openSpaceModal = this.openSpaceModal.bind(this);
     this.SelectSpace = this.SelectSpace.bind(this);
 
     this.state = {
@@ -34,9 +34,15 @@ class Login extends Component {
     });
   }
 
-  showSpace() {
+  openSpaceModal() {
     this.setState({
       showSelectSpace: true,
+    });
+  }
+
+  closeSpaceModal() {
+    this.setState({
+      showSelectSpace: false,
     });
   }
 
@@ -45,29 +51,27 @@ class Login extends Component {
     if (!data) {
       return console.log('시작');
     }
-
     const showId = data.map((spaceData, i) => {
       return (
         <Button
-          key={`space${i * 10}`}
+          key={`space-${i}`}
           onClick={() => {
             sessionStorage.setItem('userSpaceListId', spaceData.space_id);
             browserHistory.push('/admin/manage/dashboard');
-            this.closeModal();
+            this.closeSpaceModal();
           }}
         >
         select: {spaceData.name}
         </Button>
       );
     });
+    console.log(this.state.showSelectSpace)
     return (
-      <Modal show={this.state.showModal} onHide={this.closeModal}>
+      <Modal show={this.state.showSelectSpace} onHide={this.closeSpaceModal}>
         {showId}
       </Modal>
     );
   }
-
-
 
   render() {
     return (
@@ -82,18 +86,11 @@ class Login extends Component {
           <Modal.Footer>
             <Button onClick={() => {
               this.props.logInConfirm().then((res) => {
+                this.closeModal();
                 if (res === 'hasSpaceList') {
-                  this.showSpace();
+                  this.openSpaceModal();
                 }
-                else {
-                  return this.closeModal();
-                }
-                { /*
-                    this.props.logInConfirm().then((res) => {
-                    if (res === 'hasSpaceList') {
-                      this.showSpace();
-                    }
-
+                 /*
                     TODO
                     spaceList를 가질때랑 안가질때를 구분해서 state에 저장하려고 했는데,
                     안가지고 있을 때에는 바로 지워지지가 않아서
@@ -102,15 +99,15 @@ class Login extends Component {
 
                     TODO
                     spaceList가 없을 때 add space로 Modal 이동하는 것 만들자
-                */ }
+                */
               });
             }}
             >
             확인
             </Button>
           </Modal.Footer>
-          {this.SelectSpace()}
         </Modal>
+        {this.SelectSpace()}
       </NavItem>
     );
   }
