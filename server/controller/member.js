@@ -24,7 +24,7 @@ module.exports = {
     }
     return member.post(req)
     .then((result) => {
-      console.log('RESULT', result)
+      console.log('add new member RESULT', result)
       if (result) {
         res.json(result);
       } else {
@@ -48,7 +48,6 @@ module.exports = {
     } else {
       return member.delete(req)
       .then((result) => {
-        console.log('RESULT', result)
         res.json(result);
       })
       .catch((err) => {

@@ -44,14 +44,15 @@ module.exports = {
         return false;
       }
       const list = result.toJSON();
-      let latestLeadId;
+      let latestLeadId = list[0].id;
       const latestVisitDate = list[0].date;
       list.forEach((lead) => {
         if (latestVisitDate < lead.date) {
           latestLeadId = lead.id;
         }
       });
-      return new Lead({ id: latestLeadId })
+      return Lead
+      .where({ id: latestLeadId })
       .save({ conversion: 1 }, { patch: true });
     })
     .catch(err => Promise.reject(err));
