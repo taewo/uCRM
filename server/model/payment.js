@@ -9,11 +9,10 @@ module.exports = {
       if (hasMember) {
         return Payment.getPayment(req.query.member_id)
         .then((result) => {
-          console.log('payment RESULT for the space=', req.body.space_id, result)
-          if (result) {
+          if (result.length) {
             return result;
           }
-          return [];
+          return Promise.reject('Error: no payment exsit for this member');
         });
       } else {
         return Promise.reject('Error: unahthorized access request');
@@ -48,7 +47,7 @@ module.exports = {
             return Payment.deleteMemberPayment(req.body)
             .then(result => (result));
           }
-          return Promise.reject('Error: payment does not exsit.');
+          return Promise.reject('Error: not authorized or payment does not exsit.');
         });
       }
       return Promise.reject('Error: unahthorized member access request');

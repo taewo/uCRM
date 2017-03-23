@@ -27,10 +27,17 @@ router.use((req, res, next) => {
   });
 });
 
+
+router.route('/member/payment')
+.get(payment.get)
+.post(payment.post)
+.delete(payment.delete);
+
 router.route('/space')
 .get(space.get)
 .post(space.post)
 .delete(space.delete);
+
 
 router.get('*', (req, res, next) => {
   console.log(req.query.space_id);
@@ -58,11 +65,6 @@ router.route('/member')
 router.route('/billplan')
 .get(billplan.get)
 .post(billplan.post);
-
-router.route('/member/payment')
-.get(payment.get)
-.post(payment.post)
-.delete(payment.delete);
 
 router.route('/space/payment')
 .get(paymentSpace.get);

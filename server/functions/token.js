@@ -20,13 +20,11 @@ module.exports = {
       if (!result) {
         return Promise.reject('Error: invalid token.');
       }
-      console.log('valid token RESULT', result)
       const now = new Date();
       const session = result.toJSON().expiredat;
       if (now - session > 0) {
         return false;
       }
-      console.log('RESULT.TOJSON()', result.toJSON())
       return result.toJSON();
     })
     .catch(err => (Promise.reject(err)));
