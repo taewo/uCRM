@@ -38,13 +38,15 @@ module.exports = {
     return Activity
     .where({ space_id: spaceid })
     .query((qb) => {
+      console.log('hi');
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().format('YYYY-MM-DD');
-      const monthAgo = Moment().subtract(30, 'days').format('YYYY-MM-DD');
+      const now = Moment().format('YYYY-MM-DD HH:MM');
+      const monthAgo = Moment().subtract(30, 'days').format('YYYY-MM-DD HH:MM');
       qb.whereBetween('date', [monthAgo, now]);
     })
     .fetchAll()
     .then((result) => {
+      console.log('res returned', result.toJSON());
       if (result) {
         return result.toJSON();
       }
