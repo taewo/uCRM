@@ -41,13 +41,15 @@ module.exports = {
                 console.log('validitychecked')
                 return Token.extendToken(tokenData)
                 .then((extendedToken) => {
-                  console.log('extension')
+                  console.log('extension');
                   return Space.getAllSpacesByCompanyId(companyId)
                   .then((spaceList) => {
+                    console.log('sp', extendedToken);
                     extendedToken.space_list = spaceList.map(space => ({
                       space_id: space.id,
                       name: space.name,
                     }));
+                    console.log('extendedToken', extendedToken);
                     extendedToken.company_id = companyId;
                     return extendedToken;
                   });
@@ -64,6 +66,7 @@ module.exports = {
                       name: space.name,
                     }));
                     generatedTokenData.company_id = companyId;
+                    console.log('GENERATEDTOKENDATA', generatedTokenData)
                     return generatedTokenData;
                   })
                 });
@@ -88,11 +91,15 @@ module.exports = {
   },
 
   checkNExtendedToken(token) {
+    console.log('TOKEN', token)
     return Token.checkValidToken(token)
       .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
         if (tokenCheck) {
+          console.log('CONDITION PASSED')
           return tokenCheck;
         }
+        console.log('1111111111111111111111111')
         return Promise.reject('Error: Authentication credentials expired.');
       })
       .then((tokenData) => {
@@ -101,6 +108,19 @@ module.exports = {
           delete result.expiredat;
           return result;
         });
-      });
+      })
+      .catch(err => (Promise.reject(err)));
+  },
+
+  checkExistingToken(token) {
+    return Token.checkValidToken(token)
+      .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
+        if (tokenCheck) {
+          return tokenCheck;
+        }
+        return Promise.reject('Error: Authentication credentials expired.')
+      })
+      .catch(err => (Promise.reject(err)));
   },
 };

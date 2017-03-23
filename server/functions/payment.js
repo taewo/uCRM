@@ -47,6 +47,7 @@ module.exports = {
     .where(body)
     .fetch()
     .then((result) => {
+      console.log('RESULT', result)
       if (result) {
         return Promise.reject('Error: the same payment already exist');
       }

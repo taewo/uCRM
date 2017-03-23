@@ -17,10 +17,11 @@ module.exports = {
     return Token.where({ token })
     .fetch()
     .then((result) => {
+      if (!result) {
+        return Promise.reject('Error: invalid token.');
+      }
       const now = new Date();
       const session = result.toJSON().expiredat;
-      console.log(typeof session, now, session);
-      console.log(now - session, now - session > 0)
       if (now - session > 0) {
         return false;
       }

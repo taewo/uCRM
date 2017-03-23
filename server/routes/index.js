@@ -17,20 +17,43 @@ const Token = require('../middleware/token');
 // const utility = require('../controller/utility');
 // TODO you can require folder
 
-router.use((req, res, next) => {
-  Token.checkNExtendedToken(req.headers.token)
+router.get('/token', (req, res) => {
+  Token.checkExistingToken(req.headers.token)
   .then((result) => {
-    next();
+    res.json(result);
   })
   .catch((err) => {
-    res.send(err).status(500);
+    res.status(500).send(err);
   });
 });
 
-router.get((req, res, next) => {
+router.use((req, res, next) => {
+  Token.checkNExtendedToken(req.headers.token)
+  .then((result) => {
+    console.log('RESULT', result)
+    next();
+  })
+  .catch((err) => {
+    res.status(500).send(err);
+  });
+});
+
+
+router.route('/member/payment')
+.get(payment.get)
+.post(payment.post)
+.delete(payment.delete);
+
+router.route('/space')
+.get(space.get)
+.post(space.post)
+.delete(space.delete);
+
+
+router.get('*', (req, res, next) => {
   console.log(req.query.space_id);
   if (!req.query.space_id) {
-    res.send('Error: no specified space id').status(500);
+    res.status(500).send('Error: no specified space id');
   }
   next();
 });
@@ -38,10 +61,6 @@ router.get((req, res, next) => {
 router.route('/dashboard')
 .get(dashboard.get);
 
-router.route('/space')
-.get(space.get)
-.post(space.post)
-.delete(space.delete);
 
 router.route('/lead')
 .get(lead.get)
@@ -57,11 +76,6 @@ router.route('/member')
 router.route('/billplan')
 .get(billplan.get)
 .post(billplan.post);
-
-router.route('/member/payment')
-.get(payment.get)
-.post(payment.post)
-.delete(payment.delete);
 
 router.route('/space/payment')
 .get(paymentSpace.get);

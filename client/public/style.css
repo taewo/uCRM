@@ -50,6 +50,7 @@ html, body{
   display: inline-block;
 }
 
+
 .adminImgSize {
   height: 30px;
 }
@@ -59,4 +60,43 @@ html, body{
   height: 100%;
   padding: 15px;
   margin: auto;
+
+.Member {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.member_buttonToolbar {
+  margin-left: 1%
+}
+
+.member_header {
+  margin-left: 2%
+}
+
+.Lead {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.lead_buttonToolbar {
+  margin-left: 1%
+}
+
+.lead_header {
+  margin-left: 2%
+}
+
+.Expense {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.expense_buttonToolbar {
+  margin-left: 1%
+}
+
+.expense_header {
+  margin-left: 2%
+
 }
