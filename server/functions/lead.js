@@ -16,7 +16,7 @@ module.exports = {
     .where({ space_id: spaceid })
     .query((qb) => {
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().format('YYYY-MM-DD');
+      const now = Moment().add(1, 'days').format('YYYY-MM-DD');
       const weekAgo = Moment().subtract(7, 'days').format('YYYY-MM-DD');
       qb.whereBetween('date', [weekAgo, now]);
     })
@@ -44,14 +44,15 @@ module.exports = {
         return false;
       }
       const list = result.toJSON();
-      let latestLeadId;
+      let latestLeadId = list[0].id;
       const latestVisitDate = list[0].date;
       list.forEach((lead) => {
         if (latestVisitDate < lead.date) {
           latestLeadId = lead.id;
         }
       });
-      return new Lead({ id: latestLeadId })
+      return Lead
+      .where({ id: latestLeadId })
       .save({ conversion: 1 }, { patch: true });
     })
     .catch(err => Promise.reject(err));

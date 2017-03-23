@@ -28,13 +28,13 @@ module.exports = {
       return false;
     });
   },
-  
+
   getCountExpiring(spaceid) {
     return Payment
     .where({ space_id: spaceid })
     .query((qb) => {
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().format('YYYY-MM-DD');
+      const now = Moment().add(1, 'days').format('YYYY-MM-DD');
       const weekLater = Moment().add(7, 'days').format('YYYY-MM-DD');
       qb.whereBetween('end_date', [now, weekLater]);
     })
@@ -47,6 +47,7 @@ module.exports = {
     .where(body)
     .fetch()
     .then((result) => {
+      console.log('RESULT', result)
       if (result) {
         return Promise.reject('Error: the same payment already exist');
       }

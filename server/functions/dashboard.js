@@ -14,7 +14,7 @@ const getDashboard = (req) => {
   .then((result) => {
     console.log('gd');
     const container = {};
-    container.activeMember = result[0]
+    container.activeMember = result[0];
     container.expiringPayment = result[1];
     container.leadCount = result[2];
     container.latestActivity = result[3];

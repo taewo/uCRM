@@ -37,6 +37,8 @@ class Lead extends Component {
     });
   }
 
+
+
   render() {
     const leadDataList = this.props.leadData ?
     this.props.leadData.map((listData, i) => {

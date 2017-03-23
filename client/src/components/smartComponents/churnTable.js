@@ -40,7 +40,7 @@ class ChurnTable extends ReportTable {
     const tableDataSet = this.transformData();
     if (this.props.type === '비교분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 이탈</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisPercentage">이탈률(%)</TableHeaderColumn>
@@ -51,7 +51,7 @@ class ChurnTable extends ReportTable {
       );
     } else if (this.props.type === '이번달') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisMonth">이번달 이탈</TableHeaderColumn>
           <TableHeaderColumn dataField="ThisPercentage">이번달 이탈률(%)</TableHeaderColumn>
@@ -59,7 +59,7 @@ class ChurnTable extends ReportTable {
       );
     } else if (this.props.type === '지난달') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="index" isKey>이탈 사유</TableHeaderColumn>
           <TableHeaderColumn dataField="LastMonth">지난달 이탈</TableHeaderColumn>
           <TableHeaderColumn dataField="LastPercentage">지난달 이탈률(%)</TableHeaderColumn>
@@ -67,7 +67,7 @@ class ChurnTable extends ReportTable {
       );
     } else if (this.props.type === '이탈흐름분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Month" isKey>해당 월</TableHeaderColumn>
           <TableHeaderColumn dataField="Churns">이탈 수</TableHeaderColumn>
         </BootstrapTable>

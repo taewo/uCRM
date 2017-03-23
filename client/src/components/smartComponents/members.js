@@ -133,6 +133,14 @@ class Members extends Component {
             <TableHeaderColumn dataField="mobile" dataSort>mobile</TableHeaderColumn>
             <TableHeaderColumn dataField="email" dataSort>email</TableHeaderColumn>
             <TableHeaderColumn dataField="gender" dataSort>gender</TableHeaderColumn>
+          <BootstrapTable ref='table' data={ members }>
+            <TableHeaderColumn dataField='name' isKey={ true } dataSort={ true }>name ID</TableHeaderColumn>
+            <TableHeaderColumn dataField='joined_date' dataSort={ true }>joined_date</TableHeaderColumn>
+            <TableHeaderColumn dataField='end_date' dataSort={ true }>end_date</TableHeaderColumn>
+            <TableHeaderColumn dataField='end_reason' dataSort={ true }>end_reason</TableHeaderColumn>
+            <TableHeaderColumn dataField='mobile' dataSort={ true }>mobile</TableHeaderColumn>
+            <TableHeaderColumn dataField='email' dataSort={ true }>email</TableHeaderColumn>
+            <TableHeaderColumn dataField='gender' dataSort={ true }>gender</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

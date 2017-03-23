@@ -13,10 +13,13 @@ module.exports = {
     return tokenData;
   },
 
-  checkToken(token) {
+  checkValidToken(token) {
     return Token.where({ token })
     .fetch()
     .then((result) => {
+      if (!result) {
+        return Promise.reject('Error: invalid token.');
+      }
       const now = new Date();
       const session = result.toJSON().expiredat;
       if (now - session > 0) {

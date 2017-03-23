@@ -46,7 +46,7 @@ class SpaceOccupancyTable extends ReportTable {
     console.log(tableDataSet);
     if (this.props.type === '요금제별분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="BillingPlan" isKey>요금제</TableHeaderColumn>
           <TableHeaderColumn dataField="OccupyingNumber">해당 회원 수</TableHeaderColumn>
           <TableHeaderColumn dataField="BillingPlanOccupancyRate">요금제별 이용률(%)</TableHeaderColumn>
@@ -55,7 +55,7 @@ class SpaceOccupancyTable extends ReportTable {
       );
     } else if (this.props.type === '최근이용률') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Weeks" isKey>주차</TableHeaderColumn>
           <TableHeaderColumn dataField="OccupyingNumber">회원 수</TableHeaderColumn>
           <TableHeaderColumn dataField="OccupancyRate">실 이용률(%)</TableHeaderColumn>
@@ -63,7 +63,7 @@ class SpaceOccupancyTable extends ReportTable {
       );
     } else if (this.props.type === '이용률흐름분석') {
       tables.push(
-        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터가 없습니다' } }>
+        <BootstrapTable data={tableDataSet} striped hover condensed options={ { noDataText: '데이터를 추가해주세요!' } }>
           <TableHeaderColumn dataField="Month" isKey>월</TableHeaderColumn>
           <TableHeaderColumn dataField="OccupyingNumber">회원 수</TableHeaderColumn>
           <TableHeaderColumn dataField="OccupancyRate">실 이용률(%)</TableHeaderColumn>

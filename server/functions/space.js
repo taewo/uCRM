@@ -39,12 +39,14 @@ module.exports = {
     .where({ space_id: spaceid })
     .query((qb) => {
       // change below hard code with moment.js to show the last mongh activity
-      const now = Moment().format('YYYY-MM-DD');
+      const now = Moment().add(1, 'days').format('YYYY-MM-DD');
       const monthAgo = Moment().subtract(30, 'days').format('YYYY-MM-DD');
+      console.log(monthAgo, now);
       qb.whereBetween('date', [monthAgo, now]);
     })
     .fetchAll()
     .then((result) => {
+      console.log('res returned', result.toJSON());
       if (result) {
         return result.toJSON();
       }
@@ -110,7 +112,12 @@ module.exports = {
     })
     .save()
     .then(newSpace => (resolve(newSpace)))
-    .catch(err => (reject(err)));
+    .catch((err) => {
+      if (err.code.includes('ER_DUP_ENTRY')) {
+        return reject('Error: the space name is taken.');
+      }
+      return reject(err);
+    });
   }),
 
   checkDuplicateSpace(body) {

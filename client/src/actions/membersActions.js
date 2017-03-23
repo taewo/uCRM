@@ -32,11 +32,3 @@ export function membersShow() {
     })
   };
 }
-
-  //
-  //
-  //
-
-
-  //   .then((res) => {
-  //   });

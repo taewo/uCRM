@@ -25,20 +25,15 @@ module.exports = {
   post(req) {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
-      console.log('ACCESS', access)
       if (access) {
-        console.log('CONDITION PASSED')
         const ifMemberExistByEmail = Member.checkExistingMemberByEmail(req.body.email);
         const ifMemberExistByMobile = Member.checkExistingMemberByMobile(req.body.mobile);
         return Promise.all([ifMemberExistByEmail, ifMemberExistByMobile])
         .then((check) => {
-          console.log('CHECK', check)
-          console.log('req.body', req.body)
           if (!check[0] && !check[1]) {
             return Member.addNewMember(req.body, req.body.space_id)
             .then((newMember) => {
-              console.log('NEWMEMBER', newMember)
-              return newMember;
+              return newMember.toJSON();
             });
           } else if (check[0] && !check[1]) {
             return Promise.reject('Error: member already exist(duplicate email)');

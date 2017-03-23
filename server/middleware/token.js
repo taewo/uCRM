@@ -34,11 +34,14 @@ module.exports = {
         return Token.getTokenByUserId(userid)
         .then((tokenData) => {
           if (tokenData) {
-            return Token.checkToken(tokenData.token)
+            return Token.checkValidToken(tokenData.token)
             .then((tokenValid) => {
+              console.log(tokenValid);
               if (tokenValid) {
+                console.log('validitychecked')
                 return Token.extendToken(tokenData)
                 .then((extendedToken) => {
+                  console.log('extension')
                   return Space.getAllSpacesByCompanyId(companyId)
                   .then((spaceList) => {
                     extendedToken.space_list = spaceList.map(space => ({
@@ -46,7 +49,8 @@ module.exports = {
                       name: space.name,
                     }));
                     extendedToken.company_id = companyId;
-                    return Promise.reject('Error: already logged in.');
+                    console.log('extendedToken', extendToken)
+                    return extendedToken;
                   });
                 });
               }
@@ -61,6 +65,7 @@ module.exports = {
                       name: space.name,
                     }));
                     generatedTokenData.company_id = companyId;
+                    console.log('GENERATEDTOKENDATA', generatedTokenData)
                     return generatedTokenData;
                   })
                 });
@@ -85,11 +90,15 @@ module.exports = {
   },
 
   checkNExtendedToken(token) {
-    return Token.checkToken(token)
+    console.log('TOKEN', token)
+    return Token.checkValidToken(token)
       .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
         if (tokenCheck) {
+          console.log('CONDITION PASSED')
           return tokenCheck;
         }
+        console.log('1111111111111111111111111')
         return Promise.reject('Error: Authentication credentials expired.');
       })
       .then((tokenData) => {
@@ -98,6 +107,19 @@ module.exports = {
           delete result.expiredat;
           return result;
         });
-      });
+      })
+      .catch(err => (Promise.reject(err)));
+  },
+
+  checkExistingToken(token) {
+    return Token.checkValidToken(token)
+      .then((tokenCheck) => {
+        console.log('TOKENCHECK', tokenCheck)
+        if (tokenCheck) {
+          return tokenCheck;
+        }
+        return Promise.reject('Error: Authentication credentials expired.')
+      })
+      .catch(err => (Promise.reject(err)));
   },
 };
