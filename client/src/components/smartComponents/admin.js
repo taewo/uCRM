@@ -52,9 +52,6 @@ class Admin extends Component {
                 장부
               </Button>
             </LinkContainer>
-            <LinkContainer to="/admin/report/churn">
-              <Button className="admin_button" style={adminButtonStyle}>Report</Button>
-            </LinkContainer>
             <LinkContainer to="/admin/setting/basic">
               <Button className="admin_button" style={adminButtonStyle}>
                 <img src={settingImg} alt="setting" className="adminImgSize"/>

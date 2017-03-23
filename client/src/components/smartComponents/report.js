@@ -6,6 +6,7 @@ import { MiddlebarChurn, MiddlebarReportLead, MiddlebarReportSpace, MiddlebarRev
 
 const reportButtonStyle = {
   height: '35%',
+  border: 'none',
 };
 
 const reportStyle = {

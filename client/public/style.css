@@ -51,6 +51,7 @@ html, body{
 }
 
 .Member, .Lead, .Expense, .Payment{
+}
 
 .adminImgSize {
   height: 30px;
@@ -79,6 +80,7 @@ html, body{
 .RevenueTabs, .SpaceOccupancyTabs, .LeadTabs, .ChurnTabs {
   margin-left: 4%;
   margin-right: 4%;
+}
 .Lead {
   margin-left: 3%;
   margin-right: 3%;
