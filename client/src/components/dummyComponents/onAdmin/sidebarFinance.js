@@ -15,7 +15,7 @@ class SidebarFinance extends Component {
     return (
       <div>
         <Link to={'/admin/finance/expense'}>
-          SidebarFinance
+          Finance
         </Link>
       </div>
 

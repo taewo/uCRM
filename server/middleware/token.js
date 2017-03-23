@@ -34,11 +34,14 @@ module.exports = {
         return Token.getTokenByUserId(userid)
         .then((tokenData) => {
           if (tokenData) {
-            return Token.checkToken(tokenData.token)
+            return Token.checkValidToken(tokenData.token)
             .then((tokenValid) => {
+              console.log(tokenValid);
               if (tokenValid) {
+                console.log('validitychecked')
                 return Token.extendToken(tokenData)
                 .then((extendedToken) => {
+                  console.log('extension')
                   return Space.getAllSpacesByCompanyId(companyId)
                   .then((spaceList) => {
                     extendedToken.space_list = spaceList.map(space => ({
@@ -46,7 +49,7 @@ module.exports = {
                       name: space.name,
                     }));
                     extendedToken.company_id = companyId;
-                    return Promise.reject('Error: already logged in.');
+                    return extendedToken;
                   });
                 });
               }
@@ -85,7 +88,7 @@ module.exports = {
   },
 
   checkNExtendedToken(token) {
-    return Token.checkToken(token)
+    return Token.checkValidToken(token)
       .then((tokenCheck) => {
         if (tokenCheck) {
           return tokenCheck;

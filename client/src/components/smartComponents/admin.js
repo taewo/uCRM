@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { ButtonGroup, Button, MenuItem } from 'react-bootstrap';
-import SidebarManage from '../dummyComponents/onAdmin/sidebarManage';
-import SidebarReport from '../dummyComponents/onAdmin/sidebarReport';
-import SidebarSetting from '../dummyComponents/onAdmin/sidebarSetting';
-import SidebarFinance from '../dummyComponents/onAdmin/sidebarFinance';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { tokenChecker } from '../../config';
 
-const aStyle = {
+const adminStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
-}
+};
+
+const adminButtonStyle = {
+  height: '35%',
+  border: 'none',
+};
 
 class Admin extends Component {
 
@@ -21,18 +23,24 @@ class Admin extends Component {
 
   render() {
     return (
-      <div className="a" style={aStyle}>
+      <div className="admin" style={adminStyle}>
         <div className="Amdin">
-          <ButtonGroup vertical>
-            <Button><SidebarManage /></Button>
-            <Button><SidebarFinance /></Button>
-            <Button><SidebarReport /></Button>
-            <Button><SidebarSetting /></Button>
+          <ButtonGroup vertical className="admin_button" style={adminButtonStyle}>
+            <LinkContainer to="/admin/manage/dashboard">
+              <Button className="admin_button" style={adminButtonStyle}>Manage</Button>
+            </LinkContainer>
+            <LinkContainer to="/admin/report/churn">
+              <Button className="admin_button" style={adminButtonStyle}>Report</Button>
+            </LinkContainer>
+            <LinkContainer to="/admin/finance/expense">
+              <Button className="admin_button" style={adminButtonStyle}>Finance</Button>
+            </LinkContainer>
+            <LinkContainer to="/admin/setting/basic">
+              <Button className="admin_button" style={adminButtonStyle}>Setting</Button>
+            </LinkContainer>
           </ButtonGroup>
         </div>
-        <div>
           {this.props.children}
-        </div>
       </div>
 
 

@@ -15,7 +15,7 @@ class SidebarManage extends Component {
     return (
       <div>
         <Link to={'/admin/manage/dashboard'}>
-          SidebarManage
+          Manage
         </Link>
       </div>
 
