@@ -6,8 +6,7 @@ module.exports = {
     return Auth.checkIfUserHasSpace(req)
     .then((access) => {
       if (access) {
-        return Expense.toggleExpenseApproval(req)
-        .then(result => (result));
+        return Expense.toggleExpenseApproval(req);
       }
       return Promise.reject('Error: Your requested space does not exist.');
     })
