@@ -18,7 +18,7 @@ class Basic extends Component {
       return (
         <div> .</div>
       );
-  
+    }
     console.log(999, basicData);
     const basicName = basicData[0].name;
     const dataArr = [basicData[1]];
