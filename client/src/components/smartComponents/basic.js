@@ -9,6 +9,7 @@ import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } fr
 class Basic extends Component {
   componentWillMount() {
     this.props.basicShow();
+    console.log(1);
   }
   render() {
     if(!this.props.basicData) {

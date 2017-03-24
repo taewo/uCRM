@@ -9,17 +9,19 @@ const latestActivityImg = require('../../../image/latestActivity.svg');
 
 
 class Dashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dashboardShow();
   }
 
   render() {
     if(!this.props.dashboardData) {
       return (
-        <div>fail</div>
-      )
+        <div />
+      );
     }
+    console.log(123, this.props.dashboardData)
     const {activeMember, expiringPayment, leadCount, latestActivity} = this.props.dashboardData
+    const latestActivityCut = this.props.dashboardData.latestActivity.slice(0,13);
     const title1 = (
       <h3>현재 멤버</h3>
     );
@@ -57,12 +59,12 @@ class Dashboard extends Component {
         </div>
         <PageHeader><small> 활동내역 </small></PageHeader>
         <ListGroup>
-        {this.props.dashboardData.latestActivity.map((data, i) => {
+        {latestActivityCut.map((data, i) => {
           const editedDate = data.date.substring(2, 10).split('-');
           let checkTypes = '';
           let checkTarget = '';
-          let dataType = data.type;
-          if(dataType === 'billplan_creation') {
+          const dataType = data.type;
+          if (dataType === 'billplan_creation') {
             checkTypes = '요금제가 등록되었습니다.';
             checkTarget = `'${data.target}'`;
           } else if (dataType === 'member_creation') {
@@ -84,18 +86,18 @@ class Dashboard extends Component {
             checkTypes = '지출하였습니다.';
             checkTarget = `'${data.target}'로`;
           }
-          if(i % 2 === 0) {
+          if (i % 2 === 0) {
             return (
               <ListGroupItem bsStyle="warning">
                 {editedDate[0]}년 {editedDate[1]}월 {editedDate[2]}일, {checkTarget} {checkTypes}
               </ListGroupItem>
-            )
+            );
           }
           return (
             <ListGroupItem>
               {editedDate[0]}년 {editedDate[1]}월 {editedDate[2]}일, {checkTarget} {checkTypes}
             </ListGroupItem>
-          )
+          );
         })}
         </ListGroup>
       </div>

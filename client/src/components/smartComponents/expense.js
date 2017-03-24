@@ -42,9 +42,9 @@ class Expense extends Component {
       expenses,
     } = this.props;
     // console.log(11, expenses);
-    let result = [];
-    for(let i = 0; i < expenses.length; i += 1) {
-      if(expenses[i].payment_date) {
+    const result = [];
+    for (let i = 0; i < expenses.length; i += 1) {
+      if (expenses[i].payment_date) {
         const expenseDate = expenses[i].payment_date.substring(2, 10);
         const expenseAmount = commafy(expenses[i].amount);
         const data = Object.assign({}, expenses[i], {

@@ -67,11 +67,20 @@ class Payment extends Component {
   }
 
   render() {
-    console.log(this.props.payments);
     const {
       payments,
     } = this.props;
-    console.log(this.props.payments);
+
+    const objArr = [];
+    for (let i = 0; i < payments.length; i += 1) {
+      const startDate = payments[i].start_date.substring(2, 10);
+      const endDate = payments[i].end_date.substring(2, 10);
+      const data = Object.assign({}, payments[i], {
+        start_date: startDate,
+        end_date: endDate,
+      })
+      objArr.push(data);
+    }
 
     const cellEditProp = {
       mode: 'click',
@@ -127,7 +136,7 @@ class Payment extends Component {
             <TableHeaderColumn dataField="payment_method" dataSort={true}>payment_method</TableHeaderColumn>*/}
 
           <BootstrapTable
-            data={payments}
+            data={objArr}
             pagination
             striped
             search
