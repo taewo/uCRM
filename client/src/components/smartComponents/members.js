@@ -15,16 +15,27 @@ class Members extends Component {
     super(props);
 
     this.open = this.open.bind(this);
-    // this.delete = this.delete.bind(this);
+    this.deleteMember = this.deleteMember.bind(this);
+    this.openDeleteModal = this.openDeleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    // this.handleRowSelect = this.handleRowSelect.bind(this);
+    this.handleRowSelect = this.handleRowSelect.bind(this);
     this.state = {
       showModal: false,
+      showDeleteModal: false,
+      endReason: null,
     };
   }
 
   componentDidMount() {
     this.props.membersShow();
+  }
+
+  handleRowSelect(row, isSelected, e) {
+    if (isSelected) {
+      const memberId = row.id
+      this.props.memberId(memberId);
+      return memberId;
+    }
   }
 
   open() {
@@ -35,16 +46,76 @@ class Members extends Component {
   // TODO
   // delete 완성할것 !!!
 
-  // delete() {
-  //
-  //   return
-  // }
+  openDeleteModal() {
+    this.setState({
+      showDeleteModal: true,
+    });
+  }
 
   closeModal() {
     this.setState({
       showModal: false,
     });
   }
+
+  closeDeleteModal() {
+    this.setState({
+      showDeleteModal: false,
+    });
+  }
+
+  deleteMember() {
+    const memberId = this.props.Id;
+    if (!memberId) {
+      console.log('member come in')
+    }
+
+    const endResonAxios = () => {
+      const endReason = this.state.endReason;
+      const API_URL = 'http://localhost:4000/api';
+      const instance = {
+        headers: {
+          token: sessionStorage.getItem('userToken'),
+        },
+      };
+      return axios({
+        method: 'delete',
+        url: `${API_URL}/member`,
+        headers: instance.headers,
+        data: {
+          member_id: memberId,
+          end_reason: endReason,
+        },
+      })
+      .then((res) => {
+        this.closeDeleteModal();
+        console.log(res);
+      });
+    };
+
+    return (
+      <Modal show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>
+        <Modal.Header>
+          <Modal.Title>what is end_reason?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Button onClick={()=>{this.setState({endReason:'이직'})}}>이직</Button>
+          <Button onClick={(e)=>{this.setState({endReason:'이직'})}}>이전</Button>
+          <Button onClick={(e)=>{this.setState({endReason:'이직'})}}>금전적사유</Button>
+          <Button onClick={(e)=>{this.setState({endReason:'확장'})}}>확장</Button>
+          <Button onClick={(e)=>{this.setState({endReason:'불만족'})}}>불만족</Button>
+        </Modal.Body>
+        <Modal.Footer>
+         <Button
+           onClick={endResonAxios}
+          >
+          Delete
+        </Button>
+       </Modal.Footer>
+      </Modal>
+    )
+  }
+
 
   // handleRowSelect(row, isSelected, e) {
   //   if (isSelected) {
@@ -57,10 +128,11 @@ class Members extends Component {
   // }
 
   render() {
+
     const {
       members,
     } = this.props;
-    console.log(111, this.props.members);
+
     let result = [];
     for (let i = 0; i < members.length; i += 1) {
       if (members[i].joined_date) {
@@ -72,14 +144,12 @@ class Members extends Component {
             end_date: endDate,
           });
           result.push(data)
-          console.log(999, result);
         } else {
           const joinDate = members[i].joined_date.substring(2, 10);
           const data = Object.assign({}, members[i], {
             joined_date: joinDate,
           });
           result.push(data)
-          console.log(888, result);
         }
       }
     }
@@ -90,11 +160,11 @@ class Members extends Component {
     };
 
     const selectRow = {
-      mode: 'checkbox',
+      mode: 'radio',
       clickToSelect: true,  // click to select, default is false
       clickToExpand: true,  // click to expand row, default is false
       // selected: this.props.selectedOrganizations,
-      // onSelect: this.handleRowSelect,
+      onSelect: this.handleRowSelect,
     };
 
     // const memberList = this.props.members.map((member) => {
@@ -140,7 +210,7 @@ class Members extends Component {
             </Button>
             <Button
               bsStyle="danger"
-              onClick={this.delete}
+              onClick={this.openDeleteModal}
             >
               Delete
             </Button>
@@ -170,6 +240,7 @@ class Members extends Component {
             <AddMembers closeModal={this.closeModal} />
           </Modal.Header>
         </Modal>
+        {this.deleteMember()}
       </div>
 
     );
@@ -178,11 +249,12 @@ class Members extends Component {
 
 const mapStateToProps = state => ({
   members: state.membersReducer.members,
+  Id: state.membersReducer.memberId,
 });
 
 const mapDispatchToProps = dispatch => ({
   membersShow: () => { dispatch(membersActions.membersShow()); },
-
+  memberId: memberId => dispatch(membersActions.memberId(memberId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Members);

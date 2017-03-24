@@ -61,7 +61,7 @@ class AddMembers extends Component {
       browserHistory.push('/admin/manage/members');
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err.response.data);
     });
   }
 
