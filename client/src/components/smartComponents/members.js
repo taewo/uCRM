@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
 import axios from 'axios';

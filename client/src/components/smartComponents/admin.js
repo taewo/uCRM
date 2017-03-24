@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonGroup, Button, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { connect } from 'react-redux';
 
 import { tokenChecker } from '../../config';
 const manageImg = require('../../../image/manage.svg');
@@ -27,38 +28,52 @@ class Admin extends Component {
   }
 
   render() {
+    const pathname = this.props.pathname;
+
+    const menuList = [{
+      to: '/admin/manage/dashboard',
+      indexURL: '/admin/manage',
+      className: 'admin_button',
+      src: manageImg,
+      text: '관리',
+    }, {
+      to: '/admin/report/churn',
+      indexURL: '/admin/report',
+      className: 'admin_button',
+      src: reportImg,
+      text: '분석',
+    }, {
+      to: '/admin/finance/expense',
+      indexURL: '/admin/finance',
+      className: 'admin_button',
+      src: financeImg,
+      text: '장부',
+    }, {
+      to: '/admin/setting/basic',
+      indexURL: '/admin/setting',
+      className: 'admin_button',
+      src: settingImg,
+      text: '설정',
+    }];
+
+    const linkContainers = menuList.map((menuData) => {
+      const className = `${menuData.className} ${pathname.indexOf(menuData.indexURL) === 0 ? 'active' : ''}`;
+      return (
+        <LinkContainer to={menuData.to}>
+          <Button className={className} style={adminButtonStyle}>
+            <img src={menuData.src} alt="manage" className="adminImgSize" />
+            <br />
+            {menuData.text}
+          </Button>
+        </LinkContainer>
+      );
+    });
+
     return (
       <div className="admin" style={adminStyle}>
         <div className="Amdin">
           <ButtonGroup vertical className="admin_button" style={adminButtonStyle}>
-            <LinkContainer to="/admin/manage/dashboard">
-              <Button className="admin_button" style={adminButtonStyle}>
-                <img src={manageImg} alt="manage" className="adminImgSize"/>
-                <br />
-                관리
-              </Button>
-            </LinkContainer>
-            <LinkContainer to="/admin/report/churn">
-              <Button className="admin_button" style={adminButtonStyle}>
-                <img src={reportImg} alt="report" className="adminImgSize"/>
-                <br />
-                분석
-              </Button>
-            </LinkContainer>
-            <LinkContainer to="/admin/finance/expense">
-              <Button className="admin_button" style={adminButtonStyle}>
-                <img src={financeImg} alt="finance" className="adminImgSize"/>
-                <br />
-                장부
-              </Button>
-            </LinkContainer>
-            <LinkContainer to="/admin/setting/basic">
-              <Button className="admin_button" style={adminButtonStyle}>
-                <img src={settingImg} alt="setting" className="adminImgSize"/>
-                <br />
-                설정
-              </Button>
-            </LinkContainer>
+            {linkContainers}
           </ButtonGroup>
         </div>
           {this.props.children}
@@ -66,6 +81,8 @@ class Admin extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  pathname: state.routing.locationBeforeTransitions.pathname,
+});
 
-
-export default Admin;
+export default connect(mapStateToProps)(Admin);

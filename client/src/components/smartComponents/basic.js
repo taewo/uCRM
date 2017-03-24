@@ -1,47 +1,42 @@
 import React, { Component } from 'react';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as basicActions from '../../actions/basicActions';
 import '../../../public/style.css';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
-
 
 class Basic extends Component {
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.basicShow();
   }
   render() {
-    if(!this.props.basicData) {
+    const {
+      basicData,
+    } = this.props;
+    if (!basicData) {
       return (
         <div> .</div>
       );
-    } else {
-      console.log(999, this.props.basicData)
-      const basicName = this.props.basicData[0].name;
-      const dataArr = [];
-      const obj = {};
-      this.props.basicData.shift();
-      this.props.basicData.map((data, i) => {
-        obj.name = data.name;
-        obj.address = data.address;
-        obj.max_desks = data.max_desks;
-      });
-      dataArr.push(obj);
-      return (
-        <div className="Basic">
-          <PageHeader className="basic_header">
-            <mediam>
-              {basicName}
-            </mediam>
-          </PageHeader>
-          <BootstrapTable data={dataArr} striped>
-            <TableHeaderColumn dataField='name' isKey>공간이름</TableHeaderColumn>
-            <TableHeaderColumn dataField='address'>주소</TableHeaderColumn>
-            <TableHeaderColumn dataField='max_desks'>최대인원</TableHeaderColumn>
-          </BootstrapTable>
-        </div>
-      );
-    }
+  
+    console.log(999, basicData);
+    const basicName = basicData[0].name;
+    const dataArr = [basicData[1]];
+    console.log(basicName);
+    return (
+      <div className="Basic">
+        <PageHeader className="basic_header">
+          <mediam>
+            사용자 : {basicName}
+          </mediam>
+        </PageHeader>
+        <BootstrapTable data={dataArr} striped>
+          <TableHeaderColumn dataField="name" isKey>공간이름</TableHeaderColumn>
+          <TableHeaderColumn dataField="address">주소</TableHeaderColumn>
+          <TableHeaderColumn dataField="max_desks">최대인원</TableHeaderColumn>
+        </BootstrapTable>
+      </div>
+    );
   }
 }
 
