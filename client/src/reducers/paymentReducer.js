@@ -4,6 +4,7 @@ const initialState = {
   payments: [],
   Id: null,
   billplan: [],
+  memberData: [],
 };
 
 const paymentReducer = (state = initialState, action) => {
@@ -18,10 +19,15 @@ const paymentReducer = (state = initialState, action) => {
         ...state,
         Id: action.Id,
       };
-    case types.PAMENT_BILLPLAN_DATA:
+    case types.PAYMENT_BILLPLAN_DATA:
       return {
         ...state,
         billplan: action.billplan,
+      }
+    case types.PAYMENT_MEMBER_DATA:
+      return {
+        ...state,
+        memberData: action.memberData,
       }
     default:
       return state;

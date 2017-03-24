@@ -70,18 +70,7 @@ class Payment extends Component {
     const {
       payments,
     } = this.props;
-
-    const objArr = [];
-    for (let i = 0; i < payments.length; i += 1) {
-      const startDate = payments[i].start_date.substring(2, 10);
-      const endDate = payments[i].end_date.substring(2, 10);
-      const data = Object.assign({}, payments[i], {
-        start_date: startDate,
-        end_date: endDate,
-      })
-      objArr.push(data);
-    }
-
+    console.log(this.props.payments);
     const cellEditProp = {
       mode: 'click',
       blurToSave: true,
@@ -153,7 +142,7 @@ class Payment extends Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Add Payment</Modal.Title>
-            <AddPayment closeModal={this.closeModal} Id={this.props.Id} />
+            <AddPayment closeModal={this.closeModal} Id={this.props.Id} paymentShow={this.props.paymentShow} />
           </Modal.Header>
         </Modal>
       </div>

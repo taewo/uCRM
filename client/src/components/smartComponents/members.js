@@ -17,6 +17,7 @@ class Members extends Component {
     this.deleteMember = this.deleteMember.bind(this);
     this.openDeleteModal = this.openDeleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.closeDeleteModal = this.closeDeleteModal.bind(this);
     this.handleRowSelect = this.handleRowSelect.bind(this);
     this.state = {
       showModal: false,
@@ -88,6 +89,7 @@ class Members extends Component {
       })
       .then((res) => {
         this.closeDeleteModal();
+        this.props.membersShow();
         console.log(res);
       });
     };
@@ -233,7 +235,7 @@ class Members extends Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Add Member</Modal.Title>
-            <AddMembers closeModal={this.closeModal} />
+            <AddMembers closeModal={this.closeModal} memberShow={this.props.membersShow} />
           </Modal.Header>
         </Modal>
         {this.deleteMember()}
@@ -244,27 +246,6 @@ class Members extends Component {
           </mediam>
         </PageHeader>
 
-        <div>
-          <ButtonToolbar className="member_buttonToolbar">
-            <Button
-              bsStyle="primary"
-              onClick={this.open}
-            >
-              Add
-            </Button>
-            <Button
-              bsStyle="warning"
-            >
-              Modify
-            </Button>
-            <Button
-              bsStyle="danger"
-              onClick={this.openDeleteModal}
-            >
-              Delete
-            </Button>
-          </ButtonToolbar>
-        </div>
         <div>
           <BootstrapTable
             data={outdatedMember}
@@ -285,7 +266,7 @@ class Members extends Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Add Member</Modal.Title>
-            <AddMembers closeModal={this.closeModal} />
+            <AddMembers closeModal={this.closeModal} memberShow={this.props.membersShow} />
           </Modal.Header>
         </Modal>
         {this.deleteMember()}

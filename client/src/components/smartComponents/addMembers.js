@@ -58,7 +58,7 @@ class AddMembers extends Component {
     .then((res) => {
       console.log(res);
       this.props.closeModal();
-      browserHistory.push('/admin/manage/members');
+      this.props.memberShow();
     })
     .catch((err) => {
       console.log(err.response.data);

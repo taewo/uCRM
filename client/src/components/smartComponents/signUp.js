@@ -38,7 +38,7 @@ class SignUp extends Component {
         SignUp
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
-            <Modal.Title>Login</Modal.Title>
+            <Modal.Title>회원가입</Modal.Title>
             <Userid signUpUserid={this.props.signUpUserid} />
             <Password signUpPassword={this.props.signUpPassword} />
             <Name signUpName={this.props.signUpName} />

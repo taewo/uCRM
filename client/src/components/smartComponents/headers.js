@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import SignUp from './signUp';
 import LogOut from './logOut';
 import LogIn from './logIn';
+import Select from './select';
+import Homes from './homes';
 import SelectSpace from './selectSpace';
 
 const CrmImg = require('../../../image/crm.svg');
@@ -13,9 +15,7 @@ const CrmImg = require('../../../image/crm.svg');
 const HeadersStyle = {
   height: '100%',
 };
-const CrmImgStyle = {
-  width: '4px',
-};
+
 
 class Headers extends Component {
   render() {
@@ -34,8 +34,8 @@ class Headers extends Component {
                 <LinkContainer to="/">
                   <NavItem eventKey={1}>Home</NavItem>
                 </LinkContainer>
+                <Select />
                 <LogOut />
-                <SignUp />
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -54,9 +54,6 @@ class Headers extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav pullRight>
-                <LinkContainer to="/">
-                  <NavItem eventKey={1}>Home</NavItem>
-                </LinkContainer>
                 <LogIn />
                 <SignUp />
               </Nav>
