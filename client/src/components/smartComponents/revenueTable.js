@@ -14,10 +14,11 @@ class RevenueTable extends ReportTable {
         delta.expense = this.getDelta(this.props.data[1].expense, this.props.data[0].expense);
         delta.balance = this.getDelta(this.props.data[1].balance, this.props.data[0].balance);
         this.props.data.forEach((rows) => {
-          rows.revenues = this.ToAccountingFormat(rows.revenues);
-          rows.expense = this.ToAccountingFormat(rows.expense);
-          rows.balance = this.ToAccountingFormat(rows.balance);
-          dataset.push(rows);
+          const newRow = Object.assign({}, rows);
+          newRow.revenues = this.ToAccountingFormat(newRow.revenues);
+          newRow.expense = this.ToAccountingFormat(newRow.expense);
+          newRow.balance = this.ToAccountingFormat(newRow.balance);
+          dataset.push(newRow);
         });
         dataset.push(delta);
       } else if (this.props.type === '이번달이익세부분석' || this.props.type === '요금제별연간이익분석') {
