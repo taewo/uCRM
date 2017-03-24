@@ -6,7 +6,7 @@ import '../../../public/style.css';
 const allMemberImg = require('../../../image/allMember.svg');
 const currentMemberImg = require('../../../image/currentMember.svg');
 const latestActivityImg = require('../../../image/latestActivity.svg');
-
+const Spinner = require('react-spinner');
 
 class Dashboard extends Component {
   componentDidMount() {

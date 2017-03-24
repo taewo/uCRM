@@ -89,15 +89,15 @@ class Space extends Component {
               search
               exportCSV
             >
-              <TableHeaderColumn dataField="name" isKey dataSort>공간</TableHeaderColumn>
-              <TableHeaderColumn dataField="address" dataSort>장소</TableHeaderColumn>
+              <TableHeaderColumn dataField="name" isKey dataSort>공간이름</TableHeaderColumn>
+              <TableHeaderColumn dataField="address" dataSort>주소</TableHeaderColumn>
               <TableHeaderColumn dataField="max_desks" dataSort>최대인원</TableHeaderColumn>
             </BootstrapTable>
           </div>
           <Modal show={this.state.showModal} onHide={this.closeModal}>
             <Modal.Header>
               <Modal.Title>Add Payment</Modal.Title>
-              <AddSpace closeModal={this.closeModal} />
+              <AddSpace closeModal={this.closeModal} spaceShow={this.props.spaceShow} />
             </Modal.Header>
           </Modal>
         </div>

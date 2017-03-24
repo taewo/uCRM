@@ -23,7 +23,7 @@ class Setting extends Component {
         <div className="Setting">
           <ButtonGroup vertical className="setting_button" style={settingButtonStyle}>
             <LinkContainer to="/admin/setting/basic">
-              <Button className="setting_button" style={settingButtonStyle}>기본정보</Button>
+              <Button className="setting_button" style={settingButtonStyle}>기본 설정</Button>
             </LinkContainer>
             <LinkContainer to="/admin/setting/billplan">
               <Button className="setting_button" style={settingButtonStyle}>요금제 설정</Button>

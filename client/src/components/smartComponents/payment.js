@@ -100,7 +100,7 @@ class Payment extends Component {
       <div className="Payment">
         <PageHeader className="payment_header">
           <mediam>
-            Payment
+            계약현황
           </mediam>
         </PageHeader>
 
@@ -143,10 +143,10 @@ class Payment extends Component {
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="member" isKey dataSort>member</TableHeaderColumn>
-            <TableHeaderColumn dataField="start_date" dataSort>start_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_date" dataSort>end_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="billing_plan" dataSort>billing_plan</TableHeaderColumn>
+            <TableHeaderColumn dataField="member" isKey dataSort>이름</TableHeaderColumn>
+            <TableHeaderColumn dataField="billing_plan" dataSort>요금제 설정</TableHeaderColumn>
+            <TableHeaderColumn dataField="start_date" dataSort>시작일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_date" dataSort>종료일</TableHeaderColumn>
 
           </BootstrapTable>
         </div>
