@@ -6,17 +6,17 @@ import '../../../public/style.css';
 const allMemberImg = require('../../../image/allMember.svg');
 const currentMemberImg = require('../../../image/currentMember.svg');
 const latestActivityImg = require('../../../image/latestActivity.svg');
-
+const Spinner = require('react-spinner');
 
 class Dashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dashboardShow();
   }
 
   render() {
     if(!this.props.dashboardData) {
       return (
-        <div>fail</div>
+        <div />
       )
     }
     const {activeMember, expiringPayment, leadCount, latestActivity} = this.props.dashboardData

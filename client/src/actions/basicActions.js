@@ -25,7 +25,7 @@ export function basicShow() {
       headers: token,
     })
     .then((res) => {
-      console.log('res22332', res.data);
+      console.log('res22332', JSON.stringify(res.data));
       dispatch(basicData(res.data));
     })
     .catch((err) => {
