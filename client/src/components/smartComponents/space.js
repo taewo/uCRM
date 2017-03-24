@@ -14,7 +14,7 @@ class Space extends Component {
     if(!this.props.spaceData) {
       return (
         <div>
-          fail
+          .
         </div>
       )
     } else {
