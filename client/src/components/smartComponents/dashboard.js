@@ -82,6 +82,9 @@ class Dashboard extends Component {
           } else if (dataType === 'lead_방문') {
             checkTypes = '직접 방문해주셨습니다.';
             checkTarget = `'${data.target}'님께서`;
+          } else if (dataType === 'lead_홈페이지') {
+            checkTypes = '홈페이지로 문의해주셨습니다.';
+            checkTarget = `'${data.target}'님께서`;
           } else if (dataType === 'expense_creation') {
             checkTypes = '지출하였습니다.';
             checkTarget = `'${data.target}'로`;
