@@ -132,25 +132,25 @@ class Members extends Component {
     const {
       members,
     } = this.props;
-
-    let result = [];
+    console.log(members);
+    let curruentMember = [];
+    let outdatedMember = [];
     for (let i = 0; i < members.length; i += 1) {
-      if (members[i].joined_date) {
-        if (members[i].end_date) {
-          const joinDate = members[i].joined_date.substring(2, 10);
-          const endDate = members[i].end_date.substring(2, 10);
-          const data = Object.assign({}, members[i], {
-            joined_date: joinDate,
-            end_date: endDate,
-          });
-          result.push(data)
-        } else {
-          const joinDate = members[i].joined_date.substring(2, 10);
-          const data = Object.assign({}, members[i], {
-            joined_date: joinDate,
-          });
-          result.push(data)
-        }
+      if (!members[i].end_date) {
+        const joinDate = members[i].joined_date.substring(2, 10);
+        const data = Object.assign({}, members[i], {
+          joined_date: joinDate,
+        });
+        curruentMember.push(data)
+      }
+      else {
+        const joinDate = members[i].joined_date.substring(2, 10);
+        const endDate = members[i].end_date.substring(2, 10);
+        const data = Object.assign({}, members[i], {
+          joined_date: joinDate,
+          end_date: endDate,
+        });
+        outdatedMember.push(data)
       }
     }
 
@@ -191,7 +191,7 @@ class Members extends Component {
       <div className="Member">
         <PageHeader className="member_header">
           <mediam>
-            멤버
+            현재 입주 멤버
           </mediam>
         </PageHeader>
 
@@ -218,7 +218,7 @@ class Members extends Component {
         </div>
         <div>
           <BootstrapTable
-            data={result}
+            data={curruentMember}
             pagination
             striped
             search
@@ -227,11 +227,60 @@ class Members extends Component {
           >
             <TableHeaderColumn dataField="name" isKey dataSort>이름</TableHeaderColumn>
             <TableHeaderColumn dataField="joined_date" dataSort>입주일</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_date" dataSort>계약종료일</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_reason" dataSort>종료사유</TableHeaderColumn>
             <TableHeaderColumn dataField="mobile" dataSort>휴대폰</TableHeaderColumn>
             <TableHeaderColumn dataField="email" dataSort>이메일</TableHeaderColumn>
-            <TableHeaderColumn dataField="gender" dataSort>성별</TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+        <Modal show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header>
+            <Modal.Title>Add Member</Modal.Title>
+            <AddMembers closeModal={this.closeModal} />
+          </Modal.Header>
+        </Modal>
+        {this.deleteMember()}
+
+        <PageHeader className="member_header">
+          <mediam>
+            계약 만료 멤버
+          </mediam>
+        </PageHeader>
+
+        <div>
+          <ButtonToolbar className="member_buttonToolbar">
+            <Button
+              bsStyle="primary"
+              onClick={this.open}
+            >
+              Add
+            </Button>
+            <Button
+              bsStyle="warning"
+            >
+              Modify
+            </Button>
+            <Button
+              bsStyle="danger"
+              onClick={this.openDeleteModal}
+            >
+              Delete
+            </Button>
+          </ButtonToolbar>
+        </div>
+        <div>
+          <BootstrapTable
+            data={outdatedMember}
+            pagination
+            striped
+            search
+            exportCSV
+            selectRow={selectRow}
+          >
+            <TableHeaderColumn dataField="name" isKey dataSort>이름</TableHeaderColumn>
+            <TableHeaderColumn dataField="joined_date" dataSort>입주일</TableHeaderColumn>
+            <TableHeaderColumn dataField="mobile" dataSort>휴대폰</TableHeaderColumn>
+            <TableHeaderColumn dataField="email" dataSort>이메일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_date" dataSort>계약종료일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_reason" dataSort>종료사유</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

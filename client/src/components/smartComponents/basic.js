@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as basicActions from '../../actions/basicActions';
 import '../../../public/style.css';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
+
 
 class Basic extends Component {
   componentWillMount() {
@@ -28,9 +30,12 @@ class Basic extends Component {
       });
       dataArr.push(obj);
       return (
-        <div>
-          <h3>{basicName}</h3>
-          <br />
+        <div className="Basic">
+          <PageHeader className="basic_header">
+            <mediam>
+              {basicName}
+            </mediam>
+          </PageHeader>
           <BootstrapTable data={dataArr} striped>
             <TableHeaderColumn dataField='name' isKey>공간이름</TableHeaderColumn>
             <TableHeaderColumn dataField='address'>주소</TableHeaderColumn>

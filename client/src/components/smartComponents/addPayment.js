@@ -92,7 +92,7 @@ class AddPayment extends Component {
 
     const memberId = this.props.Id;
     const billplanData = this.props.billplanData;
-    const spaceId = sessionStorage.getItem('userSpaceListId');
+    const spaceId = parseInt(sessionStorage.getItem('userSpaceListId'));
     const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
@@ -108,7 +108,6 @@ class AddPayment extends Component {
         space_id: spaceId,
         member_id: memberId,
         bill_plan_id: data.billplanId,
-        scheduled_date: data.scheduledDate,
         start_date: data.startDate,
         end_date: data.endDate,
         payment_method: data.method,
