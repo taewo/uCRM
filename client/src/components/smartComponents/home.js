@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const HomeImg = require('../../../image/final_landing.png');
+const HomeImg = require('../../../image/Final_landing123.png');
 
 // const HomeStyle = {
 //   width: '100%',

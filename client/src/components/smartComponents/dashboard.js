@@ -37,7 +37,7 @@ class Dashboard extends Component {
           <div className="dashboard_panel">
             <Panel header={title1} bsStyle="danger">
               <img src={allMemberImg} alt="adf"/>
-                <h3>현재 멤버수 : </h3><strong> <h2>{this.props.dashboardData.activeMember}</h2></strong>
+                현재 멤버수 : {this.props.dashboardData.activeMember}
             </Panel>
           </div>
         </div>
