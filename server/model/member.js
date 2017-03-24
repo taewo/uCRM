@@ -64,7 +64,12 @@ module.exports = {
     return Auth.checkIfUserHasMember(req)
     .then((hasMember) => {
       if (hasMember) {
-        return Member.isMemberActive(memberid)
+        const endReason = req.body.end_reason
+        const endReasonChecker = (endReason === '이직' || endReason === '이전' || endReason === '금전적사유'
+                                  || endReason === '확장' || endReason === '불만족' || endReason === '입력오류');
+        return endReasonChecker
+        ? Member.isMemberActive(memberid)
+        : Promise.reject('Error: invalid end reason')
         .then((active) => {
           if (active) {
             return Member.deleteMember(req.body)
