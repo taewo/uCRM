@@ -52,6 +52,7 @@ class Login extends Component {
       return console.log('시작');
     }
     const showId = data.map((spaceData, i) => {
+      console.log(987, spaceData);
       return (
         <Button
           key={`space-${i}`}
@@ -76,7 +77,7 @@ class Login extends Component {
   render() {
     return (
       <NavItem eventKey={2} onClick={this.open}>
-        Login
+        Login1
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Login</Modal.Title>

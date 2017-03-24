@@ -16,9 +16,9 @@ class Basic extends Component {
     } = this.props;
     if (!basicData) {
       return (
-        <div />
+        <div> .</div>
       );
-    }
+  
     console.log(999, basicData);
     const basicName = basicData[0].name;
     const dataArr = [basicData[1]];

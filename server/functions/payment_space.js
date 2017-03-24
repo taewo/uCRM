@@ -1,5 +1,4 @@
 const PaymentSpace = require('../db/payment_space');
-const Space = require('../db/space');
 
 module.exports = {
   getPaymentSpace(spaceid) {
