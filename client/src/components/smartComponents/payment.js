@@ -28,11 +28,11 @@ class Payment extends Component {
   }
 
   handleRowSelect(row, isSelected, e) {
-  if(isSelected) {
-    const memberPayment = row.id
-    this.props.paymentMemberId(memberPayment);
-    console.log(memberPayment);
-    return memberPayment;
+    if (isSelected) {
+      const paymentMemberId = row.id
+      this.props.paymentMemberId(paymentMemberId);
+      console.log(paymentMemberId);
+      return paymentMemberId;
     }
   }
 
