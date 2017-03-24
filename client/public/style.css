@@ -8,13 +8,22 @@ html, body{
   height: 100%;
 }
 
+.homeImg {
+    height:100%;
+    width:100%;
+    position:static;
+    top:-100%; bottom:-100%;
+    left:-100%; right:-100%;
+    margin:auto;
+}
+
 .Report {
   width: 50%;
 }
 
 .dashoboard_container {
   padding: 10px;
-  border: 1px solid green;
+  /*border: 1px solid green;*/
   margin: auto;
   width: 90%;
   text-align: center;
