@@ -2,6 +2,7 @@ import * as types from '../actions/types';
 
 const initialState = {
   members: [],
+  memberId: null,
 };
 
 const membersReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const membersReducer = (state = initialState, action) => {
       return {
         ...state,
         members: action.members,
+      };
+    case types.MEMBERS_ID:
+      return {
+        ...state,
+        memberId: action.memberId,
       };
     default:
       return state;

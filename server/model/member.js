@@ -63,9 +63,16 @@ module.exports = {
     const memberid = req.body.member_id;
     return Auth.checkIfUserHasMember(req)
     .then((hasMember) => {
+      const endReason = req.body.end_reason
+      const endReasonChecker = (endReason === '이직' || endReason === '이전' || endReason === '금전적사유'
+                                || endReason === '확장' || endReason === '불만족' || endReason === '입력오류');
+      if (!endReasonChecker) {
+        return Promise.reject('Error: invalid end reason');
+      }
       if (hasMember) {
         return Member.isMemberActive(memberid)
         .then((active) => {
+          console.log('act', active);
           if (active) {
             return Member.deleteMember(req.body)
             .then(() => {

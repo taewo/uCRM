@@ -15,7 +15,7 @@ const adminStyle = {
 };
 
 const adminButtonStyle = {
-  height: '40%',
+  height: '37%',
   border: 'none',
   // backgroundColor: 'rgb(5, 51, 178)',
 };

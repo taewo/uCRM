@@ -3,11 +3,37 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as spaceActions from '../../actions/spaceActions';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
+
+import AddSpace from './addSpace';
 
 class Space extends Component {
-  componentWillMount() {
+
+  constructor(props) {
+    super(props);
+
+    this.open = this.open.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.state = {
+      showModal: false,
+    };
+  }
+
+  componentDidMount() {
     console.log('will mount');
     this.props.spaceShow();
+  }
+
+  open() {
+    this.setState({
+      showModal: true,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      showModal: false,
+    });
   }
 
   render() {
@@ -27,14 +53,53 @@ class Space extends Component {
         dataArr.push(dataObj);
       })
       return (
-        <div>
-          <h3>공간</h3>
-          <br />
-            <BootstrapTable data={dataArr} >
-              <TableHeaderColumn dataField='name' isKey>공간</TableHeaderColumn>
-              <TableHeaderColumn dataField='address'>장소</TableHeaderColumn>
-              <TableHeaderColumn dataField='max_desks'>최대인원</TableHeaderColumn>
+        <div className="Space">
+          <PageHeader className="space_header">
+            <mediam>
+              공간
+            </mediam>
+          </PageHeader>
+
+          <div>
+            <ButtonToolbar className="space_buttonToolbar">
+              <Button
+                bsStyle="primary"
+                onClick={this.open}
+              >
+                Add
+              </Button>
+              <Button
+                bsStyle="warning"
+              >
+                Modify
+              </Button>
+              <Button
+                bsStyle="danger"
+                onClick={this.delete}
+              >
+                Delete
+              </Button>
+            </ButtonToolbar>
+          </div>
+          <div>
+            <BootstrapTable
+              data={dataArr}
+              pagination
+              striped
+              search
+              exportCSV
+            >
+              <TableHeaderColumn dataField="name" isKey dataSort>공간</TableHeaderColumn>
+              <TableHeaderColumn dataField="address" dataSort>장소</TableHeaderColumn>
+              <TableHeaderColumn dataField="max_desks" dataSort>최대인원</TableHeaderColumn>
             </BootstrapTable>
+          </div>
+          <Modal show={this.state.showModal} onHide={this.closeModal}>
+            <Modal.Header>
+              <Modal.Title>Add Payment</Modal.Title>
+              <AddSpace closeModal={this.closeModal} />
+            </Modal.Header>
+          </Modal>
         </div>
       )
     }

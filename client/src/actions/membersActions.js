@@ -7,6 +7,11 @@ export const membersData = members => ({
   members,
 });
 
+export const memberId = memberId => ({
+  type: types.MEMBERS_ID,
+  memberId,
+});
+
 export function membersShow() {
   return (dispatch) => {
     console.log('come in membersShow');

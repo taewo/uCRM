@@ -3,7 +3,7 @@ const Activity = require('../db/activity');
 module.exports = {
   getActivity(spaceid) {
     return Activity
-    .query('orderBy', 'date', 'DESC')
+    .query('orderBy', 'id', 'DESC')
     // .query(function(qb) {return qb.orderBy('date', 'DESC')}) // this also works
     .where({ space_id: spaceid })
     .fetchAll()
