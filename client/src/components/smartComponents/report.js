@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { MiddlebarChurn, MiddlebarReportLead, MiddlebarReportSpace, MiddlebarRevenue } from '../dummyComponents/onReport';
 
 const reportButtonStyle = {
-  height: '35%',
+  height: '37%',
   border: 'none',
 };
 
@@ -14,7 +14,6 @@ const reportStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
-  border: 'none',
 };
 
 

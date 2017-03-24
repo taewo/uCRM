@@ -12,7 +12,7 @@ const settingStyle = {
 };
 
 const settingButtonStyle = {
-  height: '35%',
+  height: '37%',
   border: 'none',
 };
 

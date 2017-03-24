@@ -39,9 +39,7 @@ class BillPlan extends Component {
   render() {
     if(!this.props.billPlanData) {
       return (
-        <div>
-          fail
-        </div>
+        <div />
       )
     } else {
       const dataArr = [];

@@ -8,6 +8,7 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import * as paymentActions from '../../actions/paymentActions';
 
 const methods = ['현금', '계좌이체', '카드'];
 
@@ -23,14 +24,20 @@ class AddPayment extends Component {
     this.handleEndDayClick = this.handleEndDayClick.bind(this);
     this.submitData = this.submitData.bind(this);
     this.handleMethodClick = this.handleMethodClick.bind(this);
+    this.handleMemberClick = this.handleMemberClick.bind(this);
     this.handleBillplanClick = this.handleBillplanClick.bind(this);
     this.state = {
       selectedStartDay: new Date(),
       selectedScheduleDay: new Date(),
       selectedEndDay: new Date(),
       selectedMethod: null,
+      selectedMember: null,
       selectedBillplan: null,
     };
+  }
+
+  componentDidMount() {
+    this.props.paymentDataShow();
   }
 
   handleScheduleDayClick(day, { disabled, selected }) {
@@ -66,6 +73,13 @@ class AddPayment extends Component {
     });
   }
 
+  handleMemberClick(member) {
+    this.setState({
+      selectedMember: member,
+    });
+  }
+
+
   handleBillplanClick(billplanName) {
     this.setState({
       selectedBillplan: billplanName,
@@ -87,6 +101,7 @@ class AddPayment extends Component {
       startDate: this.state.selectedStartDay,
       endDate: this.state.selectedEndDay,
       method: this.state.selectedMethod,
+      memberId: this.state.selectedMember.id,
       billplanId,
     });
 
@@ -106,7 +121,7 @@ class AddPayment extends Component {
       headers: instance.headers,
       data: {
         space_id: spaceId,
-        member_id: memberId,
+        member_id: data.memberId,
         bill_plan_id: data.billplanId,
         start_date: data.startDate,
         end_date: data.endDate,
@@ -116,7 +131,7 @@ class AddPayment extends Component {
     .then((res) => {
       this.props.closeModal();
       console.log(res);
-      browserHistory.push('/admin/finance/payment');
+      this.props.paymentShow();
     })
     .catch((err) => {
       console.log(err.response.data);
@@ -129,10 +144,21 @@ class AddPayment extends Component {
     billplan.forEach((data) => {
       billplanName.push(data.name);
     });
+    const memberData = this.props.memberData;
     const { handleSubmit, pristine, reset, submitting } = this.props;
     return (
       <div>
         <form id="payment" onSubmit={handleSubmit(this.submitData)}>
+          <div>
+            <label>멤버</label>
+            <DropdownList
+              data={memberData}
+              valueField="id"
+              textField="name"
+              value={this.state.selectedMember}
+              onChange={this.handleMemberClick}
+            />
+          </div>
           <div>
             <label>결제방법</label>
             <DropdownList
@@ -198,10 +224,16 @@ class AddPayment extends Component {
 const mapStateToProps = state => ({
   billplan: state.paymentReducer.billplan,
   Id: state.paymentReducer.Id,
+  memberData: state.paymentReducer.memberData,
 });
+
+const mapDispatchToProps = dispatch => ({
+  paymentDataShow: () => dispatch(paymentActions.paymentDataShow()),
+});
+
 
 export default reduxForm({
   // form: 'reactWidgets',
   form: 'simple',
-})(connect(mapStateToProps, null)(AddPayment));
+})(connect(mapStateToProps, mapDispatchToProps)(AddPayment));
 // })(AddPayment);

@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import { ButtonGroup, Button, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
-
 import { tokenChecker } from '../../config';
+
 const manageImg = require('../../../image/manage.svg');
 const reportImg = require('../../../image/report1.svg');
 const financeImg = require('../../../image/finance2.svg');
 const settingImg = require('../../../image/settings.svg');
-
-const adminStyle = {
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'row',
-};
 
 const adminButtonStyle = {
   height: '37%',
@@ -21,8 +15,16 @@ const adminButtonStyle = {
   // backgroundColor: 'rgb(5, 51, 178)',
 };
 
-class Admin extends Component {
+const adminStyle = {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+};
 
+
+
+class Admin extends Component {
   componentDidMount() {
     tokenChecker();
   }
@@ -81,6 +83,7 @@ class Admin extends Component {
     );
   }
 }
+
 const mapStateToProps = state => ({
   pathname: state.routing.locationBeforeTransitions.pathname,
 });

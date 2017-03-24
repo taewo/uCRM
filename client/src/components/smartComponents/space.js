@@ -39,9 +39,7 @@ class Space extends Component {
   render() {
     if(!this.props.spaceData) {
       return (
-        <div>
-          fail
-        </div>
+        <div />
       )
     } else {
       const dataArr = [];

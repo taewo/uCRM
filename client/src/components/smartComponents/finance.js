@@ -5,13 +5,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { MiddlebarExpense, MiddlebarPayment } from '../dummyComponents/onFinance';
 
 const financeStyle = {
+  width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
 };
 
 const financeButtonStyle = {
-  height: '35%',
+  height: '37%',
   border: 'none',
 };
 
