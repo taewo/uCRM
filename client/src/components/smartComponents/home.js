@@ -16,7 +16,6 @@ class Home extends Component {
     return (
       <div className="Home" >
         <img src={HomeImg} alt="home" className="homeImg"/>
-        Home
       </div>
     );
   }
