@@ -49,7 +49,7 @@ class Payment extends Component {
   }
 
   delete() {
-    const memberId = this.props.Id;
+    const paymentId = this.props.Id;
     const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
@@ -61,7 +61,7 @@ class Payment extends Component {
       url: `${API_URL}/member/payment`,
       headers: instance.headers,
       data: {
-        member_id: memberId,
+        payment_id: paymentId,
       },
     });
   }

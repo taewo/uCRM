@@ -227,11 +227,11 @@ class Members extends Component {
           >
             <TableHeaderColumn dataField="name" isKey dataSort>이름</TableHeaderColumn>
             <TableHeaderColumn dataField="joined_date" dataSort>입주일</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_date" dataSort>계약종료일</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_reason" dataSort>종료사유</TableHeaderColumn>
             <TableHeaderColumn dataField="mobile" dataSort>휴대폰</TableHeaderColumn>
             <TableHeaderColumn dataField="email" dataSort>이메일</TableHeaderColumn>
             <TableHeaderColumn dataField="gender" dataSort>성별</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_date" dataSort>계약종료일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_reason" dataSort>종료사유</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

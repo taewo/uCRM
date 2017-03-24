@@ -88,6 +88,7 @@ class AddSpace extends Component {
       },
     })
     .then((res) => {
+      this.props.closeModal();
       console.log('res', res);
       const userSpaceListId = sessionStorage.getItem('userSpaceListId');
       userSpaceListId ?

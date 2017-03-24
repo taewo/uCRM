@@ -61,16 +61,16 @@ html, body{
   margin: auto;
 }
 
-.Member, .Lead, .Expense, .Payment{
+.Member, .Lead, .Expense, .Payment, .Billplan, .Space, .Basic {
   margin-left: 3%;
   margin-right: 3%;
 }
 
-.member_buttonToolbar, .lead_buttonToolbar, .expense_buttonToolbar, .payment_buttonToolbar {
+.member_buttonToolbar, .lead_buttonToolbar, .expense_buttonToolbar, .payment_buttonToolbar, .billplan_buttonToolbar, .space_buttonToolbar, .basic_buttonToolbar{
   margin-left: 0.4%
 }
 
-.member_header, .lead_header, .expense_header, .payment_header {
+.member_header, .lead_header, .expense_header, .payment_header, .billplan_header, .space_header, .basic_header {
   margin-left: 0.7%
 }
 
