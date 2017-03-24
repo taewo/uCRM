@@ -30,7 +30,7 @@ class AddBillPlan extends Component {
     .then((res) => {
       this.props.closeModal();
       console.log('res', res);
-      browserHistory.push('/admin/setting/billplan');
+      this.props.billPlanShow();
     })
     .catch((err) => {
       console.log('err', err);

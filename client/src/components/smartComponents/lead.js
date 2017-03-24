@@ -126,7 +126,7 @@ class Lead extends Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Add Member</Modal.Title>
-            <AddLead closeModal={this.closeModal} />
+            <AddLead closeModal={this.closeModal} leadShow={this.props.leadShow}/>
           </Modal.Header>
         </Modal>
       </div>

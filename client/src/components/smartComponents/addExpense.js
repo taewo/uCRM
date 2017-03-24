@@ -83,7 +83,7 @@ class AddExpense extends Component {
     .then((res) => {
       console.log(res);
       this.props.closeModal();
-      browserHistory.push('/admin/finance/expense');
+      this.props.expenseShow();
     })
     .catch((err) => {
       console.log(err);

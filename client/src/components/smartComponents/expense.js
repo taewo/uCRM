@@ -130,7 +130,7 @@ class Expense extends Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header>
             <Modal.Title>Add Expense</Modal.Title>
-            <AddExpense closeModal={this.closeModal} />
+            <AddExpense closeModal={this.closeModal} expenseShow={this.props.expenseShow}/>
           </Modal.Header>
         </Modal>
       </div>
