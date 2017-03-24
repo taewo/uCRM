@@ -19,6 +19,12 @@ class ReportTable extends Component {
     return change;
   }
 
+  ToAccountingFormat(value) {
+    value = value.toString();
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return '₩ ' + value;
+  }
+
 }
 
 export default ReportTable;

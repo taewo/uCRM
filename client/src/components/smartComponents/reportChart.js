@@ -40,6 +40,14 @@ class ReportChart extends Component {
             labels: {
               show: true,
             },
+            ticks: {
+              beginAtZero: true,
+              userCallback: (value, index, values) => {
+                value = value.toString();
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return value;
+              },
+            },
           },
           {
             type: 'linear',
@@ -61,6 +69,11 @@ class ReportChart extends Component {
         yAxes: [{
           ticks: {
             beginAtZero: true,
+            userCallback: (value, index, values) => {
+              value = value.toString();
+              value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              return value;
+            },
           },
         }],
       },
@@ -70,6 +83,11 @@ class ReportChart extends Component {
         xAxes: [{
           ticks: {
             beginAtZero: true,
+            userCallback: (value, index, values) => {
+              value = value.toString();
+              value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              return value;
+            },
           },
         }],
       },
