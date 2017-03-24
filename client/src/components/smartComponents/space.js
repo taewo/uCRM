@@ -97,7 +97,7 @@ class Space extends Component {
           <Modal show={this.state.showModal} onHide={this.closeModal}>
             <Modal.Header>
               <Modal.Title>Add Payment</Modal.Title>
-              <AddSpace closeModal={this.closeModal} />
+              <AddSpace closeModal={this.closeModal} spaceShow={this.props.spaceShow} />
             </Modal.Header>
           </Modal>
         </div>

@@ -91,9 +91,7 @@ class AddSpace extends Component {
       this.props.closeModal();
       console.log('res', res);
       const userSpaceListId = sessionStorage.getItem('userSpaceListId');
-      userSpaceListId ?
-      browserHistory.push('/admin/setting/space') :
-      browserHistory.push('/admin');
+      this.props.spaceShow();
     });
   }
 
