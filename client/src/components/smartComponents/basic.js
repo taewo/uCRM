@@ -17,7 +17,7 @@ class Basic extends Component {
     } = this.props;
     if (!basicData) {
       return (
-        <div> .</div>
+        <div />
       );
     }
     console.log(999, basicData);
