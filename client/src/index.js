@@ -51,9 +51,9 @@ const App = () => (
             </Route>
           </Route>
           <Route path="report" component={smartComponents.Report}>
+            <Route path="space" component={smartComponents.SpaceOccupancyPage} />
             <Route path="churn" component={smartComponents.ChurnPage} />
             <Route path="lead" component={smartComponents.LeadPage} />
-            <Route path="space" component={smartComponents.SpaceOccupancyPage} />
             <Route path="revenue" component={smartComponents.RevenuePage} />
           </Route>
           <Route path="setting" component={smartComponents.Setting}>

@@ -81,7 +81,7 @@ class SpaceOccupancyReport extends ReportChart {
       console.log(data.datasets[0]);
       this.props.data.forEach((monthlySpaceOccupancy) => {
         data.labels.push(monthlySpaceOccupancy.Month + '월');
-        data.datasets[0].data.push(monthlySpaceOccupancy.OccupancyRate);
+        data.datasets[0].data.push(Math.round(monthlySpaceOccupancy.OccupancyRate));
       });
     }
     return data;
