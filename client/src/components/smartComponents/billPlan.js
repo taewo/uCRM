@@ -56,7 +56,7 @@ class BillPlan extends Component {
         <div className="Billplan">
           <PageHeader className="billplan_header">
             <mediam>
-              Payment
+              요금제
             </mediam>
           </PageHeader>
 

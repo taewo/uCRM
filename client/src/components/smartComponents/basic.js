@@ -9,6 +9,7 @@ class Basic extends Component {
 
   componentDidMount() {
     this.props.basicShow();
+    console.log(1);
   }
   render() {
     const {

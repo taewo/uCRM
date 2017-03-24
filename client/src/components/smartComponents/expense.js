@@ -42,9 +42,9 @@ class Expense extends Component {
       expenses,
     } = this.props;
     // console.log(11, expenses);
-    let result = [];
-    for(let i = 0; i < expenses.length; i += 1) {
-      if(expenses[i].payment_date) {
+    const result = [];
+    for (let i = 0; i < expenses.length; i += 1) {
+      if (expenses[i].payment_date) {
         const expenseDate = expenses[i].payment_date.substring(2, 10);
         const expenseAmount = commafy(expenses[i].amount);
         const data = Object.assign({}, expenses[i], {
@@ -54,6 +54,7 @@ class Expense extends Component {
         result.push(data);
       }
     }
+    console.log(123123, result);
     // console.log(999, result);
     const cellEditProp = {
       mode: 'click',
@@ -120,11 +121,11 @@ class Expense extends Component {
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="amount" isKey dataSort>금액</TableHeaderColumn>
-            <TableHeaderColumn dataField="payment_date" dataSort>날짜</TableHeaderColumn>
-            <TableHeaderColumn dataField="payment_method" dataSort>결제방법</TableHeaderColumn>
-            <TableHeaderColumn dataField="type" dataSort>분류</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_date" isKey dataSort>날짜</TableHeaderColumn>
             <TableHeaderColumn dataField="details" dataSort>내역</TableHeaderColumn>
+            <TableHeaderColumn dataField="amount" dataSort>금액</TableHeaderColumn>
+            <TableHeaderColumn dataField="type" dataSort>분류</TableHeaderColumn>
+            <TableHeaderColumn dataField="payment_method" dataSort>결제방법</TableHeaderColumn>
           </BootstrapTable>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>

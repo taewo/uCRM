@@ -67,11 +67,20 @@ class Payment extends Component {
   }
 
   render() {
-    console.log(this.props.payments);
     const {
       payments,
     } = this.props;
-    console.log(this.props.payments);
+
+    const objArr = [];
+    for (let i = 0; i < payments.length; i += 1) {
+      const startDate = payments[i].start_date.substring(2, 10);
+      const endDate = payments[i].end_date.substring(2, 10);
+      const data = Object.assign({}, payments[i], {
+        start_date: startDate,
+        end_date: endDate,
+      })
+      objArr.push(data);
+    }
 
     const cellEditProp = {
       mode: 'click',
@@ -91,7 +100,7 @@ class Payment extends Component {
       <div className="Payment">
         <PageHeader className="payment_header">
           <mediam>
-            Payment
+            계약현황
           </mediam>
         </PageHeader>
 
@@ -127,17 +136,17 @@ class Payment extends Component {
             <TableHeaderColumn dataField="payment_method" dataSort={true}>payment_method</TableHeaderColumn>*/}
 
           <BootstrapTable
-            data={payments}
+            data={objArr}
             pagination
             striped
             search
             exportCSV
             selectRow={selectRow}
           >
-            <TableHeaderColumn dataField="member" isKey dataSort>member</TableHeaderColumn>
-            <TableHeaderColumn dataField="start_date" dataSort>start_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="end_date" dataSort>end_date</TableHeaderColumn>
-            <TableHeaderColumn dataField="billing_plan" dataSort>billing_plan</TableHeaderColumn>
+            <TableHeaderColumn dataField="member" isKey dataSort>이름</TableHeaderColumn>
+            <TableHeaderColumn dataField="billing_plan" dataSort>요금제 설정</TableHeaderColumn>
+            <TableHeaderColumn dataField="start_date" dataSort>시작일</TableHeaderColumn>
+            <TableHeaderColumn dataField="end_date" dataSort>종료일</TableHeaderColumn>
 
           </BootstrapTable>
         </div>
