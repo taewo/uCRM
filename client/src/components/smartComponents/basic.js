@@ -13,9 +13,7 @@ class Basic extends Component {
   render() {
     if(!this.props.basicData) {
       return (
-        <div>
-          fail
-        </div>
+        <div> .</div>
       );
     } else {
       console.log(999, this.props.basicData)

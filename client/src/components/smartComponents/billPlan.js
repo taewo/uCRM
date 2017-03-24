@@ -40,7 +40,7 @@ class BillPlan extends Component {
     if(!this.props.billPlanData) {
       return (
         <div>
-          fail
+          .
         </div>
       )
     } else {

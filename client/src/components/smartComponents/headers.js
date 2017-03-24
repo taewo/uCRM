@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import SignUp from './signUp';
 import LogOut from './logOut';
 import LogIn from './logIn';
+import SelectSpace from './selectSpace';
 
 const CrmImg = require('../../../image/crm.svg');
 
