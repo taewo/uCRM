@@ -5,6 +5,7 @@ const Lead = require('../db/lead');
 module.exports = {
   getLead(spaceid) {
     return Lead
+    .query('orderBy', 'id', 'DESC')
     .where({ space_id: spaceid })
     .fetchAll()
     .then(result => (result.toJSON()))
