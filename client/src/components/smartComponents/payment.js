@@ -125,7 +125,7 @@ class Payment extends Component {
             <TableHeaderColumn dataField="payment_method" dataSort={true}>payment_method</TableHeaderColumn>*/}
 
           <BootstrapTable
-            data={objArr}
+            data={payments}
             pagination
             striped
             search
