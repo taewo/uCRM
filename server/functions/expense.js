@@ -3,6 +3,7 @@ const Expense = require('../db/expense');
 module.exports = {
   getExpense(spaceid) {
     return Expense
+    .query('orderBy', 'id', 'DESC')
     .where({ space_id: spaceid })
     .fetchAll()
     .then((expenseRecords) => {
