@@ -9,7 +9,7 @@ module.exports = {
     .then((access) => {
       if (access) {
         const spaceid = parseInt(req.query.space_id);
-        return Member.getAllActiveMembers(spaceid)
+        return Member.getAllMembers(spaceid)
         .then((result) => {
           if (result) {
             return result;
