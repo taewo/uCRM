@@ -9,6 +9,7 @@ class Basic extends Component {
 
   componentDidMount() {
     this.props.basicShow();
+    console.log(1);
   }
   render() {
     const {
@@ -16,7 +17,7 @@ class Basic extends Component {
     } = this.props;
     if (!basicData) {
       return (
-        <div />
+        <div> .</div>
       );
     }
     console.log(999, basicData);

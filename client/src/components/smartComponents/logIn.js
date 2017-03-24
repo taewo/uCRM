@@ -65,7 +65,6 @@ class Login extends Component {
         </Button>
       );
     });
-    console.log(this.state.showSelectSpace)
     return (
       <Modal show={this.state.showSelectSpace} onHide={this.closeSpaceModal}>
         {showId}

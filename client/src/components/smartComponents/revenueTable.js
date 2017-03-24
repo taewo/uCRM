@@ -10,12 +10,16 @@ class RevenueTable extends ReportTable {
     if (this.props.data.length) {
       if (this.props.type === '이번달이익요약분석') {
         const delta = { Month: '전월 대비'};
-        this.props.data.forEach((rows) => {
-          dataset.push(rows);
-        });
         delta.revenues = this.getDelta(this.props.data[1].revenues, this.props.data[0].revenues);
         delta.expense = this.getDelta(this.props.data[1].expense, this.props.data[0].expense);
         delta.balance = this.getDelta(this.props.data[1].balance, this.props.data[0].balance);
+        this.props.data.forEach((rows) => {
+          const newRow = Object.assign({}, rows);
+          newRow.revenues = this.ToAccountingFormat(newRow.revenues);
+          newRow.expense = this.ToAccountingFormat(newRow.expense);
+          newRow.balance = this.ToAccountingFormat(newRow.balance);
+          dataset.push(newRow);
+        });
         dataset.push(delta);
       } else if (this.props.type === '이번달이익세부분석' || this.props.type === '요금제별연간이익분석') {
         let countSum = 0;
@@ -25,15 +29,24 @@ class RevenueTable extends ReportTable {
           const newRow = Object.assign({}, rows);
           countSum += newRow.count
           costSum += newRow.cost;
-          newRow.real_cost = Math.round(newRow.real_cost)
+          newRow.cost = this.ToAccountingFormat(newRow.cost);
+          newRow.real_cost = Math.round(newRow.real_cost);
           realCostSum += newRow.real_cost;
+          newRow.real_cost = this.ToAccountingFormat(newRow.real_cost);
           newRow.real_cost_percentage = Math.round(newRow.real_cost_percentage);
-          newRow.cost_per_member = Math.round(newRow.cost_per_member);
+          newRow.cost_per_member = this.ToAccountingFormat(Math.round(newRow.cost_per_member));
           newRow.Month += '월';
           dataset.push(newRow);
         });
         const totalCostPerMember = Math.round(realCostSum / countSum);
-        dataset.push({ BillingPlan: '총합', count: countSum, cost: costSum, real_cost: realCostSum, real_cost_percentage: '-', cost_per_member: totalCostPerMember });
+        dataset.push({
+          BillingPlan: '총합',
+          count: countSum,
+          cost: this.ToAccountingFormat(costSum),
+          real_cost: this.ToAccountingFormat(realCostSum),
+          real_cost_percentage: '-',
+          cost_per_member: this.ToAccountingFormat(totalCostPerMember),
+        });
       } else if (this.props.type === '이익흐름분석') {
         let revenuesSum = 0;
         let expenseSum = 0;
@@ -43,10 +56,18 @@ class RevenueTable extends ReportTable {
           revenuesSum += newRow.revenues;
           expenseSum += newRow.expense;
           balanceSum += newRow.balance;
+          newRow.revenues = this.ToAccountingFormat(newRow.revenues);
+          newRow.expense = this.ToAccountingFormat(newRow.expense);
+          newRow.balance = this.ToAccountingFormat(newRow.balance);
           newRow.Month += '월';
           dataset.push(newRow);
         });
-        dataset.push({ Month: '총합', revenues: revenuesSum, expense: expenseSum, balance: balanceSum });
+        dataset.push({
+          Month: '총합',
+          revenues: this.ToAccountingFormat(revenuesSum),
+          expense: this.ToAccountingFormat(expenseSum),
+          balance: this.ToAccountingFormat(balanceSum),
+        });
       }
     }
     return dataset;

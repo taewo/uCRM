@@ -8,6 +8,7 @@ import LogOut from './logOut';
 import LogIn from './logIn';
 import Select from './select';
 import Homes from './homes';
+import SelectSpace from './selectSpace';
 
 const CrmImg = require('../../../image/crm.svg');
 

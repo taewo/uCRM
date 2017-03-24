@@ -54,7 +54,7 @@ class BillPlan extends Component {
         <div className="Billplan">
           <PageHeader className="billplan_header">
             <mediam>
-              Payment
+              요금제
             </mediam>
           </PageHeader>
 
@@ -105,7 +105,7 @@ class BillPlan extends Component {
           <Modal show={this.state.showModal} onHide={this.closeModal}>
             <Modal.Header>
               <Modal.Title>Add Payment</Modal.Title>
-              <AddBillplan closeModal={this.closeModal} />
+              <AddBillplan closeModal={this.closeModal} billPlanShow={this.props.billPlanShow} />
             </Modal.Header>
           </Modal>
         </div>

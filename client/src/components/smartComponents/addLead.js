@@ -40,7 +40,7 @@ class AddLead extends Component {
     .then((res) => {
       this.props.closeModal();
       console.log('res', res);
-      browserHistory.push('/admin/manage/lead');
+      this.props.leadShow();
     })
     .catch((err) => {
       console.log(222);

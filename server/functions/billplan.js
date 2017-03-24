@@ -3,6 +3,7 @@ const BillPlan = require('../db/billplan');
 module.exports = {
   getBillPlan(spaceid) {
     return BillPlan
+    .query('orderBy', 'id', 'DESC')
     .where({ space_id: spaceid })
     .fetchAll()
     .then((result) => {
@@ -14,7 +15,6 @@ module.exports = {
     })
     .catch(err => (Promise.reject(err)));
   },
-
   addNewBillPlan(body) {
     return BillPlan
     .where(body)

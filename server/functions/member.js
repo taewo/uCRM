@@ -3,6 +3,7 @@ const Member = require('../db/member');
 module.exports = {
   getAllActiveMembers(spaceid) {
     return Member
+    .query('orderBy', 'id', 'DESC')
     .where({
       space_id: spaceid,
       isactive: 1,
@@ -14,6 +15,7 @@ module.exports = {
 
   getAllMembers(spaceid) {
     return Member
+    .query('orderBy', 'id', 'DESC')
     .where({
       space_id: spaceid,
     })
