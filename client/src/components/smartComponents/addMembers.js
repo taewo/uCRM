@@ -6,6 +6,7 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import { API_URL } from '../../config';
 
 const { DOM: { input, select, textarea } } = React
 
@@ -35,7 +36,6 @@ class AddMembers extends Component {
     data.date = this.state.selectedDay;
     console.log(data);
     const space_id = sessionStorage.getItem('userSpaceListId');
-    const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),

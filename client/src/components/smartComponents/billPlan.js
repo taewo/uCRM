@@ -11,7 +11,6 @@ class BillPlan extends Component {
 
   constructor(props) {
     super(props);
-
     this.open = this.open.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.state = {
@@ -40,7 +39,7 @@ class BillPlan extends Component {
     if(!this.props.billPlanData) {
       return (
         <div />
-      )
+      );
     } else {
       const dataArr = [];
       this.props.billPlanData.map((data, i) => {

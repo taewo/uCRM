@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import DropdownList from 'react-widgets/lib/DropdownList';
 import 'react-widgets/dist/css/react-widgets.css';
+import { API_URL } from '../../config';
 
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
@@ -108,7 +109,6 @@ class AddPayment extends Component {
     const memberId = this.props.Id;
     const billplanData = this.props.billplanData;
     const spaceId = parseInt(sessionStorage.getItem('userSpaceListId'));
-    const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),

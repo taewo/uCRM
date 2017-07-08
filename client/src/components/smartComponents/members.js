@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 import AddMembers from './addMembers';
 import * as membersActions from '../../actions/membersActions';
@@ -72,7 +73,6 @@ class Members extends Component {
 
     const endResonAxios = () => {
       const endReason = this.state.endReason;
-      const API_URL = 'http://localhost:4000/api';
       const instance = {
         headers: {
           token: sessionStorage.getItem('userToken'),

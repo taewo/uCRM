@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { PageHeader, NavItem, Modal, Dropdown, Input, ButtonToolbar, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 import AddPayment from './addPayment';
 import * as paymentActions from '../../actions/paymentActions';
@@ -50,7 +51,6 @@ class Payment extends Component {
 
   delete() {
     const paymentId = this.props.Id;
-    const API_URL = 'http://localhost:4000/api';
     const instance = {
       headers: {
         token: sessionStorage.getItem('userToken'),

@@ -20,10 +20,8 @@ class Basic extends Component {
         <div />
       );
     }
-    console.log(999, basicData);
     const basicName = basicData[0].name;
     const dataArr = [basicData[1]];
-    console.log(basicName);
     return (
       <div className="Basic">
         <PageHeader className="basic_header">

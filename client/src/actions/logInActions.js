@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import * as types from './types';
+import { API_URL } from '../config';
 
 export const logInUserId = userid => ({
   type: types.LOG_IN_USERID,
@@ -20,7 +21,6 @@ export const isLogIn = toggleLogedIn => ({
 export function logInConfirm() {
   return (dispatch, getState) => {
     const { userid, password } = getState().logInReducer;
-    const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/login`, {
       userid,
       password,

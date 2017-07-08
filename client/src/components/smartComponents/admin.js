@@ -22,8 +22,6 @@ const adminStyle = {
   flexDirection: 'row',
 };
 
-
-
 class Admin extends Component {
   componentDidMount() {
     tokenChecker();
@@ -59,7 +57,9 @@ class Admin extends Component {
     }];
 
     const linkContainers = menuList.map((menuData) => {
+      console.log('pathname?? ', pathname)
       const className = `${menuData.className} ${pathname.indexOf(menuData.indexURL) === 0 ? 'active' : ''}`;
+      // console.log('className?? ', className);
       return (
         <LinkContainer to={menuData.to}>
           <Button className={className} style={adminButtonStyle}>

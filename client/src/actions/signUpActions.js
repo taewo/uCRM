@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import * as types from './types';
+import { API_URL } from '../config';
 
 export const signUpEmail = email => ({
   type: types.SIGN_UP_EMAIL,
@@ -40,7 +41,6 @@ export const isSignUp = toggleSignedUp => ({
 export function signUpSubmit() {
   return (dispatch, getState) => {
     const { email, mobile, name, password, userid, companyname } = getState().signUpReducer;
-    const API_URL = 'http://localhost:4000/api';
     return axios.post(`${API_URL}/signup/admin`, {
       companyname,
       userid,

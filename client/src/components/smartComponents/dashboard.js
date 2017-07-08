@@ -3,25 +3,28 @@ import { connect } from 'react-redux';
 import * as dashboardActions from '../../actions/dashboardActions';
 import { ListGroup, ListGroupItem, PageHeader, Panel } from 'react-bootstrap';
 import '../../../public/style.css';
-const allMemberImg = require('../../../image/allMember.svg');
-const currentMemberImg = require('../../../image/currentMember.svg');
-const latestActivityImg = require('../../../image/latestActivity.svg');
+const allMemberImg = require('../../../image/customer-service.svg');
+const currentMemberImg = require('../../../image/bulb.svg');
+const latestActivityImg = require('../../../image/calendar.svg');
 const Spinner = require('react-spinner');
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.dashboardShow();
   }
-
   render() {
     if(!this.props.dashboardData) {
       return (
         <div />
       );
     }
-    console.log(123, this.props.dashboardData)
-    const {activeMember, expiringPayment, leadCount, latestActivity} = this.props.dashboardData
-    const latestActivityCut = this.props.dashboardData.latestActivity.slice(0,13);
+    const {
+      activeMember,
+      expiringPayment,
+      leadCount,
+      latestActivity,
+    } = this.props.dashboardData
+    const latestActivityCut = latestActivity.slice(0, 13);
     const title1 = (
       <h3>현재 멤버</h3>
     );
@@ -35,25 +38,25 @@ class Dashboard extends Component {
       <div className="dashoboard_container">
         <div className="presentMember">
           <div className="dashboard_panel">
-            <Panel header={title1} bsStyle="danger">
+            <Panel header={title1} bsStyle="red" >
               <img src={allMemberImg} alt="adf"/>
-                현재 멤버수 : {this.props.dashboardData.activeMember}
+                현재 멤버수 : {activeMember}
             </Panel>
           </div>
         </div>
         <div className="latestLead">
           <div className="dashboard_panel">
-            <Panel header={title2} bsStyle="success">
+            <Panel header={title2} bsStyle="red">
               <img src={currentMemberImg} alt="123"/>
-                최근 방문객수 : {this.props.dashboardData.leadCount}
+                최근 방문객수 : {leadCount}
             </Panel>
           </div>
         </div>
         <div className="expiringMember">
           <div className="dashboard_panel">
-            <Panel header={title3} bsStyle="info">
+            <Panel header={title3} bsStyle="red">
               <img src={latestActivityImg} alt="kd2" />
-                만료 예정 멤버수 : {this.props.dashboardData.expiringPayment}
+                만료 예정 멤버수 : {expiringPayment}
             </Panel>
           </div>
         </div>
