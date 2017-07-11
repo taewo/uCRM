@@ -27,7 +27,7 @@ export function tokenChecker() {
   });
 }
 
-export const API_URL = 'http://ec2-13-124-151-141.ap-northeast-2.compute.amazonaws.com/api';
+export const API_URL = 'http://localhost:4000/api';
 
 export function commafy(num) {
   const str = num.toString().split('.');

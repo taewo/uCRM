@@ -14,6 +14,7 @@ const CrmImg = require('../../../image/crm.svg');
 
 const HeadersStyle = {
   height: '100%',
+  background: 'gray',
 };
 
 
