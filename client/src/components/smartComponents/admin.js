@@ -15,6 +15,10 @@ const adminButtonStyle = {
   // backgroundColor: 'rgb(5, 51, 178)',
 };
 
+const test = {
+  a: 1,
+};
+
 const adminStyle = {
   width: '100%',
   height: '100%',
