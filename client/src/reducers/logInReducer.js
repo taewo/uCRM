@@ -3,7 +3,7 @@ import * as types from '../actions/types';
 const initialState = {
   userid: null,
   password: null,
-  toggleLogedIn: null,
+  toggleLogedIn: false,
 };
 
 const logInReducer = (state = initialState, action) => {

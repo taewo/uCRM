@@ -7,7 +7,7 @@ const initialState = {
   password: null,
   userid: null,
   companyname: null,
-  toggleSignedUp: null,
+  toggleSignedUp: false,
 };
 
 const signUpReducer = (state = initialState, action) => {

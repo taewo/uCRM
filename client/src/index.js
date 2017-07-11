@@ -4,12 +4,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-
-import { Home, SignUp, Login, Header } from './components/smartComponents';
-
+import { syncHistoryWithStore } from 'react-router-redux';
+import * as smartComponents from './components/smartComponents';
 import reducers from './reducers';
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -18,18 +15,66 @@ const store = createStore(
     applyMiddleware(thunk),
 ));
 
+// store.subscribe(() => console.log(store.getState().form.registeredFields));
+
 const history = syncHistoryWithStore(browserHistory, store);
 
-ReactDOM.render(
+const App = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={Header}>
-        <IndexRoute component={Home} />
-        <Route path="signup" component={SignUp} />
-        <Route path="login" component={Login} />
+      <Route path="/" component={smartComponents.Headers}>
+        <IndexRoute component={smartComponents.Home} />
+        {/* <Route path="signup" component={smartComponents.SignUp} /> */}
+        {/* <Route path="login" component={smartComponents.Login} */}
+        <Route path="space" component={smartComponents.AddSpace} />
+        <Route path="selectspace" component={smartComponents.SelectSpace} />
+        <Route path="admin" component={smartComponents.Admin}>
+          <Route path="manage" component={smartComponents.Manage}>
+            <Route path="dashboard" component={smartComponents.Dashboard} />
+            <Route path="members">
+              <IndexRoute component={smartComponents.Members} />
+              <Route path="add" component={smartComponents.AddMembers} />
+            </Route>
+            <Route path="lead">
+              <IndexRoute component={smartComponents.Lead} />
+              <Route path="add" component={smartComponents.AddLead} />
+            </Route>
+          </Route>
+          <Route path="finance" component={smartComponents.Finance}>
+            <Route path="expense">
+              <IndexRoute component={smartComponents.Expense} />
+              <Route path="add" component={smartComponents.AddExpense} />
+            </Route>
+            <Route path="payment">
+              <IndexRoute component={smartComponents.Payment} />
+              <Route path="add" component={smartComponents.AddPayment} />
+            </Route>
+          </Route>
+          <Route path="report" component={smartComponents.Report}>
+            <Route path="space" component={smartComponents.SpaceOccupancyPage} />
+            <Route path="churn" component={smartComponents.ChurnPage} />
+            <Route path="lead" component={smartComponents.LeadPage} />
+            <Route path="revenue" component={smartComponents.RevenuePage} />
+          </Route>
+          <Route path="setting" component={smartComponents.Setting}>
+            <Route path="basic" component={smartComponents.Basic} />
+            <Route path="billplan">
+              <IndexRoute component={smartComponents.BillPlan} />
+              <Route path="add" component={smartComponents.AddBillPlan} />
+            </Route>
+            <Route path="space">
+              <IndexRoute component={smartComponents.Space} />
+              <Route path="add" component={smartComponents.AddSpace} />
+            </Route>
+          </Route>
+        </Route>
       </Route>
     </Router>
-  </Provider>,
+  </Provider>
+);
+
+ReactDOM.render(
+  <App />,
   document.getElementById('root')
 );
 

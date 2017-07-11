@@ -1,55 +1,58 @@
 const Lead = require('../functions/lead');
+const Auth = require('../functions/auth');
+const Activity = require('../functions/activity');
 
 module.exports = {
-  get: (req) => {
-    const currentUser = req.session.passport.user;
-    return new Promise((resolve, reject) => {
-      if (currentUser.type === 'staff') {
-        return resolve(Lead.getLead(currentUser.space_id));
-      } else if (currentUser.type === 'comp') {
-        const container = []
-        if (currentUser.spaceList) {
-          currentUser.spaceList.forEach((space) => {
-            container.push(Lead.getLead(space));
-          });
-          console.log(container);
-        }
-        Promise.all(container)
-        .then((res) => {
-          return resolve(res);
-        });
-      } else {
-        return reject('unauthorized');
+  get(req) {
+    return Auth.checkIfUserHasSpace(req)
+    .then((hasSpace) => {
+      if (hasSpace) {
+        return Lead.getLead(req.query.space_id)
+        .then((lead) => {
+          return lead;
+        })
       }
-    });
+      return Promise.reject('Error: Your requested space does not exist.');
+    })
+    .catch(err => (Promise.reject(err)));
   },
-  post: (req) => {
-    return new Promise((resolve, reject) => {
-      const currentUser = req.session.passport.user;
-      const spaceid = req.body.space_id;
-      console.log(spaceid, typeof spaceid)
 
-      if (currentUser.type === 'comp') {
-        console.log('type comp', typeof spaceid, typeof currentUser.spaceList[0])
-        const checkIsSpaceAdmin = currentUser.spaceList.includes(spaceid);
-        console.log(checkIsSpaceAdmin, 'check??')
-        if (!checkIsSpaceAdmin) {
-          return reject('admin space mismatch');
-        }
-      } else if (currentUser.type === 'staff') {
-        const checkIsSpaceStaff = currentUser.space_id === spaceid;
-        if (!checkIsSpaceStaff) {
-          return reject('staff space mismatch');
-        }
-      } else if (!currentUser.type) {
-        return reject('unauthorized');
+  post(req) {
+    return Auth.checkIfUserHasSpace(req)
+    .then((hasSpace) => {
+      if (hasSpace) {
+        const activityDetail = {
+          space_id: req.body.space_id,
+          type: 'lead_' + req.body.type,
+          date: new Date(),
+          target: req.body.email,
+        };
+        const addLead = Lead.addNewLead(req.body);
+        const addActivity = Activity.addNewActivity(activityDetail);
+        return Promise.all([addLead, addActivity])
+        .then(result => {
+          console.log('res', result)
+          return result[0]
+        });
       }
-      console.log('here!!!!!')
-      Lead.addNewLead(req.body, spaceid)
-      .then((result) => {
-        console.log('new lead!', result)
-        return resolve(result);
+      return Promise.reject('Error: Your requested space does not exist.');
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
+  delete(req) {
+    return Lead.getSpaceForLead(req.body.lead_id)
+    .then((spaceId) => {
+      req.body.space_id = spaceId;
+      return Auth.checkIfUserHasSpace(req)
+      .then((hasSpace) => {
+        if (hasSpace) {
+          return Lead.deleteLead(req.body.lead_id)
+          .then(result => (result));
+        }
+        return Promise.reject('Error: you have no authority to this lead.');
       });
     })
+    .catch(err => (Promise.reject(err)));
   },
 };

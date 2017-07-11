@@ -1,136 +1,159 @@
+const Moment = require('moment');
+
 const Space = require('../db/space');
+const Company = require('../db/company');
 const Room = require('../db/room');
 const Member = require('../db/member');
 const Activity = require('../db/activity');
 
-const Company = require('../functions/company');
-
 module.exports = {
-  getMemberList: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Space.where({ id: spaceid })
-      .fetch({ withRelated: ['member'] })
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.related('member').toJSON());
-      })
-      .catch((err) => {
-        return console.log(err);
-      });
-    });
+
+  getMemberListbySpaceId(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .fetch({ withRelated: ['member'] })
+    .then((result) => {
+      if (!result) {
+        return [];
+      }
+      return result.related('member').toJSON();
+    })
+    .catch(err => (Promise.reject('failed to get member list')));
   },
 
-  getReservedList: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Room.where({ space_id: spaceid })
-      .fetch({ withRelated: ['reservation'] })
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.related('reservation').toJSON());
-      })
-      .catch(function(err) {
-        return console.log(err);
-      });
-    });
+  getReservedList(spaceid) {
+    return Room
+    .where({ space_id: spaceid })
+    .fetch({ withRelated: ['reservation'] })
+    .then((result) => {
+      if (!result) {
+        return [];
+      }
+      return result.related('reservation').toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
-  getUnpaidSum: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Member.where({ space_id: spaceid })
-      .fetch({ withRelated: ['payment'] })
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.related('payment').toJSON());
-      })
-    });
+  getLatestActivity(spaceid) {
+    return Activity
+    .query((qb) => {
+      // change below hard code with moment.js to show the last mongh activity
+      const now = Moment().add(1, 'days').format('YYYY-MM-DD');
+      const weekAgo = Moment().subtract(7, 'days').format('YYYY-MM-DD');
+      qb.whereBetween('date', [weekAgo, now]);
+    })
+    .query('orderBy', 'id', 'DESC')
+    // .query(function(qb) {return qb.orderBy('date', 'DESC')}) // this also works
+    .where({ space_id: spaceid })
+    .fetchAll()
+    .then((result) => {
+      if (result) {
+        return result.toJSON();
+      }
+      return [];
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
-  getLatestActivity: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Activity.where({ space_id: spaceid })
-      .query((query) => {
-        query.whereBetween('date', ['2017-02-01', '2017-03-02'])
-      })
-      .fetch()
-      .then((result) => {
-        if (!result) {
-          return resolve([]);
-        }
-        return resolve(result.attributes);
-      });
-    });
+  getSpaceDetailBySpaceId(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .fetch()
+    .then((result) => {
+      if (result) {
+        return result.toJSON();
+      }
+      return [];
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
-  getSpaceDetailByID: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Space.where({ id: spaceid })
-      .fetch()
-      .then((result) => {
-        if (!result) {
-          return reject('corresponding space does not exist');
-        }
-        return resolve(result.attributes);
-      });
-    });
+  getSpaceDetailByName(spaceName) {
+    return Space
+    .where({ name: spaceName })
+    .fetch()
+    .then((result) => {
+      if (result) {
+        return result.toJSON();
+      }
+      return Promise.reject('Error: requested space does not exist');
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
-  getSpaceDetailByName: (spaceName) => {
-    return new Promise((resolve, reject) => {
-      Space.where({ name: spaceName })
-      .fetch()
-      .then((result) => {
-        if (!result) {
-          return reject('corresponding space does not exist');
-        }
-        return resolve(result.attributes);
-      });
-    });
+  getAllSpacesByCompanyId(companyId) {
+    return Space
+    .where({ company_id: companyId, isactive: true })
+    .fetchAll()
+    .then(result => (result.toJSON()))
+    .catch(err => (Promise.reject(err)));
   },
 
-  getAllSpaces: (companyid) => {
-    return new Promise((resolve, reject) => {
-      Space
-      .where({ company_id: companyid })
-      .fetchAll()
-      .then((result) => {
-        return resolve(result);
-      });
-    });
+  getAllSpacesByCompanyName(companyname) {
+    return Company
+    .where({ name: companyname, isactive: true })
+    .fetch({ withRelated: ['space'] })
+    .then(result => (result.related('space')))
+    .catch(err => (Promise.reject(err)));
   },
 
-  addNewSpace: (body, user) => {
-    return new Promise((resolve, reject) => {
-      return new Space({
-        company_id: user.company_id,
-        name: body.name,
-        address: body.address,
-        max_desks: body.max_desks,
-      })
-      .save()
-      .then((result) => {
-        return resolve(result);
-      })
+  addNewSpace: ({
+    company_id,
+    name,
+    address,
+    max_desks,
+  } = {}) => new Promise((resolve, reject) => {
+    return new Space({
+      company_id,
+      name,
+      address,
+      max_desks,
+      isactive: true,
+    })
+    .save()
+    .then(newSpace => (resolve(newSpace)))
+    .catch((err) => {
+      if (err.code.includes('ER_DUP_ENTRY')) {
+        return reject('Error: the space name is taken.');
+      }
+      return reject(err);
     });
+  }),
+
+  checkDuplicateSpace(body) {
+    return module.exports.getAllSpacesByCompanyId(body.company_id)
+    .then((result) => {
+      console.log('if company has duplicate space name, RESULT', result);
+      return result.some(space => (space.name === body.name));
+    })
+    .catch(err => (Promise.reject(err)));
   },
 
-  checkDuplicateSpace: (body, companyid) => {
-    return new Promise((resolve, reject) => {
-      Company.checkCompanySpace(companyid)
-      .then((result) => {
-        const existingSpace = result.related('space').toJSON();
-        const flag = existingSpace.some((space) => {
-          console.log('space', space)
-          console.log('body', body)
-          return space.name === body.name;
-        });
-        return resolve(flag);
-      });
-    });
+  getSpaceIdByMemberId(memberid) {
+    return Member
+    .where({ id: memberid })
+    .fetch()
+    .then(result => (result.toJSON().space_id))
+    .catch(err => (Promise.reject(err)));
+  },
+
+  recoverSpace(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .save({ isactive: true }, { patch: true })
+    .then((result) => {
+      return result.toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
+  },
+
+  deleteSpace(spaceid) {
+    return Space
+    .where({ id: spaceid })
+    .save({ isactive: false }, { patch: true })
+    .then((result) => {
+      return result.toJSON();
+    })
+    .catch(err => (Promise.reject(err)));
   },
 };

@@ -4,7 +4,9 @@ class Confirm extends Component {
 
   render() {
     return (
-      <button onClick={this.props.logInConfirm}>Button</button>
+      <button onClick={this.props.logInConfirm}>
+      Button
+      </button>
     );
   }
 }

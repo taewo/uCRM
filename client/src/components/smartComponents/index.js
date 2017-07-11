@@ -1,4 +1,43 @@
+export { default as AddMembers } from './addMembers';
 export { default as Home } from './home';
 export { default as Login } from './logIn';
 export { default as SignUp } from './signUp';
-export { default as Header } from './header';
+export { default as Headers } from './headers';
+export { default as Admin } from './admin';
+export { default as Staff } from './staff';
+export { default as Manage } from './manage';
+export { default as Dashboard } from './dashboard';
+export { default as Members } from './members';
+export { default as AddInvoices } from './addInvoices';
+export { default as Room } from './room';
+export { default as AddRoom } from './addRoom';
+export { default as Lead } from './lead';
+export { default as AddLead } from './addLead';
+export { default as SelectSpace } from './selectSpace';
+
+export { default as Setting } from './setting';
+export { default as BillPlan } from './billPlan';
+export { default as Basic } from './basic';
+export { default as Space } from './space';
+export { default as AddBillPlan } from './addBillPlan';
+export { default as AddSpace } from './addSpace';
+
+export { default as Report } from './report';
+export { default as ChurnPage } from './churnPage';
+export { default as ChurnReport } from './churnReport';
+export { default as ChurnTable } from './churnTable';
+export { default as LeadPage } from './leadPage';
+export { default as LeadReport } from './leadReport';
+export { default as LeadTable } from './leadTable';
+export { default as SpaceOccupancyPage } from './spaceOccupancyPage';
+export { default as SpaceOccupancyReport } from './spaceOccupancyReport';
+export { default as SpaceOccupancyTable } from './spaceOccupancyTable';
+export { default as RevenuePage } from './revenuePage';
+export { default as RevenueReport } from './revenueReport';
+export { default as RevenueTable } from './revenueTable';
+
+export { default as Finance } from './finance';
+export { default as Expense } from './expense';
+export { default as AddExpense } from './addExpense';
+export { default as Payment } from './payment';
+export { default as AddPayment } from './addPayment';

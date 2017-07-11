@@ -1,26 +1,26 @@
 const Space = require('../functions/space');
+const Lead = require('../functions/lead');
+const Member = require('../functions/member');
+const Payment = require('../functions/payment');
 
-const getDashboard = (spaceid) => {
-  return new Promise((resolve, reject) => {
 
-    const memberList = Space.getMemberList(spaceid);
-    const reservedList = Space.getReservedList(spaceid);
-    const unpaidSum = Space.getUnpaidSum(spaceid);
-    const latestActivity = Space.getLatestActivity(spaceid);
+const getDashboard = (req) => {
+  const activeMember = Member.getCountActiveMemberBySpaceId(req.query.space_id);
+  const expiringPayment = Payment.getCountExpiring(req.query.space_id);
+  const leadCount = Lead.getCountRecentLead(req.query.space_id);
+  const latestActivity = Space.getLatestActivity(req.query.space_id);
 
-    Promise.all([memberList, reservedList, unpaidSum, latestActivity])
-    .then((result) => {
-      const container = {};
-      container.memberList = result[0];
-      container.reservedList = result[1];
-      container.unpaidSum = result[2];
-      container.latestActivity = result[3];
-      return resolve(container);
-    });
+  return Promise.all([activeMember, expiringPayment, leadCount, latestActivity])
+  .then((result) => {
+    console.log('gd');
+    const container = {};
+    container.activeMember = result[0];
+    container.expiringPayment = result[1];
+    container.leadCount = result[2];
+    container.latestActivity = result[3];
+    return container;
   })
-  .catch((err) => {
-    return Promise.reject(err);
-  });
+  .catch(err => (Promise.reject(err)));
 };
 
 module.exports = getDashboard;

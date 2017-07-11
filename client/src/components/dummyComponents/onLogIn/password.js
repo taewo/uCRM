@@ -10,11 +10,13 @@ const defaultProps = {
 
 class Password extends Component {
 
+
   render() {
     return (
       <div>
         <input
-          type="text" placeholder="Passoword" onChange={e => this.props.logInPassword(e.target.value)}
+          type="password" placeholder="Password"
+          onChange={e => this.props.logInPassword(e.target.value)}
         />
       </div>
     );

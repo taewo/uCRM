@@ -1,23 +1,33 @@
-const Lead = require('../db/lead');
+const Room = require('../db/room');
 
 module.exports = {
-  getLead: (spaceid) => {
-    return new Promise((resolve, reject) => {
-      Lead.where({ space_id: spaceid })
-      .fetch()
-      .then((result) => {
-        return resolve(result);
-      })
-    });
+  checkIfRoomExistByRoomName(spaceId, roomName) {
+    return Room
+    .where({
+      space_id: spaceId,
+      name: roomName,
+    })
+    .fetch()
+    .then((result) => {
+      if (result) {
+        return true;
+      }
+      return false;
+    })
+    .catch(err => (Promise.reject(err)));
   },
-  addNewLead: (body, spaceid) => {
-    return new Promise((resolve, reject) => {
-      body.space_id = spaceid;
-      new Lead(body)
-      .save()
-      .then((result) => {
-        return resolve(result);
-      });
-    });
-  },
+
+  getRoomListBySpaceId: (spaceid) => (
+    Room.where({ space_id: spaceid })
+    .fetchAll()
+    .then(result => (result.toJSON()))
+    .catch(err => (Promise.reject(err)))
+  ),
+
+  addNewRoom: body => (
+    new Room(body)
+    .save()
+    .then(result => (result))
+    .catch(err => (Promise.reject(err)))
+  ),
 };
