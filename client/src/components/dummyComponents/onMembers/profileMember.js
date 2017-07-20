@@ -1,10 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
+import React, { Component } from 'react';
 
 class ProfileMember extends Component {
   constructor(props) {
@@ -16,7 +10,5 @@ class ProfileMember extends Component {
     );
   }
 }
-ProfileMember.propTypes = propTypes;
-ProfileMember.defaultProps = defaultProps;
 
 export default ProfileMember;

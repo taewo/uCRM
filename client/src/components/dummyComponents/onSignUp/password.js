@@ -1,12 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  signUpPassword: PropTypes.string,
-};
-
-const defaultProps = {
-  signUpPassword: null,
-};
+import React, { Component } from 'react';
 
 class Password extends Component {
 
@@ -20,7 +12,5 @@ class Password extends Component {
     );
   }
 }
-Password.propTypes = propTypes;
-Password.defaultProps = defaultProps;
 
 export default Password;

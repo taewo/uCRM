@@ -1,12 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  signUpUserid: PropTypes.string,
-};
-
-const defaultProps = {
-  signUpUserid: null,
-};
+import React, { Component } from 'react';
 
 class Userid extends Component {
 
@@ -20,7 +12,5 @@ class Userid extends Component {
     );
   }
 }
-Userid.propTypes = propTypes;
-Userid.defaultProps = defaultProps;
 
 export default Userid;

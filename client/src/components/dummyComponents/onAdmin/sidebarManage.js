@@ -1,11 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
 
 class SidebarManage extends Component {
   constructor(props) {
@@ -22,7 +16,5 @@ class SidebarManage extends Component {
     );
   }
 }
-SidebarManage.propTypes = propTypes;
-SidebarManage.defaultProps = defaultProps;
 
 export default SidebarManage;

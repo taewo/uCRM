@@ -1,12 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  signUpCompanyname: PropTypes.string,
-};
-
-const defaultProps = {
-  signUpCompanyname: null,
-};
+import React, { Component } from 'react';
 
 class Companyname extends Component {
 
@@ -20,7 +12,5 @@ class Companyname extends Component {
     );
   }
 }
-Companyname.propTypes = propTypes;
-Companyname.defaultProps = defaultProps;
 
 export default Companyname;

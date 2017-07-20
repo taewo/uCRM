@@ -65,7 +65,7 @@ class Admin extends Component {
       const className = `${menuData.className} ${pathname.indexOf(menuData.indexURL) === 0 ? 'active' : ''}`;
       // console.log('className?? ', className);
       return (
-        <LinkContainer to={menuData.to}>
+        <LinkContainer to={menuData.to} key={menuData.text}>
           <Button className={className} style={adminButtonStyle}>
             <img src={menuData.src} alt="manage" className="adminImgSize" />
             <br />
