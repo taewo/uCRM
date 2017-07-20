@@ -38,7 +38,7 @@ class Dashboard extends Component {
       <div className="dashoboard_container">
         <div className="presentMember">
           <div className="dashboard_panel">
-            <Panel header={title1} bsStyle="red" >
+            <Panel header={title1}>
               <img src={allMemberImg} alt="adf"/>
                 현재 멤버수 : {activeMember}
             </Panel>
@@ -46,7 +46,7 @@ class Dashboard extends Component {
         </div>
         <div className="latestLead">
           <div className="dashboard_panel">
-            <Panel header={title2} bsStyle="red">
+            <Panel header={title2}>
               <img src={currentMemberImg} alt="123"/>
                 최근 방문객수 : {leadCount}
             </Panel>
@@ -54,7 +54,7 @@ class Dashboard extends Component {
         </div>
         <div className="expiringMember">
           <div className="dashboard_panel">
-            <Panel header={title3} bsStyle="red">
+            <Panel header={title3}>
               <img src={latestActivityImg} alt="kd2" />
                 만료 예정 멤버수 : {expiringPayment}
             </Panel>

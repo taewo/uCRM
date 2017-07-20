@@ -1,12 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  signUpEmail: PropTypes.string,
-};
-
-const defaultProps = {
-  signUpEmail: null,
-};
+import React, { Component } from 'react';
 
 class Email extends Component {
 
@@ -20,7 +12,5 @@ class Email extends Component {
     );
   }
 }
-Email.propTypes = propTypes;
-Email.defaultProps = defaultProps;
 
 export default Email;

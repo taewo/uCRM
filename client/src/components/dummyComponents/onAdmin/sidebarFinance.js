@@ -1,11 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
 
 class SidebarFinance extends Component {
   constructor(props) {
@@ -22,7 +16,5 @@ class SidebarFinance extends Component {
     );
   }
 }
-SidebarFinance.propTypes = propTypes;
-SidebarFinance.defaultProps = defaultProps;
 
 export default SidebarFinance;

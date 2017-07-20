@@ -1,11 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-
-const propTypes = {
-};
-
-const defaultProps = {
-};
 
 class MiddlebarDashboard extends Component {
   constructor(props) {
@@ -21,7 +15,5 @@ class MiddlebarDashboard extends Component {
     );
   }
 }
-MiddlebarDashboard.propTypes = propTypes;
-MiddlebarDashboard.defaultProps = defaultProps;
 
 export default MiddlebarDashboard;

@@ -15,6 +15,10 @@ const adminButtonStyle = {
   // backgroundColor: 'rgb(5, 51, 178)',
 };
 
+const test = {
+  a: 1,
+};
+
 const adminStyle = {
   width: '100%',
   height: '100%',
@@ -61,7 +65,7 @@ class Admin extends Component {
       const className = `${menuData.className} ${pathname.indexOf(menuData.indexURL) === 0 ? 'active' : ''}`;
       // console.log('className?? ', className);
       return (
-        <LinkContainer to={menuData.to}>
+        <LinkContainer to={menuData.to} key={menuData.text}>
           <Button className={className} style={adminButtonStyle}>
             <img src={menuData.src} alt="manage" className="adminImgSize" />
             <br />

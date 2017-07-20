@@ -1,12 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-
-const propTypes = {
-  signUpMobile: PropTypes.string,
-};
-
-const defaultProps = {
-  signUpMobile: null,
-};
+import React, { Component } from 'react';
 
 class Mobile extends Component {
 
@@ -20,7 +12,5 @@ class Mobile extends Component {
     );
   }
 }
-Mobile.propTypes = propTypes;
-Mobile.defaultProps = defaultProps;
 
 export default Mobile;
